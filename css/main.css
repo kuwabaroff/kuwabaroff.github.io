@@ -1,3 +1,50 @@
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy-Semibold.ttf') format('truetype');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy-Bold.ttf') format('truetype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy-Extrabold.ttf') format('truetype');
+    font-weight: 800;
+}
+
 body {
+    font-family: 'Gilroy';
+    align-items: center;
     text-align: center;
+}
+
+.container {
+    width: 1080px;
+    margin: 0 auto;
+    /* border: 2px solid red; */
+}
+
+.wallet-text {
+    color: #003B4E;
+    font-size: 100px;
+    font-weight: 700;
+}
+
+.add-button {
+    width: 730px;
+    height: 143px;
+    color: #FFF;
+    text-align: center;
+    font-family: 'Gilroy';
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+    border-radius: 20px;
+    background: radial-gradient(4500.76% 99.71% at 8.22% 90.5%, #64D1F3 0%, #009DCE 67.19%, #4CCAF2 100%);
 }
