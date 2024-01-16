@@ -32,7 +32,7 @@ body {
 }
 
 .header {
-    margin-top: 50px;
+    margin-top: 75px;
 }
 
 .logo-wrapper {
@@ -44,9 +44,6 @@ body {
     width: 125px;
 }
 
-
-
-
 .brackets {
     margin-top: 75px;
 }
@@ -56,18 +53,6 @@ body {
     flex-direction: column;
     gap: 75px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .player {
     border-radius: 25px;
@@ -108,7 +93,7 @@ body {
     font-size: 25px;
     font-weight: 400;
     letter-spacing: 3px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .player-nickname {
@@ -155,7 +140,77 @@ body {
     color: #6D6D6D;
 }
 
+.bracket {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.bracket-plyaer {
+    text-align: center;
+    border-radius: 25px;
+    border: 2px solid #00C2FF;
+    background: #081D23;
+    padding: 15px 35px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bracket-player-nickname {
+    color: #FFF;
+    font-size: 20px;
+    letter-spacing: 2.5px;
+}
+
+.bracket-player-surname {
+    color: #4DA6C2;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+
+.bracket-couple {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bracket-one-eighth-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.bracket-quarterfinal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 225px;
+}
+
+.bracket-semifinal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 600px;
+}
+
+#bracket-no-qual {
+    border-radius: 25px;
+    border: 2px solid #6D6D6D;
+    background: #151515;
+}
+
+#bracket-no-qual .bracket-player-surname {
+    color: #6D6D6D;
+}
+
+.bracket-plyaer:hover {
+    box-shadow: 0px 0px 25px 0px rgba(0, 194, 255, 0.50);
+    transition: 0.5s;
+    transform: scale(1.05);
+}
+
+.bracket-plyaer:not(:hover) {
+    transition: 0.5s;
+}
 
 .footer {
     padding: 100px 0;
