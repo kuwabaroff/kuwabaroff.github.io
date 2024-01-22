@@ -90,10 +90,17 @@ body {
     color: #FFF;
     text-align: center;
     font-family: RoadRadio;
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 400;
     letter-spacing: 3px;
     margin-bottom: 25px;
+}
+
+.bracket-title a {
+    color: #00C2FF;
+    text-decoration: none;
+    font-size: 12px;
+    margin-left: 25px;
 }
 
 .player-nickname {
@@ -246,3 +253,10 @@ body {
     justify-content: center;
     margin-top: 50px;
 }
+
+
+
+
+
+
+
