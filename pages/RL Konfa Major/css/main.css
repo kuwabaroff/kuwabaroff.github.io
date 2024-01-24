@@ -1,0 +1,262 @@
+@font-face {
+    font-family: 'RoadRadio';
+    src: url('../fonts/RoadRadio.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'RoadRadio';
+    src: url('../fonts/RoadRadio-Bold.ttf') format('truetype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'RoadRadio';
+    src: url('../fonts/RoadRadio-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'RoadRadio';
+    background: url('../img/Bg.png') no-repeat center / cover;
+}
+
+.container {
+    margin: 0 auto;
+    width: 1200px;
+}
+
+.header {
+    margin-top: 75px;
+}
+
+.logo-wrapper {
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    width: 125px;
+}
+
+.brackets {
+    margin-top: 75px;
+}
+
+.brackets-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 75px;
+}
+
+.player {
+    border-radius: 25px;
+    border: 2px solid #00C2FF;
+    background: #081D23;
+    display: flex;
+    gap: 10px;
+    color: white;
+    font-size: 25px;
+    letter-spacing: 3px;
+    justify-content: space-between;
+    padding: 15px 45px;
+    align-items: center;
+    text-align: center;
+}
+
+.player:hover {
+    box-shadow: 0px 0px 50px 0px rgba(0, 194, 255, 0.50);
+    transition: 0.5s;
+    transform: scale(1.05);
+}
+
+.player:not(:hover) {
+    transition: 0.5s;
+}
+
+
+.players-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bracket-title {
+    color: #FFF;
+    text-align: center;
+    font-family: RoadRadio;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.bracket-title a {
+    color: #00C2FF;
+    text-decoration: none;
+    font-size: 12px;
+    margin-left: 25px;
+}
+
+.player-nickname {
+    font-size: 20px;
+    
+}
+
+.player-surname {
+    color: #4DA6C2;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+}
+
+.player-name {
+    margin-left: 45px;
+    text-align: left;
+}
+
+.player-stat {
+    display: flex;
+}
+
+.player-points {
+    color: #00C2FF;
+    font-weight: 900;
+}
+
+.player-stat p {
+    width: 75px;
+}
+
+#no-qual {
+    border-radius: 25px;
+    border: 2px solid #6D6D6D;
+    background: #161616;
+}
+
+#no-qual .player-surname {
+    color: #6D6D6D;
+}
+
+.bracket {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bracket-plyaer {
+    text-align: center;
+    border-radius: 25px;
+    border: 2px solid #00C2FF;
+    background: #081D23;
+    padding: 15px 35px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bracket-player-nickname {
+    color: #FFF;
+    font-size: 20px;
+    letter-spacing: 2.5px;
+}
+
+.bracket-player-surname {
+    color: #4DA6C2;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+
+.bracket-couple {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bracket-one-eighth-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.bracket-quarterfinal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 225px;
+}
+
+.bracket-semifinal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 600px;
+}
+
+#bracket-no-qual {
+    border-radius: 25px;
+    border: 2px solid #6D6D6D;
+    background: #151515;
+}
+
+#bracket-no-qual .bracket-player-surname {
+    color: #6D6D6D;
+}
+
+.bracket-plyaer:hover {
+    box-shadow: 0px 0px 25px 0px rgba(0, 194, 255, 0.50);
+    transition: 0.5s;
+    transform: scale(1.05);
+}
+
+.bracket-plyaer:not(:hover) {
+    transition: 0.5s;
+}
+
+.footer {
+    padding: 100px 0;
+}
+
+.credits-title {
+    color: #00C2FF;
+    text-align: center;
+    text-shadow: 0px 0px 10px #00C2FF;
+    font-family: RoadRadio;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 12.75px;
+}
+
+.credits-description {
+    margin-top: 5px;
+    color: #D9D9D9;
+    text-align: center;
+    font-family: RoadRadio;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 3.75px;
+}
+
+.sponsors {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+
+
+
+
+
+
