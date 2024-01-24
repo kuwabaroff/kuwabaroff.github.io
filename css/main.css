@@ -184,7 +184,17 @@ body {
     letter-spacing: 5px;
 }
 
-
+.credits-title {
+    text-transform: uppercase;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 122.222% */
+    letter-spacing: 5px;
+    text-align: center;
+}
 
 
 
@@ -207,7 +217,8 @@ body {
 
 
 .events {
-    margin: 200px 0;
+    margin-top: 200px;
+    margin-bottom: 100px;
 }
 
 .events-calendar {
@@ -321,4 +332,31 @@ body {
     display: flex;
     flex-direction: column;
     gap: 75px;
+}
+
+.credits {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.developer {
+    text-transform: uppercase;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 122.222% */
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+.developer:hover {
+    transition: 0.3s;
+    color: #f100bd;
+}
+
+.footer {
+    margin-bottom: 50px;
 }
