@@ -337,6 +337,20 @@ body {
     color: #00C2FF;
 }
 
+#horror {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #3E0000 0%, #1F0000 100%);
+}
+
+#horror .event-type {
+    color: #F00;
+}
+
+#horror:hover {
+    border: 1px solid #F00;
+    box-shadow: 0px 0px 25px 0px rgba(255, 0, 0, 0.50);
+}
+
 .events-wrapper {
     display: flex;
     flex-direction: column;
