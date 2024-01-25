@@ -160,6 +160,15 @@ body {
     letter-spacing: 1px;
 }
 
+.main-buttons a:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+}
+
+.main-buttons a:not(:hover) {
+    transition: 0.3s;
+}
+
 .main-buttons .main-button {
     background: #AB258E;
 }
@@ -355,6 +364,10 @@ body {
 .developer:hover {
     transition: 0.3s;
     color: #f100bd;
+}
+
+.developer:not(:hover) {
+    transition: 0.3s;
 }
 
 .footer {
