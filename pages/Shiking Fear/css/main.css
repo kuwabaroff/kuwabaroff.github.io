@@ -182,3 +182,12 @@ body {
     letter-spacing: 3.75px;
     text-transform: uppercase;
 }
+
+
+#special {
+    color: #F00;
+    font-size: 35px;
+    font-weight: 400;
+    line-height: 100%;
+    text-transform: uppercase;
+}
