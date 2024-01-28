@@ -1,0 +1,161 @@
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy-Semibold.ttf') format('truetype');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy-Bold.ttf') format('truetype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy-Extrabold.ttf') format('truetype');
+    font-weight: 800;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background: #000;
+    font-family: 'Gilroy';
+    color: #FFF;
+}
+
+.container {
+    width: 1500px;
+    margin: 0 auto;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.nav-bar-button {
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.nav-bar-button:hover {
+    transition: 0.3s;
+    color: #00C2FF;
+}
+
+.nav-bar-button:not(:hover) {
+    transition: 0.3s;
+}
+
+.nav-bar-wrapper {
+    display: flex;
+    gap: 50px;
+}
+
+.nav-bar-wrapper a {
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+}
+
+.nav-bar-wrapper a:hover {
+    color: #00C2FF;
+    transition: 0.3s;
+}
+
+.nav-bar-wrapper a:not(:hover) {
+    transition: 0.3s;
+}
+
+
+
+
+
+.brackets-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.brackets {
+    padding-top: 200px;
+}
+
+.bracket {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.double {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.player {
+    border-radius: 25px;
+    border: 2px solid #6D6D6D;
+    background: #151515;
+    width: 225px;
+    padding: 15px 0;
+}
+
+.player-nickname {
+    color: #FFF;
+    text-align: center;
+    font-family: RoadRadio;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+}
+
+.player-surname {
+    color: #00C2FF;
+    text-align: center;
+    font-family: RoadRadio;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+}
+
+.quaterfinal {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.double:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+}
+
+.player:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+    box-shadow: 0px 0px 25px 0px rgba(0, 194, 255, 0.50);
+}
+
+.double:not(:hover) {
+    transition: 0.3s;
+}
+
+.player:not(:hover) {
+    transition: 0.3s;
+}
