@@ -355,6 +355,10 @@ body {
     background: linear-gradient(180deg, #3E0034 0%, #1E001F 100%);
 }
 
+#twitch .event-type {
+    color: #ff00c8;
+}
+
 .events-wrapper {
     display: flex;
     flex-direction: column;
