@@ -267,6 +267,7 @@ body {
     justify-content: space-between;
     width: 290px;
     align-items: center;
+    gap: 15px;
 }
 
 .event-title {
