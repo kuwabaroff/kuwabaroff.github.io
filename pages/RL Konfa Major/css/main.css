@@ -155,12 +155,13 @@ body {
 
 .bracket-plyaer {
     text-align: center;
-    border-radius: 25px;
+    border-radius: 35px;
     border: 2px solid #00C2FF;
     background: #081D23;
     padding: 15px 35px;
     display: flex;
     flex-direction: column;
+    width: 250px;
 }
 
 .bracket-player-nickname {
@@ -181,22 +182,16 @@ body {
     gap: 15px;
 }
 
-.bracket-one-eighth-section {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
 .bracket-quarterfinal-section {
     display: flex;
     flex-direction: column;
-    gap: 225px;
+    gap: 50px;
 }
 
 .bracket-semifinal-section {
     display: flex;
     flex-direction: column;
-    gap: 600px;
+    gap: 150px;
 }
 
 #bracket-no-qual {
