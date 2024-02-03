@@ -26,7 +26,7 @@ a {
 }
 
 body {
-    background: #000;
+    background: black;
     font-family: 'Gilroy';
     color: #FFF;
 }
@@ -36,51 +36,30 @@ body {
     margin: 0 auto;
 }
 
-.nav-bar {
-    display: flex;
-    justify-content: space-between;
+
+.section-title {
+    font-size: 40px;
     text-transform: uppercase;
-    align-items: center;
-    margin-top: 30px;
+    text-align: center;
+    letter-spacing: 2px;
+    text-shadow: 0px 0px 50px #00C2FF;
+    color:#00C2FF;
 }
 
-.nav-bar-button {
-    color: #FFF;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    font-family: 'Poppins', sans-serif;
-}
-
-.nav-bar-button:hover {
-    transition: 0.3s;
-    color: #00C2FF;
-}
-
-.nav-bar-button:not(:hover) {
-    transition: 0.3s;
-}
-
-.nav-bar-wrapper {
-    display: flex;
-    gap: 50px;
-}
-
-.nav-bar-wrapper a {
-    color: rgba(255, 255, 255, 0.70);
+.section-subtitle {
     font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    letter-spacing: 10px;
+    margin-top: 5px;
 }
 
-.nav-bar-wrapper a:hover {
-    color: #00C2FF;
-    transition: 0.3s;
-}
 
-.nav-bar-wrapper a:not(:hover) {
-    transition: 0.3s;
-}
+
+
+
+
 
 
 
@@ -88,74 +67,320 @@ body {
 
 .brackets-wrapper {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 100px;
 }
 
-
-
 .brackets {
-    padding-top: 200px;
+    padding: 90px 0;
 }
 
 .bracket {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 25px;
 }
 
-.double {
+.bracket-quaterfinal {
     display: flex;
+    gap: 30px;
     flex-direction: column;
-    gap: 15px;
+}
+
+.bracket-semifinal {
+    display: flex;
+    gap: 200px;
+    flex-direction: column;
+}
+
+.match-wrapper {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.match {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.match-info {
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    font-size: 10px;
 }
 
 .player {
-    border-radius: 25px;
-    border: 2px solid #6D6D6D;
-    background: #151515;
-    width: 225px;
+    display: flex;
+    gap: 10px;
+}
+
+.player-info {
     padding: 15px 0;
+    border-radius: 25px;
+    background: #161616;
+    width: 250px;
+    font-family: 'RoadRadio';
+}
+
+.player-score {
+    border-radius: 25px;
+    background: #161616;
+    width: 50px;
+    font-family: 'RoadRadio';
+    color: #FFF;
+    font-size: 25px;
+    letter-spacing: 2.5px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 0 7px;
 }
 
 .player-nickname {
     color: #FFF;
-    text-align: center;
-    font-family: RoadRadio;
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 18px;
     letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .player-surname {
-    color: #00C2FF;
-    text-align: center;
-    font-family: RoadRadio;
-    font-size: 10px;
-    font-weight: 400;
+    color: #03a2d3;
+    font-size: 12px;
     letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
 }
 
-.quaterfinal {
+
+
+
+
+
+
+
+
+
+
+.pickems {
+    padding: 90px 0;
+}
+
+.pickems-wrapper {
+    margin-top: 45px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 50px;
 }
 
-.double:hover {
-    transition: 0.3s;
-    transform: scale(1.05);
+.pickem {
+    display: flex;
+    justify-content: space-between;
 }
 
-.player:hover {
-    transition: 0.3s;
-    transform: scale(1.05);
-    box-shadow: 0px 0px 25px 0px rgba(0, 194, 255, 0.50);
+.pickem-player {
+    padding-top: 405px;
+    padding-bottom: 35px;
+    padding-left: 65px;
+    padding-right: 65px;
+    background-color: #161616;
+    border-radius: 25px;
 }
 
-.double:not(:hover) {
-    transition: 0.3s;
+.pickem-player-surname {
+    color: #FFF;
+    font-size: 20px;
+    letter-spacing: 3px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
 }
 
-.player:not(:hover) {
-    transition: 0.3s;
+.pickem-player-nickname {
+    color: #00C2FF;
+    font-size: 15px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.pickem-wrapper {
+    background: #161616;
+    width: 1100px;
+    border-radius: 25px;
+    align-items: center;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+
+.pickem-winner {
+    background: #232323;
+    width: 335px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+}
+
+.pickem-image {
+    width: 300px;
+    margin-top: 20px;
+}
+
+.pickem-nickname {
+    color: #FFF;
+    font-size: 30px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.pickem-status {
+    color: #00C2FF;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.phrase-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.phrase-player {
+    background: #161616;
+}
+
+.phrase-text {
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.videos {
+    padding: 90px 0;
+}
+
+.videos-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 45px;
+}
+
+.video-wrapper {
+    display: flex;
+    gap: 30px;
+}
+
+.video {
+    border-radius: 25px;
+    background: #161616;
+    width: 480px;
+}
+
+.video-title {
+    color: #FFF;
+    font-size: 18px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 250px;
+    margin-bottom: 25px;
+}
+
+.video-title span {
+    color: #03a2d3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.footer {
+    padding-bottom: 90px;
+}
+
+.credits-title {
+    color: #00C2FF;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 10px;
+    font-size: 25px;
+    margin-bottom: 10px;
+    text-shadow: 0px 0px 50px #00C2FF;
+}
+
+.credits-text {
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 5px;
+    font-size: 15px;
 }
