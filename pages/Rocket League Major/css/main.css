@@ -26,7 +26,7 @@ a {
 }
 
 body {
-    background: black;
+    background: url('../img/Bg.png') no-repeat center / cover;
     font-family: 'Gilroy';
     color: #FFF;
 }
@@ -179,6 +179,7 @@ body {
 
 
 
+
 .brackets-wrapper {
     display: flex;
     flex-direction: column;
@@ -213,6 +214,15 @@ body {
     flex-direction: column;
 }
 
+.match-wrapper:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+}
+
+.match-wrapper:not(:hover) {
+    transition: 0.3s;
+}
+
 .match {
     display: flex;
     gap: 10px;
@@ -229,6 +239,15 @@ body {
 .player {
     display: flex;
     gap: 10px;
+}
+
+.player:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+}
+
+.player:not(:hover) {
+    transition: 0.3s;
 }
 
 .player-info {
@@ -296,21 +315,20 @@ body {
 }
 
 .pickem-player {
-    padding-top: 405px;
-    padding-bottom: 35px;
-    padding-left: 65px;
-    padding-right: 65px;
+    width: 350px;
+    height: 500px;
     background-color: #161616;
     border-radius: 25px;
 }
 
 .pickem-player-surname {
     color: #FFF;
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 3px;
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
+    margin-top: 425px;
 }
 
 .pickem-player-nickname {
@@ -368,6 +386,21 @@ body {
     padding-bottom: 25px;
 }
 
+#pickem-1 {
+    background: url('../img/Pogostiev1.png') no-repeat center / cover;
+}
+
+#pickem-2 {
+    background: url('../img/Osmolovsky1.png') no-repeat center / cover;
+}
+
+#pickem-3 {
+    background: url('../img/Starovoitov1.png') no-repeat center / cover;
+}
+
+#pickem-4 {
+    background: url('../img/Korneev1.png') no-repeat center / cover;
+}
 
 
 
@@ -406,6 +439,7 @@ body {
     flex-direction: column;
     gap: 30px;
     margin-top: 45px;
+    align-items: center;
 }
 
 .video-wrapper {
