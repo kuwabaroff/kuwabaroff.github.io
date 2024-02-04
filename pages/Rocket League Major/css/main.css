@@ -64,6 +64,120 @@ body {
 
 
 
+.intro {
+    height: 100vh;
+    overflow: hidden;
+    z-index: 0;
+    position: relative;
+}
+
+.intro-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+}
+
+.intro::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.video-bg {
+    position: relative;
+    padding-bottom: 56.25%;
+}
+
+.video-media {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+
+
+
+.header-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+    align-items: center;
+}
+
+.konfa-link {
+    margin-bottom: 210px;
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Gilroy';
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.konfa-link:hover {
+    transition: 0.3s;
+    text-shadow: 0px 0px 75px #00C2FF;
+    color:#00C2FF;
+}
+
+.konfa-link:not(:hover) {
+    transition: 0.3s;
+}
+
+.konfa {
+    width: 50px;
+    margin-bottom: 25px;
+}
+
+.header-subtitle {
+    text-transform: uppercase;
+    letter-spacing: 25px;
+    font-size: 50px;
+    text-align: center;
+    line-height: 100%;
+}
+
+.header-title {
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    font-size: 150px;
+    text-align: center;
+    line-height: 100%;
+    text-shadow: 0px 0px 75px #00C2FF;
+    color:#00C2FF;
+}
+
+.header-description {
+    color: #AEAEAE;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-top: 75px;
+}
+
+
+
+
+
+
+
+
+
+
 
 .brackets-wrapper {
     display: flex;
@@ -262,20 +376,6 @@ body {
 
 
 
-
-
-.phrase-wrapper {
-    display: flex;
-    justify-content: space-between;
-}
-
-.phrase-player {
-    background: #161616;
-}
-
-.phrase-text {
-    
-}
 
 
 
