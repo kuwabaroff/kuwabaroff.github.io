@@ -518,3 +518,8 @@ body {
     letter-spacing: 5px;
     font-size: 15px;
 }
+
+#qual {
+    border: solid 2px #00C2FF;
+    background: #002C3A;
+}
