@@ -55,15 +55,6 @@ body {
     margin-top: 5px;
 }
 
-
-
-
-
-
-
-
-
-
 .intro {
     height: 100vh;
     overflow: hidden;
@@ -104,10 +95,6 @@ body {
     top: 0;
     left: 0;
 }
-
-
-
-
 
 .header-wrapper {
     display: flex;
@@ -168,17 +155,6 @@ body {
     letter-spacing: 2px;
     margin-top: 75px;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 .brackets-wrapper {
     display: flex;
@@ -288,16 +264,6 @@ body {
     text-align: center;
 }
 
-
-
-
-
-
-
-
-
-
-
 .pickems {
     padding: 90px 0;
 }
@@ -402,34 +368,6 @@ body {
     background: url('../img/Korneev1.png') no-repeat center / cover;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .videos {
     padding: 90px 0;
 }
@@ -467,34 +405,6 @@ body {
 .video-title span {
     color: #03a2d3;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .footer {
     padding-bottom: 90px;
