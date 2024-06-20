@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: "Jost", sans-serif;
+    background: #0066FF;
+}
+
+.container {
+    width: 1500px;
+    margin: 0 auto;
+}
+
+.header {
+    background: #FFF;
+    padding: 20px 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+
+
+.header-bar-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+
+
+.header-bar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-bar-logo img {
+    width: 30px;
+}
+
+
+.heaeder-bar-buttons {
+    display: flex;
+    gap: 50px;
+}
+
+.header-bar-logo p {
+    color: #0066FF;
+    text-transform: uppercase;
+}
+
+.heaeder-bar-buttons a {
+    color: #0066FF;
+}
