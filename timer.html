@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocket League Konfa Major - Timer</title>
+    <link rel="icon" type="image/x-icon" href="pages/Timer/img/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pages/Timer/main.css">
+</head>
+<body>
+
+    <header class="header" id="header">
+        <div class="container">
+            <div class="logo-wrapper">
+                <img src="pages/Timer/img/logo.png" class="logo">
+            </div>
+            <div class="timer-title-wrapper">
+                <p class="timer-title">Дней</p>
+                <p class="timer-title">Часов</p>
+                <p class="timer-title">Минут</p>
+                <p class="timer-title">Секунд</p>
+            </div>
+            <p id="demo"></p>
+        </div>
+    </header>
+
+    <script>
+        var countDownDate = new Date("Aug 11, 2024 21:00:00").getTime();
+        var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("demo").innerHTML = days + " : " + hours + " : "
+        + minutes + " : " + seconds;
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+        }
+        }, 1000);
+    </script>
+
+</body>
+</html>
