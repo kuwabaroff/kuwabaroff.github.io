@@ -59,7 +59,7 @@ a {
     display: block;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.65);
     position: absolute;
     top: 0;
     left: 0;
@@ -124,12 +124,6 @@ a {
     transition: 0.3s;
 }
 
-
-
-
-
-
-
 .twitch {
     padding: 100px 0;
     background: url('../img/bg/twitch-bg.jpg') no-repeat center / cover;
@@ -139,10 +133,6 @@ a {
     display: flex;
     justify-content: center;
 }
-
-
-
-
 
 .features {
     padding: 100px 0;
@@ -187,13 +177,6 @@ a {
     transition: 0.5s;
 }
 
-
-
-
-
-
-
-
 .first-stage {
     padding: 100px 0;
     background: url('../img/bg/group-bg.jpg') no-repeat center / cover;
@@ -213,6 +196,7 @@ a {
 
 #qual3 {
     background: #FFF;
+    border: 1px solid #E0E0E0;
 }
 
 .first-group-wrapper {
@@ -321,14 +305,6 @@ a {
     font-weight: 500;
 }
 
-
-
-
-
-
-
-
-
 .calendar {
     padding: 100px 0;
     background: #FFF;
@@ -424,20 +400,6 @@ a {
     text-transform: uppercase;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .pickems {
     padding: 100px 0;
     background: url('../img/bg/pickem-bg.jpg') no-repeat center / cover;
@@ -529,16 +491,6 @@ a {
     font-weight: 400;
 }
 
-
-
-
-
-
-
-
-
-
-
 .media {
     padding: 100px 0;
     background: #FFF;
@@ -555,18 +507,6 @@ a {
     display: flex;
     gap: 20px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .footer {
     padding: 50px 0;
@@ -594,4 +534,87 @@ a {
     margin-bottom: 5px;
     font-size: 15px;
     color: #878787;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.playoff {
+    display: none;
+    padding: 100px 0;
+    background: #FFF;
+}
+
+.draw {
+    display: none;
+    padding: 100px 0;
+    background: #FFF;
+}
+
+.draw-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.second-stage {
+    display: none;
+    padding: 100px 0;
+    background: url('../img/bg/group-bg.jpg') no-repeat center / cover;
+}
+
+.baskets {
+    display: none;
+    padding: 100px 0;
+    background: #FFF;
+}
+
+.baskets-wrapper {
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+}
+
+.basket-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.basket-title {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.basket-player {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.backet-player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 150px;
+}
+
+.backet-player-info h1 {
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.backet-player-info p {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 10px;
 }
