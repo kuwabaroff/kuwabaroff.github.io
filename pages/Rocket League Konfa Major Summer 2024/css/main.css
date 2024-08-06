@@ -19,12 +19,6 @@ a {
     margin: 0 auto;
 }
 
-
-
-
-
-
-
 .section-title {
     text-transform: uppercase;
     text-align: center;
@@ -46,10 +40,105 @@ a {
     font-size: 12px;
 }
 
+.header {
+    min-height: 100vh;
+    position: relative;
+}
+
+.first__video {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.introo {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.intro {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.logo {
+    margin-top: 150px;
+    width: 50px;
+    margin-bottom: 50px;
+}
+
+.title {
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 50px;
+    text-align: center; 
+    color: #fff;
+}
+
+.title span {
+    color: #0066FF;
+}
+
+.menu-buttons-wrapper {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttons-line {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.menu-button {
+    text-transform: uppercase;
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    background: #ffffff1f;
+    border-radius: 10px;
+    padding: 8px 20px;
+}
+
+.menu-button:hover {
+    transition: 0.3s;
+    background: #0066ff53;
+}
+
+.menu-button:not(:hover) {
+    transition: 0.3s;
+}
 
 
 
 
+
+
+
+.twitch {
+    padding: 100px 0;
+    background: url('../img/bg/twitch-bg.jpg') no-repeat center / cover;
+}
+
+.twitch-wrapper {
+    display: flex;
+    justify-content: center;
+}
 
 
 
@@ -107,7 +196,7 @@ a {
 
 .first-stage {
     padding: 100px 0;
-    background: #F5F5F5;
+    background: url('../img/bg/group-bg.jpg') no-repeat center / cover;
 }
 
 #qual {
@@ -249,7 +338,7 @@ a {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    justify-content: center;
+    align-items: center;
 }
 
 .date {
@@ -351,7 +440,7 @@ a {
 
 .pickems {
     padding: 100px 0;
-    background: #F5F5F5;
+    background: url('../img/bg/pickem-bg.jpg') no-repeat center / cover;
 }
 
 #gold {

@@ -4,32 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rocket League Konfa Major: Summer 2024</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/x-icon" href="pages/Rocket League Konfa Major Summer 2024/img/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="pages/Rocket League Konfa Major Summer 2024/css/main.css">
 </head>
 <body>
-    
-    <header class="header" id="header">
-        <div class="container">
 
+    <header class="header" id="header">
+        <video src="pages/Rocket League Konfa Major Summer 2024/videos/main.mp4" muted autoplay loop class="first__video"></video>
+        <div class="introo"></div>
+        <div class="container">
+            <div class="intro" data-aos="fade-down">
+                <img src="pages/Rocket League Konfa Major Summer 2024/img/icon.png" alt="" class="logo">
+                <h1 class="title">Rocket League<br>Konfa Major<br><span>Summer 2024</span></h1>
+                <div class="menu-buttons-wrapper">
+                    <div class="buttons-line">
+                        <a href="#" class="menu-button">Главная</a>
+                        <a href="#twitch" class="menu-button">Прямой эфир</a>
+                        <a href="#features" class="menu-button">Особенности турнира</a>
+                    </div>
+                    <div class="buttons-line">
+                        <a href="#first-stage" class="menu-button">Первый групповой этап</a>
+                        <a href="#calendar" class="menu-button">Календарь</a>
+                    </div>
+                    <div class="buttons-line">
+                        <a href="#pickems" class="menu-button">Пикемы фаворитов</a>
+                        <a href="#media" class="menu-button">Медиа</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
     <section class="twitch" id="twitch">
-        <div class="container">
+        <div class="container" data-aos="fade-down">
             <div class="section-title">
                 <h1>Cмотрите прямо сейчас!</h1>
                 <p>Rocket League Konfa Major</p>
             </div>
-            <iframe src="https://player.twitch.tv/?channel=kuwabaroff&parent=kuwabaroff.github.io" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
+            <div class="twitch-wrapper">
+                <iframe src="https://player.twitch.tv/?channel=kuwabaroff&parent=kuwabaroff.github.io" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
+            </div>
         </div>
     </section>
 
-
     <section class="features" id="features">
-        <div class="container">
+        <div class="container" data-aos="fade-down">
             <div class="section-title">
                 <h1>Как никогда раньше</h1>
                 <p>Rocket League Konfa Major</p>
@@ -81,7 +104,7 @@
                 <p>Rocket League Konfa Major</p>
             </div>
             <div class="first-group-wrapper">
-                <div class="first-group">
+                <div class="first-group" data-aos="fade-down">
                     <h1 class="group-title">Группа A</h1>
                     <div class="table-player">
                         <img src="pages/Rocket League Konfa Major Summer 2024/img/flags/sideqwerty7310.png" class="player-icon">
@@ -160,7 +183,7 @@
                         <div class="position" id="qual2"></div>
                     </div>
                 </div>
-                <div class="first-group">
+                <div class="first-group" data-aos="fade-down">
                     <h1 class="group-title">Группа B</h1>
                     <div class="table-player">
                         <img src="pages/Rocket League Konfa Major Summer 2024/img/flags/kuwabaroff.png" class="player-icon">
@@ -239,7 +262,7 @@
                         <div class="position" id="qual2"></div>
                     </div>
                 </div>
-                <div class="first-group">
+                <div class="first-group" data-aos="fade-down">
                     <h1 class="group-title">Группа C</h1>
                     <div class="table-player">
                         <img src="pages/Rocket League Konfa Major Summer 2024/img/flags/JLeoH1337228.png" class="player-icon">
@@ -318,7 +341,7 @@
                         <div class="position" id="qual2"></div>
                     </div>
                 </div>
-                <div class="positions-info-wrapper">
+                <div class="positions-info-wrapper" data-aos="fade-down">
                     <div class="position-info">
                         <div class="position-icon" id="qual"></div>
                         <p>Выход в плей-офф</p>
@@ -338,12 +361,12 @@
 
     <section class="calendar" id="calendar">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title" data-aos="fade-down">
                 <h1>Календарь турнира</h1>
                 <p>Rocket League Konfa Major</p>
             </div>
             <div class="dates">
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>Тизер</h1>
                         <p>21 июня</p>
@@ -354,7 +377,7 @@
                         <p>Официальный тизер</p>
                     </div>
                 </div>
-                <div class="date">
+                <div class="date" data-aos="fade-down">
                     <div class="date-date">
                         <h1>Анонс</h1>
                         <p>Скоро</p>
@@ -365,7 +388,7 @@
                         <p>Официальный анонс</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 1</h1>
                         <p>11 Августа</p>
@@ -376,7 +399,7 @@
                         <p>6 матчей (по 2 в каждой группе)</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 2</h1>
                         <p>12 Августа</p>
@@ -387,18 +410,18 @@
                         <p>6 матчей (по 2 в каждой группе)</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 3</h1>
                         <p>13 Августа</p>
                     </div>
                     <img src="pages/Rocket League Konfa Major Summer 2024/img/date-not-actual.png" class="date-icon">
-                    <div class="date-info">
+                    <div class="date-info" >
                         <h1>Первый групповой этап</h1>
                         <p>6 матчей (по 2 в каждой группе)</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 4</h1>
                         <p>14 Августа</p>
@@ -409,7 +432,7 @@
                         <p>Перерыв. Обновление Konfa.Web</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 5</h1>
                         <p>15 Августа</p>
@@ -420,7 +443,7 @@
                         <p>6 матчей (по 3 в каждой группе)</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 6</h1>
                         <p>16 Августа</p>
@@ -431,7 +454,7 @@
                         <p>6 матчей (по 3 в каждой группе)</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 7</h1>
                         <p>17 Августа</p>
@@ -442,7 +465,7 @@
                         <p>Перерыв. Жеребьевка. Обновление Konfa.Web</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 8</h1>
                         <p>18 Августа</p>
@@ -453,7 +476,7 @@
                         <p>1/4 финала верхней и нижней сетки</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 9</h1>
                         <p>19 Августа</p>
@@ -464,7 +487,7 @@
                         <p>1/2 финала верхней сетки</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 10</h1>
                         <p>20 Августа</p>
@@ -475,7 +498,7 @@
                         <p>1/2 финала нижней сетки</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 11</h1>
                         <p>21 Августа</p>
@@ -486,7 +509,7 @@
                         <p>Финал верхней и нижней сетки</p>
                     </div>
                 </div>
-                <div class="date" id="not-actual">
+                <div class="date" id="not-actual" data-aos="fade-down">
                     <div class="date-date">
                         <h1>День 12</h1>
                         <p>22 Августа</p>
@@ -495,6 +518,17 @@
                     <div class="date-info">
                         <h1>Гранд-финал</h1>
                         <p>Гранд-финал турнира. Матч за 3-е место</p>
+                    </div>
+                </div>
+                <div class="date" id="not-actual" data-aos="fade-down">
+                    <div class="date-date">
+                        <h1>Приз</h1>
+                        <p>23 Августа</p>
+                    </div>
+                    <img src="pages/Rocket League Konfa Major Summer 2024/img/date-not-actual.png" class="date-icon">
+                    <div class="date-info">
+                        <h1>Награждение победителя</h1>
+                        <p>Торжественный поход в Burger King</p>
                     </div>
                 </div>
             </div>
@@ -508,8 +542,8 @@
                 <p>Rocket League Konfa Major</p>
             </div>
             <div class="pickems-wrapper">
-                <div class="pickem">
-                    <img src="pages/Rocket League Konfa Major Summer 2024/img/kuwabaroff-image.png" alt="" class="pickem-logo">
+                <div class="pickem" data-aos="flip-up">
+                    <img src="pages/Rocket League Konfa Major Summer 2024/img/leon-image.png" alt="" class="pickem-logo">
                     <div class="pickem-raw">
                         <p class="pickem-subtitle">Выбор</p>
                         <h1 class="pickem-title">JLeoH1337228</h1>
@@ -545,7 +579,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="pickem">
+                <div class="pickem" data-aos="flip-up">
                     <img src="pages/Rocket League Konfa Major Summer 2024/img/kuwabaroff-image.png" alt="" class="pickem-logo">
                     <div class="pickem-raw">
                         <p class="pickem-subtitle">Выбор</p>
@@ -582,8 +616,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="pickem">
-                    <img src="pages/Rocket League Konfa Major Summer 2024/img/kuwabaroff-image.png" alt="" class="pickem-logo">
+                <div class="pickem" data-aos="flip-up">
+                    <img src="pages/Rocket League Konfa Major Summer 2024/img/sideqwerty-image.png" alt="" class="pickem-logo">
                     <div class="pickem-raw">
                         <p class="pickem-subtitle">Выбор</p>
                         <h1 class="pickem-title">sideqwerty7310</h1>
@@ -619,8 +653,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="pickem">
-                    <img src="pages/Rocket League Konfa Major Summer 2024/img/kuwabaroff-image.png" alt="" class="pickem-logo">
+                <div class="pickem" data-aos="flip-up">
+                    <img src="pages/Rocket League Konfa Major Summer 2024/img/che4lik-image.png" alt="" class="pickem-logo">
                     <div class="pickem-raw">
                         <p class="pickem-subtitle">Выбор</p>
                         <h1 class="pickem-title">CHe4lik11</h1>
@@ -661,7 +695,7 @@
     </section>
 
     <section class="media" id="media">
-        <div class="container">
+        <div class="container" data-aos="fade-down">
             <div class="section-title">
                 <h1>Медиа</h1>
                 <p>Rocket League Konfa Major</p>
@@ -687,7 +721,7 @@
     </section>
 
     <footer class="footer" id="footer">
-        <div class="container">
+        <div class="container" data-aos="fade-down">
             <div class="credits">
                 <img src="pages/Rocket League Konfa Major Summer 2024/img/icon.png" class="footer-icon">
                 <h1>Rocket League Konfa Major @ All rights reserved, 2024</h1>
@@ -698,5 +732,9 @@
         </div>
     </footer>
 
+    <audio src="pages/Rocket League Konfa Major Summer 2024/music/music.mp3" autoplay loop></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="pages/Rocket League Konfa Major Summer 2024/scripts/script.js"></script>
 </body>
 </html>
