@@ -1,19 +1,21 @@
 * {
     margin: 0;
     padding: 0;
+    border: none;
+}
+
+body {
+    letter-spacing: 0.5px;
+    line-height: 1;
+    font-family: "Jost", sans-serif;
 }
 
 a {
     text-decoration: none;
 }
 
-body {
-    font-family: "Jost", sans-serif;
-    background: #0066FF;
-}
-
 .container {
-    width: 1600px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -23,55 +25,25 @@ body {
 
 
 
-
-.header {
-    background: #FFF;
-    padding: 15px 0;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.header-bar-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header-bar-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-bar-logo img {
-    width: 30px;
-}
-
-
-.heaeder-bar-buttons {
-    display: flex;
-    gap: 15px;
-}
-
-.header-bar-logo p {
-    color: #0066FF;
+.section-title {
     text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 35px;
 }
 
-.heaeder-bar-buttons a {
-    background: #fff;
-    padding: 10px 20px;
+.section-title h1 {
+    color: #000;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.section-title p {
     color: #0066FF;
-    border-radius: 15px;
-}
-
-.heaeder-bar-buttons a:hover {
-    background: #f7f7f7;
-    transition: 0.3s;
-}
-
-.heaeder-bar-buttons a:not(:hover) {
-    transition: 0.3s;
+    font-weight: 500;
+    font-size: 12px;
 }
 
 
@@ -79,89 +51,51 @@ body {
 
 
 
-.group-stage {
-    margin-top: 150px;
+
+
+
+
+.features {
+    padding: 100px 0;
 }
 
-.group-stage .container {
-    display: flex;
-    justify-content: center;
-}
-
-.groups-wrapper {
-    display: flex;
-    gap: 60px;
-}
-
-.group {
+.feature-wrapper {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.group-name {
-    text-transform: uppercase;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: 2px;
-}
-
-.group-stage-player {
+.feature-line {
+    justify-content: center;
     display: flex;
-    align-items: center;
+    gap: 15px;
 }
 
-.group-stage-player-inform {
-    padding-left: 20px;
+.record-icon {
+    width: 25px;
+}
+
+.feature {
     align-items: center;
-    height: 53px;
-    margin-left: 15px;
-    margin-right: 10px;
-    background: #FFF;
+    display: flex;
+    gap: 15px;
     border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    width: 300px;
-}
-
-.group-stage-player-inform-title h1 {
-    font-weight: 600;
     color: #000;
-    font-size: 20px;
-    line-height: 1;
-}
-
-.group-stage-player-inform-title p {
     font-weight: 400;
-    color: #000;
-    font-size: 12px;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-top: 2px;
+    padding: 15px 30px;
+    background: #fff;
+    border: 1px solid #E0E0E0;
 }
 
-.group-stage-player-inform-points {
-    margin-left: 25px;
-    margin-right: 15px;
-    align-items: center;
-    display: flex;
+.feature:hover {
+    transition: 0.5s;
+    transform: scale(1.05);
+    background: #F1F7FF;
+    border: 1px solid #0066FF;
 }
 
-.group-stage-player-inform-points h1 {
-    font-weight: 600;
-    color: #000;
-    font-size: 20px;
-    width: 30px;
-    text-align: center;
-}
-
-.group-stage-player-inform-points p {
-    font-weight: 400;
-    color: #676767;
-    font-size: 20px;
-    width: 30px;
-    text-align: center;
+.feature:not(:hover) {
+    transition: 0.5s;
 }
 
 
@@ -171,30 +105,234 @@ body {
 
 
 
+.first-stage {
+    padding: 100px 0;
+    background: #F5F5F5;
+}
 
-
-
-
-
-.green {
-    height: 34px;
-    padding: 10px;
-    border-radius: 10px;
+#qual {
     background: #17CD2A;
 }
 
-.yellow {
-    height: 34px;
-    padding: 10px;
-    border-radius: 10px;
+#qual1 {
     background: #FFD952;
 }
 
-.white {
-    height: 34px;
-    padding: 10px;
-    border-radius: 10px;
+#qual2 {
+    background: #FF8652;
+}
+
+#qual3 {
+    background: #FFF;
+}
+
+.first-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.first-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.group-title {
+    text-transform: uppercase;
+    color: #000;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.table-player {
+    display: flex;
+    align-items: center;
+}
+
+.table-player-info {
     background: #fff;
+    width: 700px;
+    padding: 10px 20px;
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: left;
+}
+
+.player-info h1 {
+    font-weight: 500;
+}
+
+.player-info p {
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.player-scores {
+    display: flex;
+    text-align: center;
+    font-size: 20px;
+}
+
+.score {
+    width: 60px;
+    text-align: center;
+}
+
+.goals {
+    width: 75px;
+}
+
+.points {
+    width: 50px;
+    font-weight: 600;
+    color: #000;
+}
+
+.position {
+    width: 22px;
+    height: 55px;
+    border-radius: 10px;
+}
+
+.positions-info-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.position-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.position-icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 10px;
+}
+
+.position-info p {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+
+
+
+
+
+
+
+.calendar {
+    padding: 100px 0;
+    background: #FFF;
+}
+
+.dates {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: center;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+}
+
+.date-date {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.date-date h1 {
+    color: #0066FF;
+    font-weight: 500;
+    font-size: 25px;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.date-date p {
+    color: #000;
+    font-weight: 500;
+    font-size: 10px;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.date-icon {
+    margin: 0 35px;
+}
+
+.date-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 400px;
+}
+
+.date-info h1 {
+    color: #0066FF;
+    font-weight: 500;
+    font-size: 25px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.date-info p {
+    color: #000;
+    font-weight: 500;
+    font-size: 10px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+#not-actual .date-date h1 {
+    color: #d7d7d7;
+}
+
+#not-actual .date-date p {
+    color: #c7c7c7;
+    font-weight: 500;
+    font-size: 10px;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+#not-actual .date-info h1 {
+    color: #d7d7d7;
+    font-weight: 500;
+    font-size: 25px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+#not-actual .date-info p {
+    color: #c7c7c7;
+    font-weight: 500;
+    font-size: 10px;
+    text-align: left;
+    text-transform: uppercase;
 }
 
 
@@ -206,115 +344,165 @@ body {
 
 
 
-.playoff {
-    padding-top: 100px;
+
+
+
+
+
+.pickems {
+    padding: 100px 0;
+    background: #F5F5F5;
 }
 
-.playoff-match {
+#gold {
+    background: #FFF7D9;
+}
+
+#silver {
+    background: #f1f1f1;
+}
+
+#bronze {
+    background: #FFE7D9;
+}
+
+#none {
+    border: 1px solid #E0E0E0;
+}
+
+.pickems-wrapper {
+    justify-content: center;
+    gap: 20px;
+    display: flex;
+}
+
+.pickem {
+    width: 300px;
+    text-align: center;
+}
+
+.pickem-raw {
+    background: #fff;
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.pickem-subtitle {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #000;
+}
+
+.pickem-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #0066FF;
+    margin-bottom: 20px;
+}
+
+.pickem-places-wrapper {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.playoff-match-date {
-    text-transform: uppercase;
-    color: #fff;
-    letter-spacing: 2px;
-    font-weight: 400;
-    font-size: 13px;
-}
-
-
-
-.playoff-wrapper {
+.pickem-place {
     display: flex;
-    flex-direction: column;
-    gap: 100px;
-}
-
-.playoff-upper-wrapper {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 50px;
-}
-
-
-#playoff-quaterfinal {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-#playoff-semifinal {
-    display: flex;
-    flex-direction: column;
-    gap: 175px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.playoff-player {
-    display: flex;
-    gap: 15px;
-    line-height: 1;
-    align-items: center;
-}
-
-.playoff-player-inform {
-    width: 180px;
-    padding: 10px 0;
-    background: #FFF;
+    padding: 10px 20px;
     border-radius: 10px;
-    align-items: center;
 }
 
-.playoff-player-inform h1 {
-    margin-left: 20px;
-    width: 100px;
-    font-weight: 600;
-    color: #000;
-    font-size: 20px;
+.pickem-icon {
+    width: 25px;
+    height: 25px;
 }
 
-
-
-.playoff-player-inform p {
-    margin-left: 20px;
-    width: 100px;
-    font-weight: 400;
-    color: #000;
-    font-size: 12px;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-top: 2px;
-}
-
-.playoff-player-result {
+.pickem-player-wrapper {
+    text-align: right;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.pickem-player-wrapper h1 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.pickem-player-wrapper p {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+
+
+.media {
+    padding: 100px 0;
+    background: #FFF;
+}
+
+.media-wrapper {
     justify-content: center;
-    width: 53px;
-    height: 53px;
-    background: #FFF;
-    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.media-line {
+    display: flex;
+    gap: 20px;
 }
 
 
-.playoff-player-result p {
-    font-weight: 600;
+
+
+
+
+
+
+
+
+
+
+
+.footer {
+    padding: 50px 0;
+    background: #f5f5f5;
+}
+
+.footer-icon {
+    margin-bottom: 25px;
+}
+
+.credits {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.credits h1 {
+    font-weight: 500;
     color: #000;
-    font-size: 20px;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+.credits p {
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #878787;
 }
