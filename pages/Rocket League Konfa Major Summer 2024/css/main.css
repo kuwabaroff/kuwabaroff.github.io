@@ -551,8 +551,95 @@ a {
 .playoff {
     display: none;
     padding: 100px 0;
-    background: #FFF;
+    background: url('../img/bg/group-bg.jpg') no-repeat center / cover;
 }
+
+#lower-playoff {
+    margin-top: 100px;
+}
+
+.playoff-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.playoff-quater {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.playoff-semi {
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+}
+
+.playoff-match {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.match-title {
+    text-transform: uppercase;
+    color: #000;
+    font-weight: 500;
+    font-size: 10px;
+}
+
+.playoff-player {
+    gap: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.playoff-player-info {
+    width: 130px;
+    background: #fff;
+    border: 1px solid #E0E0E0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.playoff-player-info h1 {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.playoff-player-info p {
+    font-weight: 500;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+.playoff-score {
+    background: #fff;
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+    width: 40px;
+    text-align: center;
+    padding: 16px 0;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .draw {
     display: none;
