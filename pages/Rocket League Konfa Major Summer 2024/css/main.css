@@ -653,13 +653,11 @@ a {
 }
 
 .second-stage {
-    display: none;
     padding: 100px 0;
     background: url('../img/bg/group-bg.jpg') no-repeat center / cover;
 }
 
 .baskets {
-    display: none;
     padding: 100px 0;
     background: #FFF;
 }
