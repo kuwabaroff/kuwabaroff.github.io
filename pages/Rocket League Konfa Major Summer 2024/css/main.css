@@ -549,7 +549,6 @@ a {
 
 
 .playoff {
-    display: none;
     padding: 100px 0;
     background: url('../img/bg/group-bg.jpg') no-repeat center / cover;
 }
@@ -642,7 +641,6 @@ a {
 
 
 .draw {
-    display: none;
     padding: 100px 0;
     background: #FFF;
 }
