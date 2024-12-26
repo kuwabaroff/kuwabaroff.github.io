@@ -1,394 +1,268 @@
-@font-face {
-    font-family: 'Gilroy';
-    src: url('../fonts/Gilroy-Semibold.ttf') format('truetype');
-    font-weight: 600;
-}
-
-@font-face {
-    font-family: 'Gilroy';
-    src: url('../fonts/Gilroy-Bold.ttf') format('truetype');
-    font-weight: 700;
-}
-
-@font-face {
-    font-family: 'Gilroy';
-    src: url('../fonts/Gilroy-Extrabold.ttf') format('truetype');
-    font-weight: 800;
-}
-
 * {
     margin: 0;
     padding: 0;
+    border: none;
+    list-style: none;
+
+    /* Отключение выделений*/
+    -webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    line-height: 1;
+}
+
+h1 {
+    font-family: "Koulen", serif;
+    font-weight: 100;
+    font-size: 225px;
+    line-height: 0.85;
+    background: linear-gradient( #D2AA5B, #D25B98);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #0B2349;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    font-family: "Koulen", serif;
+    font-weight: 100;
+    font-size: 175px;
+    line-height: 0.85;
+    text-align: center;
+}
+
+h3 {
+    font-family: "Koulen", serif;
+    font-weight: 100;
+    font-size: 60px;
+    line-height: 0.85;
+    text-align: center;
+    background: linear-gradient(#D2AA5B, #D25B98);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #0B2349;
+}
+
+h4 {
+    font-family: "Koulen", serif;
+    font-weight: 100;
+    font-size: 50px;
+    line-height: 0.85;
+    text-align: center;
+}
+
+h6 {
+    font-family: "Koulen", serif;
+    font-weight: 100;
+    font-size: 20px;
+    line-height: 1.1;
 }
 
 a {
     text-decoration: none;
 }
 
-body {
-    background: #000;
-    font-family: 'Gilroy';
-    color: #FFF;
+
+
+
+
+
+
+
+
+
+.bg {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.header {
+    background: url('../img/bg.jpg') no-repeat center / cover;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
 }
 
 .container {
-    width: 1500px;
-    margin: 0 auto;
-}
-
-.nav-bar {
-    display: flex;
+    margin: 50px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
     justify-content: space-between;
-    text-transform: uppercase;
-    align-items: center;
-    margin-top: 30px;
 }
 
-.nav-bar-button {
-    color: #FFF;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    font-family: 'Poppins', sans-serif;
+.header-title {
+    display: inline-block;
+
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
 }
 
-.nav-bar-button:hover {
-    transition: 0.3s;
-    color: #c928a6;
+.header-title h4 {
+    letter-spacing: 10px;
+    margin-top: 15px;
 }
 
-.nav-bar-button:not(:hover) {
-    transition: 0.3s;
+.year {
+    color: #ffffff00;
 }
 
-.nav-bar-wrapper {
-    display: flex;
-    gap: 50px;
+.precopy {
+    position: absolute;
+    margin-top: 225px;
+    font-family: "Koulen", serif;
+    color: #ffffff25;
+    font-weight: 100;
+    font-size: 25px;
+    letter-spacing: 2px;
 }
 
-.nav-bar-wrapper a {
-    color: rgba(255, 255, 255, 0.70);
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 1.5px;
-}
 
-.nav-bar-wrapper a:hover {
-    color: white;
-    transition: 0.3s;
-}
-
-.nav-bar-wrapper a:not(:hover) {
-    transition: 0.3s;
-}
 
 
 
 
 .main {
-    margin-top: 130px;
+    padding: 100px 0px;
+}
+
+.wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+
+
+
+
+.upper-border-wrapper {
     display: flex;
     justify-content: space-between;
-}
-
-.main-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-.main-hint {
-    display: flex;
-    border-radius: 200px;
-    background: rgba(255, 255, 255, 0.10);
     align-items: center;
-    gap: 15px;
-    padding: 5px;
-    width: 390px;
 }
 
-.main-hint-title {
-    color: #FFF;
-    padding: 4px 10px;
-    border-radius: 200px;
-    background: #AB258E;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
 
-.main-hint-text {
-    color: rgba(255, 255, 255, 0.80);
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-}
-
-.main-title {
-    color: #FFF;
-    font-size: 200px;
-    font-weight: 600;
-    line-height: 170px;
-    letter-spacing: -2px;
-    margin: 30px 0 40px 0;
-    font-family: 'Poppins', sans-serif;
-}
-
-.main-description {
-    color: rgba(255, 255, 255, 0.50);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 29px;
-    letter-spacing: 0.5px;
+.short-line {
     width: 600px;
-    margin-bottom: 50px;
-}
-
-.main-buttons {
-    display: flex;
-    gap: 30px;
-}
-
-.main-buttons a {
-    color: #FFF;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.10);
-    padding: 24px 43px;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 22px;
-    letter-spacing: 1px;
-}
-
-.main-buttons a:hover {
-    transition: 0.3s;
-    transform: scale(1.05);
-}
-
-.main-buttons a:not(:hover) {
-    transition: 0.3s;
-}
-
-.main-buttons .main-button {
-    background: #AB258E;
+    height: 1px;
+    background: #fff;
 }
 
 
-.events {
-    margin-top: 175px;
+.long-line {
+    width: 1600px;
+    height: 1px;
+    background: #fff;
 }
 
-.section-title {
-    color: #FFF;
-    font-size: 50px;
-    font-weight: 600;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-}
 
-.section-subtitle {
-    color: #FFF;
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
 
-.credits-title {
-    text-transform: uppercase;
-    color: #FFF;
-    font-family: Poppins;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 22px; /* 122.222% */
-    letter-spacing: 5px;
-    text-align: center;
-}
 
-#season-winner-wrapper {
-    margin-top: 35px;
-}
 
-.season-winner {
+
+
+
+
+
+
+
+
+
+
+
+
+.form-section {
+    padding: 100px 0;
+    max-width: 1800px;
     display: flex;
     flex-direction: column;
+    gap: 25px;
 }
 
-.season-winner-title {
-    text-align: center;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: #D9B149;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.events {
-    margin-top: 200px;
-    margin-bottom: 100px;
-}
-
-.events-calendar {
+.form-wrapper {
     display: flex;
-    gap: 15px;
-    flex-direction: column;
-    margin-top: 35px;
-}
-
-.event-wrapper {
-    display: flex;
-    gap: 15px;
     justify-content: center;
+    gap: 25px;
 }
 
-.event-type {
-    color: #8F8F8F;
-    font-size: 8px;
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: 1px;
+.nomination {
+    background: #0E0A09;
+    border: 2px solid #ffffff50;
+    width: 300px;
+    padding: 25px;
+}
+
+.nomination .title {
+    font-family: "Oswald", serif;
+    font-size: 30px;
     text-transform: uppercase;
-    margin-top: 2px;
-}
-
-.event {
-    display: flex;
-    gap: 15px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.10);
-    width: 335px;
-    padding: 15px 15px;
-}
-
-.event-info {
-    display: flex;
-    justify-content: space-between;
-    width: 290px;
-    align-items: center;
-    gap: 15px;
-}
-
-.event-title {
-    color: #b3b3b3;
-    font-size: 17px;
     font-weight: 600;
     letter-spacing: 1px;
 }
 
-.event-date {
-    color: #8F8F8F;
-    font-size: 12px;
-    font-weight: 600;
+.nomination .description {
+    margin-top: 20px;
+    font-family: "Oswald", serif;
+    font-size: 15px;
+    text-transform: uppercase;
     letter-spacing: 1px;
+    margin-bottom: 35px;
 }
 
-.event:hover {
-    transition: 0.3s;
-    transform: scale(1.05);
-    box-shadow: 0px 0px 25px 0px rgba(171, 37, 142, 0.50);
-    border: solid #ff00c8 1px;
+.nomination-button {
+    background: #ffffff25;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-family: "Oswald", serif;
+    font-weight: 600;
+    height: 45px;
+    width: 300px;
 }
 
-.event:not(:hover) {
-    transition: 0.3s;
-}
-
-#tournament-event {
-    border-radius: 10px;
-    background: linear-gradient(180deg, #003E25 0%, #001F12 100%);
-}
-
-#tournament-event .event-type {
-    color: #25AB75;
-}
-
-#tournament-event:hover {
-    border: 1px solid #25AB75;
-    box-shadow: 0px 0px 25px 0px rgba(37, 171, 117, 0.50);
-}
-
-#irl-event {
-    border-radius: 10px;
-    background: linear-gradient(180deg, #3E3700 0%, #191F00 100%);  
-}
-
-#irl-event .event-type {
-    color: #FFE500;
-    font-weight: 400;
-}
-
-#irl-event:hover {
-    box-shadow: 0px 0px 25px 0px rgba(255, 229, 0, 0.50);
-    border: 1px solid #FFE500;
-}
-
-#rocket-league-major {
-    border-radius: 10px;
-    background: linear-gradient(180deg, #00363E 0%, #00191F 100%);
-}
-
-#rocket-league-major:hover {
-    border: 1px solid #00C2FF;
-    box-shadow: 0px 0px 25px 0px rgba(0, 194, 255, 0.50);
-}
-
-#rocket-league-major .event-type {
-    color: #00C2FF;
-}
-
-#horror {
-    border-radius: 10px;
-    background: linear-gradient(180deg, #3E0000 0%, #1F0000 100%);
-}
-
-#horror .event-type {
-    color: #F00;
-}
-
-#horror:hover {
-    border: 1px solid #F00;
-    box-shadow: 0px 0px 25px 0px rgba(255, 0, 0, 0.50);
-}
-
-#twitch {
-    background: linear-gradient(180deg, #3E0034 0%, #1E001F 100%);
-}
-
-#twitch .event-type {
-    color: #ff00c8;
-}
-
-#winner {
-    border-radius: 10px;
-    background: linear-gradient(180deg, #a17f28 0%, #503f15 100%);
-    border: 1px solid #D9B149;
-    box-shadow: 0px 0px 25px 0px #7a6121;
-}
-
-#winner .event-title {
-    color: rgb(255, 255, 255);
-}
-
-#winner .event-type {
-    color: #fad67c;
+.nomination:hover .nomination-button {
+    transition: 1s;
+    background: linear-gradient(to right, #D2AA5B, #D25B98);
 }
 
 
@@ -404,39 +278,23 @@ body {
 
 
 
-.events-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 75px;
+
+
+
+
+
+
+.footer {
+    padding-bottom: 100px;
 }
 
 .credits {
     display: flex;
-    flex-direction: column;
+    gap: 50px;
+    align-items: center;
     justify-content: center;
 }
 
-.developer {
-    text-transform: uppercase;
-    color: #FFF;
-    font-family: Poppins;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 22px; /* 122.222% */
-    letter-spacing: 5px;
-    text-align: center;
-}
-
-.developer:hover {
-    transition: 0.3s;
-    color: #f100bd;
-}
-
-.developer:not(:hover) {
-    transition: 0.3s;
-}
-
-.footer {
-    margin-bottom: 50px;
+.qr {
+    width: 90px;
 }
