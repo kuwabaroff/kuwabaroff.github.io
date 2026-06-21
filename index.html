@@ -6,7 +6,7 @@
     <title>QuestNet — геймифицированная OS для жизни</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -14,36 +14,71 @@
         <!-- Сайдбар -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
-                <span class="brand-icon">⛰️</span>
+                <span class="brand-icon">🏔️</span>
                 <span class="brand-name">QuestNet</span>
             </div>
             
             <nav class="sidebar-nav">
+                <!-- Главная цель -->
                 <div class="nav-group">
-                    <a href="#" class="nav-item active" data-section="quests">
-                        <span class="nav-icon">🗺️</span>
-                        <span class="nav-label">Квесты</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="path">
-                        <span class="nav-icon">🏔️</span>
+                    <div class="nav-group-label">Главная цель</div>
+                    <a href="#" class="nav-item active" data-section="path">
+                        <span class="nav-icon">🎯</span>
                         <span class="nav-label">Путь</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="calendar">
-                        <span class="nav-icon">📅</span>
-                        <span class="nav-label">Календарь</span>
                     </a>
                 </div>
                 
                 <div class="nav-divider"></div>
                 
+                <!-- 7 сфер жизни -->
                 <div class="nav-group">
-                    <a href="#" class="nav-item" data-section="finance">
+                    <div class="nav-group-label">Сферы жизни</div>
+                    <a href="#" class="nav-item" data-section="sphere-body">
+                        <span class="nav-icon">💪</span>
+                        <span class="nav-label">Тело</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="sphere-mind">
+                        <span class="nav-icon">🧠</span>
+                        <span class="nav-label">Разум</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="sphere-finance">
                         <span class="nav-icon">💰</span>
+                        <span class="nav-label">Финансы</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="sphere-work">
+                        <span class="nav-icon">💼</span>
+                        <span class="nav-label">Работа</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="sphere-relations">
+                        <span class="nav-icon">💕</span>
+                        <span class="nav-label">Отношения</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="sphere-environment">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-label">Среда</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="sphere-spirit">
+                        <span class="nav-icon">✨</span>
+                        <span class="nav-label">Дух</span>
+                    </a>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <!-- Инструменты -->
+                <div class="nav-group">
+                    <div class="nav-group-label">Инструменты</div>
+                    <a href="#" class="nav-item" data-section="pomodoro">
+                        <span class="nav-icon">⏱️</span>
+                        <span class="nav-label">Помодоро</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="finance">
+                        <span class="nav-icon">📊</span>
                         <span class="nav-label">Финансы</span>
                     </a>
                     <a href="#" class="nav-item" data-section="body">
                         <span class="nav-icon">💪</span>
-                        <span class="nav-label">Тело</span>
+                        <span class="nav-label">Трекер тела</span>
                     </a>
                     <a href="#" class="nav-item" data-section="habits">
                         <span class="nav-icon">🚫</span>
@@ -53,7 +88,9 @@
                 
                 <div class="nav-divider"></div>
                 
+                <!-- Магазин и кошелёк -->
                 <div class="nav-group">
+                    <div class="nav-group-label">Магазин и кошелёк</div>
                     <a href="#" class="nav-item" data-section="shop">
                         <span class="nav-icon">🏪</span>
                         <span class="nav-label">Магазин</span>
@@ -71,7 +108,7 @@
             <!-- Верхняя панель -->
             <header class="topbar">
                 <div class="topbar-left">
-                    <h1 class="section-title" id="sectionTitle">Квесты</h1>
+                    <h1 class="section-title" id="sectionTitle">Путь</h1>
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-tag" id="coinDisplay">
@@ -83,31 +120,15 @@
                         <span class="tag-value" id="tokenBalance">0</span>
                     </div>
                     <button class="topbar-btn" id="pomodoroBtn" title="Запустить помодоро">
-                        <span>⏱️</span>
+                        <span>⏱️ 25:00</span>
                     </button>
-                    <div class="radar-widget" id="radarWidget">
-                        <svg viewBox="0 0 100 100" id="radarSvg">
-                            <!-- Будет отрисовано через JS -->
-                        </svg>
-                    </div>
                 </div>
             </header>
 
             <!-- Контент разделов -->
             <div class="content-area">
-                <!-- Квесты (canvas) -->
-                <section class="section active" id="section-quests">
-                    <div class="canvas-container" id="canvasContainer">
-                        <div class="canvas-toolbar">
-                            <button class="toolbar-btn" id="linkModeBtn">🔗 Связать</button>
-                            <button class="toolbar-btn" id="addQuestBtn">➕ Создать</button>
-                        </div>
-                        <div id="questCanvas"></div>
-                    </div>
-                </section>
-
-                <!-- Путь -->
-                <section class="section" id="section-path">
+                <!-- Путь (главная цель) -->
+                <section class="section active" id="section-path">
                     <div class="section-header">
                         <h2>Твой путь</h2>
                         <p class="section-subtitle">Главная цель и прогресс</p>
@@ -122,9 +143,7 @@
                             <button class="btn-primary" id="setGoalBtn">Установить цель</button>
                         </div>
                         <div class="mountain-container">
-                            <svg viewBox="0 0 600 400" id="mountainSvg">
-                                <!-- Гора будет отрисована через JS -->
-                            </svg>
+                            <svg viewBox="0 0 600 400" id="mountainSvg"></svg>
                             <div class="progress-text">
                                 <span id="progressPercent">0%</span>
                                 <span id="progressDetails">0 / 0 квестов</span>
@@ -133,22 +152,149 @@
                     </div>
                 </section>
 
-                <!-- Календарь -->
-                <section class="section" id="section-calendar">
+                <!-- Квесты (главный канвас) -->
+                <section class="section" id="section-quests">
                     <div class="section-header">
-                        <h2>90 дней</h2>
-                        <p class="section-subtitle">Твоя активность и стрики</p>
+                        <h2>Квесты</h2>
+                        <p class="section-subtitle">Все квесты на одной карте</p>
                     </div>
-                    <div class="calendar-container">
-                        <div class="streak-display">
-                            <span class="streak-number" id="streakCount">0</span>
-                            <span class="streak-label">дней подряд</span>
+                    <div class="canvas-container" id="canvasContainer">
+                        <div class="canvas-toolbar">
+                            <button class="toolbar-btn" id="linkModeBtn">🔗 Связать</button>
+                            <button class="toolbar-btn" id="addQuestBtn">➕ Создать</button>
                         </div>
-                        <div class="calendar-grid" id="calendarGrid">
-                            <!-- 90 клеток будут отрисованы через JS -->
+                        <div id="questCanvas"></div>
+                        <div class="empty-canvas-hint" id="emptyCanvasHint">
+                            <div class="empty-canvas-icon">🗺️</div>
+                            <div class="empty-canvas-title">Нет квестов</div>
+                            <div class="empty-canvas-sub">Создайте первый квест, нажав «Создать»</div>
                         </div>
-                        <div class="daily-quote" id="dailyQuote">
-                            "Мотивационная фраза дня"
+                    </div>
+                </section>
+
+                <!-- Сфера: Тело -->
+                <section class="section" id="section-sphere-body">
+                    <div class="section-header">
+                        <h2>Тело</h2>
+                        <p class="section-subtitle">Спорт, сон, питание</p>
+                    </div>
+                    <div class="sphere-canvas-container">
+                        <div class="sphere-canvas-toolbar">
+                            <span class="sphere-stats">Выполнено: <strong id="bodyCompleted">0</strong> • Всего: <strong id="bodyTotal">0</strong></span>
+                            <button class="btn-primary sphere-add-btn" data-sphere="Тело">➕ Создать квест</button>
+                        </div>
+                        <div class="sphere-canvas" id="sphereCanvasBody"></div>
+                    </div>
+                </section>
+
+                <!-- Сфера: Разум -->
+                <section class="section" id="section-sphere-mind">
+                    <div class="section-header">
+                        <h2>Разум</h2>
+                        <p class="section-subtitle">Обучение, чтение, навыки</p>
+                    </div>
+                    <div class="sphere-canvas-container">
+                        <div class="sphere-canvas-toolbar">
+                            <span class="sphere-stats">Выполнено: <strong id="mindCompleted">0</strong> • Всего: <strong id="mindTotal">0</strong></span>
+                            <button class="btn-primary sphere-add-btn" data-sphere="Разум">➕ Создать квест</button>
+                        </div>
+                        <div class="sphere-canvas" id="sphereCanvasMind"></div>
+                    </div>
+                </section>
+
+                <!-- Сфера: Финансы -->
+                <section class="section" id="section-sphere-finance">
+                    <div class="section-header">
+                        <h2>Финансы</h2>
+                        <p class="section-subtitle">Бюджет, доходы, инвестиции</p>
+                    </div>
+                    <div class="sphere-canvas-container">
+                        <div class="sphere-canvas-toolbar">
+                            <span class="sphere-stats">Выполнено: <strong id="financeCompleted">0</strong> • Всего: <strong id="financeTotal">0</strong></span>
+                            <button class="btn-primary sphere-add-btn" data-sphere="Финансы">➕ Создать квест</button>
+                        </div>
+                        <div class="sphere-canvas" id="sphereCanvasFinance"></div>
+                    </div>
+                </section>
+
+                <!-- Сфера: Работа -->
+                <section class="section" id="section-sphere-work">
+                    <div class="section-header">
+                        <h2>Работа</h2>
+                        <p class="section-subtitle">Задачи, проекты, дедлайны</p>
+                    </div>
+                    <div class="sphere-canvas-container">
+                        <div class="sphere-canvas-toolbar">
+                            <span class="sphere-stats">Выполнено: <strong id="workCompleted">0</strong> • Всего: <strong id="workTotal">0</strong></span>
+                            <button class="btn-primary sphere-add-btn" data-sphere="Работа">➕ Создать квест</button>
+                        </div>
+                        <div class="sphere-canvas" id="sphereCanvasWork"></div>
+                    </div>
+                </section>
+
+                <!-- Сфера: Отношения -->
+                <section class="section" id="section-sphere-relations">
+                    <div class="section-header">
+                        <h2>Отношения</h2>
+                        <p class="section-subtitle">Семья, друзья, нетворкинг</p>
+                    </div>
+                    <div class="sphere-canvas-container">
+                        <div class="sphere-canvas-toolbar">
+                            <span class="sphere-stats">Выполнено: <strong id="relationsCompleted">0</strong> • Всего: <strong id="relationsTotal">0</strong></span>
+                            <button class="btn-primary sphere-add-btn" data-sphere="Отношения">➕ Создать квест</button>
+                        </div>
+                        <div class="sphere-canvas" id="sphereCanvasRelations"></div>
+                    </div>
+                </section>
+
+                <!-- Сфера: Среда -->
+                <section class="section" id="section-sphere-environment">
+                    <div class="section-header">
+                        <h2>Среда</h2>
+                        <p class="section-subtitle">Порядок, инструменты, окружение</p>
+                    </div>
+                    <div class="sphere-canvas-container">
+                        <div class="sphere-canvas-toolbar">
+                            <span class="sphere-stats">Выполнено: <strong id="environmentCompleted">0</strong> • Всего: <strong id="environmentTotal">0</strong></span>
+                            <button class="btn-primary sphere-add-btn" data-sphere="Среда">➕ Создать квест</button>
+                        </div>
+                        <div class="sphere-canvas" id="sphereCanvasEnvironment"></div>
+                    </div>
+                </section>
+
+                <!-- Сфера: Дух -->
+                <section class="section" id="section-sphere-spirit">
+                    <div class="section-header">
+                        <h2>Дух</h2>
+                        <p class="section-subtitle">Цели, ценности, рефлексия</p>
+                    </div>
+                    <div class="sphere-canvas-container">
+                        <div class="sphere-canvas-toolbar">
+                            <span class="sphere-stats">Выполнено: <strong id="spiritCompleted">0</strong> • Всего: <strong id="spiritTotal">0</strong></span>
+                            <button class="btn-primary sphere-add-btn" data-sphere="Дух">➕ Создать квест</button>
+                        </div>
+                        <div class="sphere-canvas" id="sphereCanvasSpirit"></div>
+                    </div>
+                </section>
+
+                <!-- Помодоро -->
+                <section class="section" id="section-pomodoro">
+                    <div class="section-header">
+                        <h2>Помодоро</h2>
+                        <p class="section-subtitle">25 минут работы / 5 минут отдыха</p>
+                    </div>
+                    <div class="pomodoro-container">
+                        <div class="pomodoro-display">
+                            <span class="pomodoro-time" id="pomodoroTime">25:00</span>
+                            <span class="pomodoro-phase" id="pomodoroPhase">Работа</span>
+                        </div>
+                        <div class="pomodoro-controls">
+                            <button class="btn-primary" id="pomodoroStartBtn">▶ Старт</button>
+                            <button class="btn-secondary" id="pomodoroStopBtn">⏹ Стоп</button>
+                            <button class="btn-secondary" id="pomodoroResetBtn">⟳ Сброс</button>
+                        </div>
+                        <div class="pomodoro-stats">
+                            <span>Сессий: <strong id="pomodoroSessions">0</strong></span>
                         </div>
                     </div>
                 </section>
@@ -200,15 +346,15 @@
                     </div>
                 </section>
 
-                <!-- Тело -->
+                <!-- Трекер тела -->
                 <section class="section" id="section-body">
                     <div class="section-header">
-                        <h2>Тело</h2>
+                        <h2>Трекер тела</h2>
                         <p class="section-subtitle">Вес, ИМТ и тренировки</p>
                     </div>
                     <div class="body-container">
                         <div class="body-grid">
-                            <div class="body-card">
+                            <div class="body-card card">
                                 <h3>Вес и ИМТ</h3>
                                 <div class="weight-input">
                                     <input type="number" id="weightInput" placeholder="Вес (кг)" step="0.1">
@@ -223,7 +369,7 @@
                                     <svg viewBox="0 0 400 150" id="weightChartSvg"></svg>
                                 </div>
                             </div>
-                            <div class="body-card">
+                            <div class="body-card card">
                                 <h3>Тренировки</h3>
                                 <div class="workout-controls">
                                     <button class="btn-primary" id="logWorkoutBtn">✅ Отметить тренировку</button>
@@ -231,9 +377,7 @@
                                         <label>План: <input type="number" id="workoutGoal" value="3" min="1" max="7"> раз/нед</label>
                                     </div>
                                 </div>
-                                <div class="workout-calendar" id="workoutCalendar">
-                                    <!-- Календарь тренировок через JS -->
-                                </div>
+                                <div class="workout-calendar" id="workoutCalendar"></div>
                             </div>
                         </div>
                     </div>
@@ -260,9 +404,7 @@
                         <h2>Магазин</h2>
                         <p class="section-subtitle">Артефакты для майнинга токенов</p>
                     </div>
-                    <div class="shop-container" id="shopContainer">
-                        <!-- Артефакты будут отрисованы через JS -->
-                    </div>
+                    <div class="shop-container" id="shopContainer"></div>
                 </section>
 
                 <!-- Кошелёк -->
@@ -279,7 +421,7 @@
                         <div class="wallet-chart">
                             <svg viewBox="0 0 500 200" id="tokenChartSvg"></svg>
                         </div>
-                        <div class="wallet-artifacts" id="walletArtifacts">
+                        <div class="wallet-artifacts">
                             <h3>Активные артефакты</h3>
                             <div id="activeArtifactsList"></div>
                         </div>
@@ -306,6 +448,7 @@
     <script src="data/quotes.js"></script>
     <script src="js/coins.js"></script>
     <script src="js/canvas.js"></script>
+    <script src="js/sphere-canvases.js"></script>
     <script src="js/shop.js"></script>
     <script src="js/pomodoro.js"></script>
     <script src="js/finance.js"></script>

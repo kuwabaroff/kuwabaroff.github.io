@@ -23,9 +23,26 @@
         dailySphereCount: {}
     };
 
-    // DOM
-    const container = document.getElementById('questCanvas');
-    if (!container) return;
+    // Находим или создаем контейнер
+    let container = document.getElementById('questCanvas');
+    if (!container) {
+        console.warn('Quest canvas container not found, creating one...');
+        const canvasContainer = document.querySelector('.canvas-container');
+        if (canvasContainer) {
+            container = document.createElement('div');
+            container.id = 'questCanvas';
+            container.style.cssText = `
+                width: 100%;
+                height: 100%;
+                position: relative;
+            `;
+            canvasContainer.appendChild(container);
+            console.log('✅ Created questCanvas container');
+        } else {
+            console.error('Could not find .canvas-container');
+            return;
+        }
+    }
 
     // Создаем элементы canvas
     const worldContainer = document.createElement('div');
@@ -77,13 +94,14 @@
         pointer-events: none;
         z-index: 0;
         background-image: 
-            linear-gradient(rgba(40, 40, 40, 0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(40, 40, 40, 0.15) 1px, transparent 1px);
+            linear-gradient(rgba(200, 195, 185, 0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(200, 195, 185, 0.15) 1px, transparent 1px);
         background-size: 50px 50px;
     `;
     container.appendChild(gridOverlay);
 
-    // Константы
+    const emptyHint = document.getElementById('emptyCanvasHint');
+
     const MIN_SCALE = 0.1;
     const MAX_SCALE = 3.0;
     const ZOOM_STEP = 0.1;
@@ -107,62 +125,43 @@
         'Дух': '✨'
     };
 
-    // Инициализация
+    let initialized = false;
+
     function initCanvas() {
+        if (initialized) return;
+        
         loadFromStorage();
         setupCanvasEvents();
         setupToolbarEvents();
         render();
         updateTransform();
+        updateEmptyHint();
         
-        // Загружаем демо-квесты если пусто
-        if (state.quests.length === 0) {
-            createDemoQuests();
+        console.log('🗺️ Canvas initialized with', state.quests.length, 'quests');
+        initialized = true;
+        
+        // Регистрируем CanvasAPI
+        window.CanvasAPI = {
+            getQuests: () => state.quests,
+            getLinks: () => state.links,
+            addQuest: addQuest,
+            deleteQuest: deleteQuest,
+            toggleComplete: toggleComplete,
+            getSphereColors: () => SPHERE_COLORS,
+            getSphereIcons: () => SPHERE_ICONS,
+            render: render,
+            getState: () => state,
+            saveState: saveToStorage
+        };
+        console.log('✅ CanvasAPI registered');
+        
+        // Уведомляем всех, что CanvasAPI готов
+        if (typeof window._onCanvasReady === 'function') {
+            window._onCanvasReady();
         }
-        
-        console.log('🗺️ Canvas initialized');
     }
 
-    // Создание демо-квестов
-    function createDemoQuests() {
-        const demoQuests = [
-            { title: 'Утренняя зарядка', emoji: '🏋️', sphere: 'Тело', reward: 20, difficulty: 'easy' },
-            { title: 'Прочитать 30 минут', emoji: '📚', sphere: 'Разум', reward: 25, difficulty: 'medium' },
-            { title: 'Запланировать бюджет', emoji: '📊', sphere: 'Финансы', reward: 30, difficulty: 'medium' },
-            { title: 'Закончить проект', emoji: '🚀', sphere: 'Работа', reward: 40, difficulty: 'hard' },
-            { title: 'Созвониться с другом', emoji: '📞', sphere: 'Отношения', reward: 15, difficulty: 'easy' },
-            { title: 'Разобрать рабочий стол', emoji: '🧹', sphere: 'Среда', reward: 10, difficulty: 'easy' },
-            { title: 'Медитация 10 минут', emoji: '🧘', sphere: 'Дух', reward: 20, difficulty: 'easy' }
-        ];
-
-        const rect = container.getBoundingClientRect();
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-
-        demoQuests.forEach((q, i) => {
-            const angle = (i / demoQuests.length) * 2 * Math.PI - Math.PI/2;
-            const radius = 200;
-            const x = cx + radius * Math.cos(angle) + (Math.random() - 0.5) * 100;
-            const y = cy + radius * Math.sin(angle) + (Math.random() - 0.5) * 100;
-            
-            addQuest(q.title, q.emoji, q.sphere, q.reward, q.difficulty, x, y);
-        });
-
-        // Добавляем связи между некоторыми квестами
-        if (state.quests.length >= 2) {
-            state.links.push({ from: state.quests[0].id, to: state.quests[1].id });
-            if (state.quests.length >= 4) {
-                state.links.push({ from: state.quests[2].id, to: state.quests[3].id });
-            }
-        }
-        
-        saveToStorage();
-        render();
-    }
-
-    // События canvas
     function setupCanvasEvents() {
-        // Панорамирование
         container.addEventListener('mousedown', startDrag);
         document.addEventListener('mousemove', moveDrag);
         document.addEventListener('mouseup', endDrag);
@@ -171,14 +170,12 @@
         document.addEventListener('touchmove', moveDrag, { passive: false });
         document.addEventListener('touchend', endDrag);
 
-        // Зум колесом
         container.addEventListener('wheel', (e) => {
             e.preventDefault();
             const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
             setScale(state.scale + delta, e.clientX, e.clientY);
         }, { passive: false });
 
-        // Двойной клик для выполнения
         questWorld.addEventListener('dblclick', (e) => {
             const node = e.target.closest('.quest-node');
             if (!node) return;
@@ -186,7 +183,6 @@
             if (id) toggleComplete(id);
         });
 
-        // Правый клик для удаления
         questWorld.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             const node = e.target.closest('.quest-node');
@@ -200,7 +196,6 @@
         });
     }
 
-    // События тулбара
     function setupToolbarEvents() {
         const linkBtn = document.getElementById('linkModeBtn');
         const addBtn = document.getElementById('addQuestBtn');
@@ -211,15 +206,12 @@
         
         if (addBtn) {
             addBtn.addEventListener('click', () => {
-                // Показываем форму создания квеста
                 showQuestForm();
             });
         }
     }
 
-    // Форма создания квеста
     function showQuestForm() {
-        // Создаем модальное окно
         const overlay = document.createElement('div');
         overlay.style.cssText = `
             position: fixed;
@@ -227,7 +219,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(8px);
             z-index: 9999;
             display: flex;
@@ -237,18 +229,21 @@
         
         const modal = document.createElement('div');
         modal.style.cssText = `
-            background: #111114;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid #e8e5de;
+            border-radius: 12px;
             padding: 32px;
             max-width: 480px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
         `;
         
         modal.innerHTML = `
-            <h3 style="margin-bottom: 20px; font-weight: 500; color: #e8e8e8;">Создать квест</h3>
+            <h3 style="margin-bottom: 20px; font-weight: 500; color: #1a1a1a; font-family: 'Playfair Display', serif; font-size: 1.3rem;">
+                Создать квест
+            </h3>
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <input type="text" id="questFormTitle" placeholder="Название" style="width: 100%;">
                 <input type="text" id="questFormEmoji" placeholder="Эмодзи (например, 🏋️)" style="width: 100%;">
@@ -286,7 +281,6 @@
             const difficulty = document.getElementById('questFormDifficulty').value;
             const desc = document.getElementById('questFormDesc').value.trim() || '';
             
-            // Позиция в центре видимой области
             const rect = container.getBoundingClientRect();
             const cx = (rect.width / 2 - state.offsetX) / state.scale;
             const cy = (rect.height / 2 - state.offsetY) / state.scale;
@@ -301,13 +295,11 @@
             overlay.remove();
         });
         
-        // Закрытие по клику вне модалки
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) overlay.remove();
         });
     }
 
-    // Основные функции работы с квестами
     function addQuest(title, emoji, sphere, reward, difficulty, x, y, description) {
         const quest = {
             id: state.nextId++,
@@ -327,6 +319,14 @@
         state.quests.push(quest);
         saveToStorage();
         render();
+        updateEmptyHint();
+        
+        console.log('✅ Quest added:', quest.title, 'to sphere:', quest.sphere);
+        
+        if (typeof SphereCanvases !== 'undefined') {
+            setTimeout(() => SphereCanvases.renderAll(), 50);
+        }
+        
         return quest.id;
     }
 
@@ -336,7 +336,6 @@
         
         const quest = state.quests[index];
         if (quest.completed) {
-            // Возвращаем монеты при удалении выполненного квеста
             if (typeof QuestNet !== 'undefined') {
                 QuestNet.addCoins(-quest.reward);
             }
@@ -346,6 +345,11 @@
         state.links = state.links.filter(l => l.from !== id && l.to !== id);
         saveToStorage();
         render();
+        updateEmptyHint();
+        
+        if (typeof SphereCanvases !== 'undefined') {
+            setTimeout(() => SphereCanvases.renderAll(), 50);
+        }
     }
 
     function toggleComplete(id) {
@@ -353,7 +357,6 @@
         if (!quest) return;
         
         if (quest.completed) {
-            // Отмена выполнения
             if (typeof QuestNet !== 'undefined') {
                 QuestNet.addCoins(-quest.reward);
             }
@@ -361,10 +364,12 @@
             quest.completedAt = null;
             saveToStorage();
             render();
+            if (typeof SphereCanvases !== 'undefined') {
+                setTimeout(() => SphereCanvases.renderAll(), 50);
+            }
             return;
         }
         
-        // Проверка антиабьюз: нельзя выполнить раньше чем через 2 часа после создания
         const hoursSinceCreation = (Date.now() - quest.createdAt) / (1000 * 60 * 60);
         if (hoursSinceCreation < 2) {
             if (typeof QuestNet !== 'undefined') {
@@ -378,7 +383,6 @@
             return;
         }
         
-        // Проверка лимита: 10 новых задач в сутки
         const today = new Date().toDateString();
         if (state.lastCompletedDate !== today) {
             state.dailyCompleted = 0;
@@ -398,8 +402,6 @@
             return;
         }
         
-        // Проверка лимита монет: максимум 150 в сутки
-        // Получаем сегодняшние монеты
         const todayCoins = getTodayCoins();
         if (todayCoins + quest.reward > 150) {
             if (typeof QuestNet !== 'undefined') {
@@ -413,21 +415,17 @@
             return;
         }
         
-        // Выполняем квест
         quest.completed = true;
         quest.completedAt = Date.now();
         state.dailyCompleted++;
         
-        // Учет сфер для бонуса
         if (!state.dailySphereCount[quest.sphere]) {
             state.dailySphereCount[quest.sphere] = 0;
         }
         state.dailySphereCount[quest.sphere]++;
         
-        // Расчет награды с бонусами
         let reward = quest.reward;
         
-        // Бонус за 3+ сфер в день
         const sphereCount = Object.keys(state.dailySphereCount).length;
         if (sphereCount >= 3) {
             const bonus = Math.floor(reward * 0.2);
@@ -442,7 +440,6 @@
             }
         }
         
-        // Бонус за стрик (x2 если 7+ дней)
         const streak = getStreak();
         if (streak >= 7) {
             reward *= 2;
@@ -456,24 +453,22 @@
             }
         }
         
-        // Начисляем монеты
         if (typeof QuestNet !== 'undefined') {
             QuestNet.addCoins(reward);
-            
-            // Показываем цитату
             showQuote(quest.sphere);
         }
         
-        // Обновляем стрик
         updateStreak();
         
         saveToStorage();
         render();
+        
+        if (typeof SphereCanvases !== 'undefined') {
+            setTimeout(() => SphereCanvases.renderAll(), 50);
+        }
     }
 
-    // Получение монет за сегодня
     function getTodayCoins() {
-        // В реальном приложении считаем из выполненных сегодня квестов
         const today = new Date().toDateString();
         let total = 0;
         state.quests.forEach(q => {
@@ -487,7 +482,6 @@
         return total;
     }
 
-    // Стрик
     function getStreak() {
         if (typeof QuestNet !== 'undefined') {
             return QuestNet.state.streak || 0;
@@ -501,7 +495,6 @@
             const last = QuestNet.state.lastActivityDate;
             
             if (last === today) {
-                // Уже обновлено сегодня
                 return;
             }
             
@@ -510,10 +503,8 @@
             const yesterdayStr = yesterday.toDateString();
             
             if (last === yesterdayStr) {
-                // Продолжаем стрик
                 QuestNet.state.streak++;
             } else if (last !== today) {
-                // Сброс стрика (если пропущен день)
                 QuestNet.state.streak = 0;
             }
             
@@ -523,7 +514,6 @@
         }
     }
 
-    // Показать цитату
     function showQuote(sphere) {
         if (typeof quotes === 'undefined') return;
         
@@ -543,7 +533,6 @@
         }
     }
 
-    // Связи
     function toggleLinkMode() {
         state.linkMode = !state.linkMode;
         if (!state.linkMode) state.linkSourceId = null;
@@ -590,7 +579,8 @@
         
         if (linkBtn) {
             linkBtn.textContent = state.linkMode ? '🔗 Отменить' : '🔗 Связать';
-            linkBtn.style.border = state.linkMode ? '1px solid #6c8aff' : '';
+            linkBtn.style.border = state.linkMode ? '1px solid #1a1a1a' : '';
+            linkBtn.style.background = state.linkMode ? '#f7f6f3' : '';
         }
         
         if (linkHint) {
@@ -607,13 +597,16 @@
         }
     }
 
-    // Рендер
+    function updateEmptyHint() {
+        if (emptyHint) {
+            emptyHint.style.display = state.quests.length === 0 ? 'block' : 'none';
+        }
+    }
+
     function render() {
-        // Очищаем мир
         const existingNodes = questWorld.querySelectorAll('.quest-node');
         existingNodes.forEach(el => el.remove());
         
-        // Добавляем квесты
         state.quests.forEach(q => {
             const node = document.createElement('div');
             node.className = `quest-node${q.completed ? ' completed' : ''}`;
@@ -645,11 +638,12 @@
                 width: ${NODE_SIZE}px;
                 height: ${NODE_SIZE}px;
                 border-radius: 50%;
-                background: #161618;
+                background: #ffffff;
                 border: 1.5px solid ${borderColor};
                 transition: all 0.15s ease;
                 pointer-events: all;
-                ${q.completed ? `box-shadow: 0 0 16px ${color}33;` : ''}
+                box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+                ${q.completed ? `box-shadow: 0 0 20px ${color}22, 0 1px 3px rgba(0,0,0,0.04);` : ''}
             `;
             
             const emoji = document.createElement('span');
@@ -660,27 +654,26 @@
                 pointer-events: none;
             `;
             
-            // Подсказка
             const tooltip = document.createElement('div');
             tooltip.style.cssText = `
                 position: absolute;
                 bottom: calc(100% + 12px);
                 left: 50%;
                 transform: translateX(-50%) scale(0.95);
-                background: #1a1a1e;
-                backdrop-filter: blur(12px);
-                color: #e8e8e8;
+                background: #ffffff;
+                color: #1a1a1a;
                 padding: 12px 16px;
-                border-radius: 10px;
+                border-radius: 8px;
                 min-width: 200px;
                 max-width: 280px;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.8);
-                border: 1px solid rgba(255,255,255,0.06);
+                box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+                border: 1px solid #e8e5de;
                 opacity: 0;
                 pointer-events: none;
                 transition: all 0.15s ease;
                 z-index: 30;
                 font-size: 0.85rem;
+                font-family: 'Inter', sans-serif;
             `;
             
             const difficultyMap = {
@@ -690,18 +683,17 @@
             };
             
             tooltip.innerHTML = `
-                <div style="font-weight: 500; color: #e8e8e8; margin-bottom: 4px;">${q.title}</div>
-                <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 6px;">${q.description || 'Нет описания'}</div>
+                <div style="font-weight: 500; color: #1a1a1a; margin-bottom: 4px; font-family: 'Playfair Display', serif;">${q.title}</div>
+                <div style="color: #6b6b6b; font-size: 0.8rem; margin-bottom: 6px;">${q.description || 'Нет описания'}</div>
                 <div style="color: ${color}; font-size: 0.8rem;">${q.sphere} • ${difficultyMap[q.difficulty] || 'Средняя'}</div>
                 <div style="color: #facc15; font-size: 0.8rem; margin-top: 4px;">💰 ${q.reward} монет</div>
-                <div style="color: #666; font-size: 0.7rem; margin-top: 4px;">${q.completed ? '✅ Выполнен' : '⬜ Не выполнен'}</div>
+                <div style="color: #9b9b9b; font-size: 0.7rem; margin-top: 4px;">${q.completed ? '✅ Выполнен' : '⬜ Не выполнен'}</div>
             `;
             
             wrap.appendChild(emoji);
             wrap.appendChild(tooltip);
             node.appendChild(wrap);
             
-            // События
             wrap.addEventListener('click', (e) => {
                 if (state.linkMode) {
                     handleLinkClick(q.id);
@@ -724,9 +716,9 @@
         
         renderLinks();
         updateLinkUI();
+        updateEmptyHint();
     }
 
-    // Перетаскивание квестов
     function setupDrag(node, quest) {
         let isDraggingQuest = false;
         let startX, startY, origX, origY;
@@ -790,7 +782,6 @@
         document.addEventListener('touchend', onEnd);
     }
 
-    // Линии связей
     function renderLinks() {
         const ns = 'http://www.w3.org/2000/svg';
         linksSvg.innerHTML = '';
@@ -807,7 +798,7 @@
             line.setAttribute('y2', to.y);
             
             const isCompleted = from.completed && to.completed;
-            line.setAttribute('stroke', isCompleted ? '#4ade80' : 'rgba(255,255,255,0.1)');
+            line.setAttribute('stroke', isCompleted ? '#4ade80' : 'rgba(0,0,0,0.08)');
             line.setAttribute('stroke-width', isCompleted ? '2' : '1.5');
             line.setAttribute('stroke-linecap', 'round');
             line.setAttribute('opacity', isCompleted ? '0.9' : '0.5');
@@ -820,7 +811,6 @@
         });
     }
 
-    // Масштабирование и панорамирование
     function updateTransform() {
         worldContainer.style.transform = `translate(${state.offsetX}px, ${state.offsetY}px) scale(${state.scale})`;
     }
@@ -874,7 +864,6 @@
         }
     }
 
-    // Сохранение
     function saveToStorage() {
         try {
             const data = {
@@ -886,7 +875,10 @@
                 dailySphereCount: state.dailySphereCount
             };
             localStorage.setItem('questnet_canvas', JSON.stringify(data));
-        } catch (e) {}
+            console.log('💾 Saved', state.quests.length, 'quests to storage');
+        } catch (e) {
+            console.warn('Failed to save canvas state:', e);
+        }
     }
 
     function loadFromStorage() {
@@ -901,31 +893,21 @@
                 state.dailyCompleted = data.dailyCompleted || 0;
                 state.dailySphereCount = data.dailySphereCount || {};
                 
-                // Проверяем сброс дня
                 const today = new Date().toDateString();
                 if (state.lastCompletedDate !== today) {
                     state.dailyCompleted = 0;
                     state.dailySphereCount = {};
                 }
+                console.log('📂 Loaded', state.quests.length, 'quests from storage');
                 return true;
             }
-        } catch (e) {}
+        } catch (e) {
+            console.warn('Failed to load canvas state:', e);
+        }
         return false;
     }
 
-    // Экспорт для других модулей
-    window.CanvasAPI = {
-        getQuests: () => state.quests,
-        getLinks: () => state.links,
-        addQuest: addQuest,
-        deleteQuest: deleteQuest,
-        toggleComplete: toggleComplete,
-        getSphereColors: () => SPHERE_COLORS,
-        getSphereIcons: () => SPHERE_ICONS,
-        render: render
-    };
-
-    // Инициализация
-    initCanvas();
+    // Экспортируем инициализацию
+    window.CanvasInit = initCanvas;
 
 })();

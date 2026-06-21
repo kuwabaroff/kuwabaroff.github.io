@@ -3,9 +3,8 @@
 (function() {
     'use strict';
 
-    // Состояние приложения
     const state = {
-        currentSection: 'quests',
+        currentSection: 'path',
         coins: 0,
         tokens: 0,
         streak: 0,
@@ -14,86 +13,123 @@
         lastDailyReset: null
     };
 
-    // DOM элементы
     const sections = document.querySelectorAll('.section');
     const navItems = document.querySelectorAll('.nav-item');
     const sectionTitle = document.getElementById('sectionTitle');
-    const coinBalance = document.getElementById('coinBalance');
-    const tokenBalance = document.getElementById('tokenBalance');
 
-    // Инициализация
+    const sectionNames = {
+        'path': 'Путь',
+        'quests': 'Квесты',
+        'sphere-body': 'Тело',
+        'sphere-mind': 'Разум',
+        'sphere-finance': 'Финансы',
+        'sphere-work': 'Работа',
+        'sphere-relations': 'Отношения',
+        'sphere-environment': 'Среда',
+        'sphere-spirit': 'Дух',
+        'pomodoro': 'Помодоро',
+        'finance': 'Финансы',
+        'body': 'Трекер тела',
+        'habits': 'Привычки',
+        'shop': 'Магазин',
+        'wallet': 'Кошелёк'
+    };
+
+    let canvasReady = false;
+
     function init() {
+        console.log('🚀 Starting QuestNet...');
+        
         loadState();
         setupNavigation();
-        setupRadar();
         updateUI();
         checkDailyReset();
         showOnboarding();
         setupGlobalEvents();
         setupPomodoroButton();
+        setupSphereAddButtons();
+        setupQuestButtons();
         
-        // Инициализация модулей
-        if (typeof initCanvas === 'function') initCanvas();
+        if (typeof CanvasInit === 'function') {
+            console.log('📦 Initializing Canvas...');
+            CanvasInit();
+            canvasReady = true;
+        } else {
+            console.warn('CanvasInit not available');
+        }
+        
+        console.log('📦 Initializing modules...');
         if (typeof initShop === 'function') initShop();
         if (typeof initPomodoro === 'function') initPomodoro();
         if (typeof initFinance === 'function') initFinance();
         if (typeof initBody === 'function') initBody();
         if (typeof initHabits === 'function') initHabits();
         
-        // Запускаем майнинг токенов
-        startTokenMining();
+        if (typeof SphereCanvases !== 'undefined') {
+            let attempts = 0;
+            const maxAttempts = 30;
+            const checkInterval = setInterval(() => {
+                attempts++;
+                if (typeof CanvasAPI !== 'undefined') {
+                    clearInterval(checkInterval);
+                    console.log('✅ CanvasAPI ready, initializing sphere canvases');
+                    SphereCanvases.init();
+                    setTimeout(() => {
+                        if (SphereCanvases.renderAll) {
+                            SphereCanvases.renderAll();
+                        }
+                    }, 100);
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(checkInterval);
+                    console.warn('CanvasAPI not available after max attempts');
+                } else {
+                    console.log(`⏳ Waiting for CanvasAPI... (${attempts}/${maxAttempts})`);
+                }
+            }, 100);
+        }
         
-        // Обновляем стрик
+        startTokenMining();
         updateStreakDisplay();
         
-        console.log('🚀 QuestNet fully initialized');
+        if (typeof ShopAPI !== 'undefined' && ShopAPI.renderShop) {
+            setTimeout(() => ShopAPI.renderShop(), 300);
+        }
+        
+        // Принудительное обновление UI через 1 секунду
+        setTimeout(() => {
+            updateUI();
+            console.log('🔄 UI updated, coins:', state.coins, 'tokens:', state.tokens);
+        }, 1000);
+        
+        console.log('✅ QuestNet fully initialized');
     }
 
-    // Навигация
+    // ----- НАВИГАЦИЯ -----
     function setupNavigation() {
         navItems.forEach(item => {
-            item.addEventListener('click', (e) => {
+            item.addEventListener('click', function(e) {
                 e.preventDefault();
-                const section = item.dataset.section;
+                const section = this.dataset.section;
                 navigateTo(section);
             });
         });
     }
 
     function navigateTo(section) {
-        // Обновляем активный пункт меню
+        console.log('📍 Navigating to:', section);
+        
         navItems.forEach(item => {
             item.classList.toggle('active', item.dataset.section === section);
         });
 
-        // Показываем нужную секцию
         sections.forEach(sec => {
             sec.classList.toggle('active', sec.id === `section-${section}`);
         });
 
-        // Обновляем заголовок
-        const sectionNames = {
-            quests: 'Квесты',
-            path: 'Путь',
-            calendar: 'Календарь',
-            finance: 'Финансы',
-            body: 'Тело',
-            habits: 'Привычки',
-            shop: 'Магазин',
-            wallet: 'Кошелёк'
-        };
         sectionTitle.textContent = sectionNames[section] || section;
-
         state.currentSection = section;
         saveState();
 
-        // Обновляем контент при переходе
-        if (section === 'calendar' && typeof renderCalendar === 'function') {
-            renderCalendar();
-        }
-        if (section === 'path' && typeof renderMountain === 'function') {
-            renderMountain();
-        }
         if (section === 'shop' && typeof ShopAPI !== 'undefined' && ShopAPI.renderShop) {
             ShopAPI.renderShop();
         }
@@ -109,128 +145,267 @@
         if (section === 'wallet') {
             renderWallet();
         }
-    }
-
-    // Радар баланса сфер
-    function setupRadar() {
-        const svg = document.getElementById('radarSvg');
-        if (!svg) return;
-        renderRadar(svg);
-        // Обновляем радар каждые 30 секунд
-        setInterval(() => renderRadar(svg), 30000);
-    }
-
-    function renderRadar(svg) {
-        const spheres = [
-            { name: 'Тело', color: '#f87171' },
-            { name: 'Разум', color: '#6c8aff' },
-            { name: 'Финансы', color: '#facc15' },
-            { name: 'Работа', color: '#fb923c' },
-            { name: 'Отношения', color: '#f472b6' },
-            { name: 'Среда', color: '#a78bfa' },
-            { name: 'Дух', color: '#4ade80' }
-        ];
-
-        const cx = 50, cy = 50, r = 38;
-        const count = spheres.length;
-        const angleStep = (2 * Math.PI) / count;
         
-        let svgContent = '';
-        
-        // Фоновые окружности
-        for (let ring = 1; ring <= 3; ring++) {
-            const radius = (r / 3) * ring;
-            svgContent += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>`;
-        }
-
-        // Оси
-        for (let i = 0; i < count; i++) {
-            const angle = -Math.PI/2 + i * angleStep;
-            const x = cx + r * Math.cos(angle);
-            const y = cy + r * Math.sin(angle);
-            svgContent += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>`;
-        }
-
-        // Паутина (активность)
-        const activity = getSphereActivity();
-        let points = '';
-        for (let i = 0; i < count; i++) {
-            const angle = -Math.PI/2 + i * angleStep;
-            const value = Math.min(activity[i] || 0, 1);
-            const radius = r * (0.1 + 0.9 * value);
-            const x = cx + radius * Math.cos(angle);
-            const y = cy + radius * Math.sin(angle);
-            points += `${x},${y} `;
-        }
-        
-        if (points) {
-            svgContent += `<polygon points="${points}" fill="rgba(108,138,255,0.15)" stroke="#6c8aff" stroke-width="1.5"/>`;
-        }
-
-        // Точки на осях
-        for (let i = 0; i < count; i++) {
-            const angle = -Math.PI/2 + i * angleStep;
-            const value = Math.min(activity[i] || 0, 1);
-            const radius = r * (0.1 + 0.9 * value);
-            const x = cx + radius * Math.cos(angle);
-            const y = cy + radius * Math.sin(angle);
-            svgContent += `<circle cx="${x}" cy="${y}" r="1.5" fill="${spheres[i].color}"/>`;
-        }
-
-        // Подписи сфер (снаружи)
-        for (let i = 0; i < count; i++) {
-            const angle = -Math.PI/2 + i * angleStep;
-            const labelR = r + 12;
-            const x = cx + labelR * Math.cos(angle);
-            const y = cy + labelR * Math.sin(angle);
-            const emoji = getSphereEmoji(i);
-            svgContent += `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="6" fill="#666">${emoji}</text>`;
-        }
-
-        svg.innerHTML = svgContent;
-    }
-
-    function getSphereActivity() {
-        // Получаем данные из localStorage или возвращаем демо
-        const stored = localStorage.getItem('questnet_sphereActivity');
-        if (stored) {
-            try {
-                return JSON.parse(stored);
-            } catch (e) {}
-        }
-        
-        // Пытаемся получить реальные данные из квестов
-        if (typeof CanvasAPI !== 'undefined') {
-            const quests = CanvasAPI.getQuests();
-            if (quests && quests.length > 0) {
-                const spheres = ['Тело', 'Разум', 'Финансы', 'Работа', 'Отношения', 'Среда', 'Дух'];
-                const activity = spheres.map(s => {
-                    const completed = quests.filter(q => q.sphere === s && q.completed);
-                    const total = quests.filter(q => q.sphere === s);
-                    return total.length > 0 ? Math.min(completed.length / total.length, 1) : 0.1;
-                });
-                return activity;
+        if (section.startsWith('sphere-')) {
+            const sphere = getSphereFromSection(section);
+            if (sphere && typeof SphereCanvases !== 'undefined') {
+                const canvas = SphereCanvases.getCanvas(sphere);
+                if (canvas) {
+                    canvas.render();
+                }
             }
         }
-        
-        // Демо данные
-        return [0.6, 0.8, 0.4, 0.7, 0.3, 0.5, 0.9];
     }
 
-    function getSphereEmoji(index) {
-        const emojis = ['💪', '🧠', '💰', '💼', '💕', '🏠', '✨'];
-        return emojis[index] || '•';
+    function getSphereFromSection(section) {
+        const map = {
+            'sphere-body': 'Тело',
+            'sphere-mind': 'Разум',
+            'sphere-finance': 'Финансы',
+            'sphere-work': 'Работа',
+            'sphere-relations': 'Отношения',
+            'sphere-environment': 'Среда',
+            'sphere-spirit': 'Дух'
+        };
+        return map[section] || null;
     }
 
-    // Обновление UI
+    // ----- UI ОБНОВЛЕНИЯ -----
     function updateUI() {
-        if (coinBalance) coinBalance.textContent = Math.round(state.coins);
-        if (tokenBalance) tokenBalance.textContent = Math.round(state.tokens * 100) / 100;
+        // Получаем элементы каждый раз заново, чтобы быть уверенными
+        const coinEl = document.getElementById('coinBalance');
+        const tokenEl = document.getElementById('tokenBalance');
         const streakEl = document.getElementById('streakCount');
-        if (streakEl) streakEl.textContent = state.streak;
+        
+        if (coinEl) {
+            coinEl.textContent = Math.round(state.coins);
+            console.log('💰 Coins updated:', state.coins);
+        } else {
+            console.warn('coinBalance element not found');
+        }
+        
+        if (tokenEl) {
+            tokenEl.textContent = Math.round(state.tokens * 100) / 100;
+        }
+        
+        if (streakEl) {
+            streakEl.textContent = state.streak;
+        }
     }
 
-    // Сохранение состояния
+    // ----- КНОПКИ КВЕСТОВ -----
+    function setupQuestButtons() {
+        const addBtn = document.getElementById('addQuestBtn');
+        if (addBtn) {
+            addBtn.addEventListener('click', function() {
+                console.log('➕ Add quest button clicked');
+                if (typeof CanvasAPI !== 'undefined' && CanvasAPI.addQuest) {
+                    showMainQuestForm();
+                } else {
+                    console.warn('CanvasAPI not ready');
+                }
+            });
+        }
+
+        const linkBtn = document.getElementById('linkModeBtn');
+        if (linkBtn) {
+            linkBtn.addEventListener('click', function() {
+                console.log('🔗 Link mode button clicked');
+                if (typeof CanvasAPI !== 'undefined') {
+                    const state = CanvasAPI.getState();
+                    state.linkMode = !state.linkMode;
+                    if (!state.linkMode) state.linkSourceId = null;
+                    CanvasAPI.render();
+                }
+            });
+        }
+    }
+
+    function showMainQuestForm() {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            background: #ffffff;
+            border: 1px solid #e8e5de;
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+        `;
+        
+        modal.innerHTML = `
+            <h3 style="margin-bottom: 20px; font-weight: 500; color: #1a1a1a; font-family: 'Playfair Display', serif; font-size: 1.3rem;">
+                Создать квест
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="text" id="mainQuestFormTitle" placeholder="Название" style="width: 100%;">
+                <input type="text" id="mainQuestFormEmoji" placeholder="Эмодзи (например, 🏋️)" style="width: 100%;">
+                <select id="mainQuestFormSphere" style="width: 100%;">
+                    <option value="Тело">💪 Тело</option>
+                    <option value="Разум">🧠 Разум</option>
+                    <option value="Финансы">💰 Финансы</option>
+                    <option value="Работа">💼 Работа</option>
+                    <option value="Отношения">💕 Отношения</option>
+                    <option value="Среда">🏠 Среда</option>
+                    <option value="Дух">✨ Дух</option>
+                </select>
+                <input type="number" id="mainQuestFormReward" placeholder="Награда (монеты)" value="20" style="width: 100%;">
+                <select id="mainQuestFormDifficulty" style="width: 100%;">
+                    <option value="easy">Легкая</option>
+                    <option value="medium" selected>Средняя</option>
+                    <option value="hard">Сложная</option>
+                </select>
+                <textarea id="mainQuestFormDesc" placeholder="Описание" style="width: 100%; min-height: 80px;"></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 8px;">
+                    <button class="btn-primary" id="mainQuestFormSubmit" style="flex: 1;">Создать</button>
+                    <button class="btn-secondary" id="mainQuestFormCancel">Отмена</button>
+                </div>
+            </div>
+        `;
+        
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        
+        document.getElementById('mainQuestFormSubmit').addEventListener('click', () => {
+            const title = document.getElementById('mainQuestFormTitle').value.trim() || 'Новый квест';
+            const emoji = document.getElementById('mainQuestFormEmoji').value.trim() || '❓';
+            const sphere = document.getElementById('mainQuestFormSphere').value;
+            const reward = parseInt(document.getElementById('mainQuestFormReward').value) || 20;
+            const difficulty = document.getElementById('mainQuestFormDifficulty').value;
+            const desc = document.getElementById('mainQuestFormDesc').value.trim() || '';
+            
+            if (typeof CanvasAPI !== 'undefined' && CanvasAPI.addQuest) {
+                const x = (Math.random() - 0.5) * 300;
+                const y = (Math.random() - 0.5) * 300;
+                CanvasAPI.addQuest(title, emoji, sphere, reward, difficulty, x, y, desc);
+                
+                if (typeof SphereCanvases !== 'undefined') {
+                    setTimeout(() => SphereCanvases.renderAll(), 100);
+                }
+            }
+            
+            overlay.remove();
+        });
+        
+        document.getElementById('mainQuestFormCancel').addEventListener('click', () => {
+            overlay.remove();
+        });
+        
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
+        });
+    }
+
+    // ----- КНОПКИ ДЛЯ СФЕР -----
+    function setupSphereAddButtons() {
+        document.querySelectorAll('.sphere-add-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const sphere = this.dataset.sphere;
+                console.log('➕ Add quest for sphere:', sphere);
+                showQuestFormForSphere(sphere);
+            });
+        });
+    }
+
+    function showQuestFormForSphere(sphere) {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            background: #ffffff;
+            border: 1px solid #e8e5de;
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+        `;
+        
+        modal.innerHTML = `
+            <h3 style="margin-bottom: 20px; font-weight: 500; color: #1a1a1a; font-family: 'Playfair Display', serif; font-size: 1.3rem;">
+                Создать квест для «${sphere}»
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="text" id="sphereQuestFormTitle" placeholder="Название" style="width: 100%;">
+                <input type="text" id="sphereQuestFormEmoji" placeholder="Эмодзи (например, 🏋️)" style="width: 100%;">
+                <input type="number" id="sphereQuestFormReward" placeholder="Награда (монеты)" value="20" style="width: 100%;">
+                <select id="sphereQuestFormDifficulty" style="width: 100%;">
+                    <option value="easy">Легкая</option>
+                    <option value="medium" selected>Средняя</option>
+                    <option value="hard">Сложная</option>
+                </select>
+                <textarea id="sphereQuestFormDesc" placeholder="Описание" style="width: 100%; min-height: 80px;"></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 8px;">
+                    <button class="btn-primary" id="sphereQuestFormSubmit" style="flex: 1;">Создать</button>
+                    <button class="btn-secondary" id="sphereQuestFormCancel">Отмена</button>
+                </div>
+            </div>
+        `;
+        
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        
+        document.getElementById('sphereQuestFormSubmit').addEventListener('click', () => {
+            const title = document.getElementById('sphereQuestFormTitle').value.trim() || 'Новый квест';
+            const emoji = document.getElementById('sphereQuestFormEmoji').value.trim() || '❓';
+            const reward = parseInt(document.getElementById('sphereQuestFormReward').value) || 20;
+            const difficulty = document.getElementById('sphereQuestFormDifficulty').value;
+            const desc = document.getElementById('sphereQuestFormDesc').value.trim() || '';
+            
+            if (typeof CanvasAPI !== 'undefined' && CanvasAPI.addQuest) {
+                const x = (Math.random() - 0.5) * 300;
+                const y = (Math.random() - 0.5) * 300;
+                CanvasAPI.addQuest(title, emoji, sphere, reward, difficulty, x, y, desc);
+                
+                if (typeof SphereCanvases !== 'undefined') {
+                    setTimeout(() => SphereCanvases.renderAll(), 100);
+                }
+            }
+            
+            overlay.remove();
+        });
+        
+        document.getElementById('sphereQuestFormCancel').addEventListener('click', () => {
+            overlay.remove();
+        });
+        
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
+        });
+    }
+
     function saveState() {
         try {
             localStorage.setItem('questnet_state', JSON.stringify(state));
@@ -245,7 +420,6 @@
                 Object.assign(state, parsed);
             }
         } catch (e) {}
-        
         checkDailyReset();
     }
 
@@ -258,11 +432,9 @@
         }
     }
 
-    // Обновление стрика
     function updateStreakDisplay() {
         let streak = state.streak;
         
-        // Проверяем стрик из привычек
         if (typeof HabitsAPI !== 'undefined') {
             const habitStreak = HabitsAPI.getHabitStreak();
             if (habitStreak > streak) {
@@ -273,59 +445,124 @@
         const streakEl = document.getElementById('streakCount');
         if (streakEl) streakEl.textContent = streak;
         
-        // Сохраняем обновленный стрик
         if (streak > state.streak) {
             state.streak = streak;
             saveState();
         }
     }
 
-    // Глобальные события
     function setupGlobalEvents() {
-        // Обновление стрика при любой активности
         document.addEventListener('activity', () => {
             updateStreakDisplay();
-        });
-    }
-
-    // Кнопка помодоро
-    function setupPomodoroButton() {
-        const btn = document.getElementById('pomodoroBtn');
-        if (!btn) return;
-        
-        btn.addEventListener('click', () => {
-            if (typeof PomodoroAPI !== 'undefined') {
-                if (PomodoroAPI.isRunning()) {
-                    PomodoroAPI.stopTimer();
-                } else {
-                    // Если нет задачи, показываем выбор
-                    if (typeof showTaskSelection === 'function') {
-                        showTaskSelection();
-                    } else {
-                        // Просто запускаем помодоро
-                        PomodoroAPI.startTimer();
-                    }
-                }
+            if (typeof SphereCanvases !== 'undefined' && SphereCanvases.renderAll) {
+                SphereCanvases.renderAll();
             }
         });
     }
 
-    // Онбординг
+    // ----- ПОМОДОРО (только в отдельной вкладке) -----
+    function setupPomodoroButton() {
+        // Кнопка в верхней панели больше не нужна, удаляем её
+        const topbarBtn = document.getElementById('pomodoroBtn');
+        if (topbarBtn) {
+            topbarBtn.style.display = 'none';
+        }
+        
+        // Кнопки в разделе помодоро
+        const startBtn = document.getElementById('pomodoroStartBtn');
+        const stopBtn = document.getElementById('pomodoroStopBtn');
+        const resetBtn = document.getElementById('pomodoroResetBtn');
+        const timeDisplay = document.getElementById('pomodoroTime');
+        const phaseDisplay = document.getElementById('pomodoroPhase');
+        const sessionsDisplay = document.getElementById('pomodoroSessions');
+        
+        if (startBtn) {
+            startBtn.addEventListener('click', function() {
+                console.log('⏱️ Pomodoro start');
+                if (typeof PomodoroAPI !== 'undefined') {
+                    PomodoroAPI.startTimer();
+                    updatePomodoroDisplay();
+                }
+            });
+        }
+        
+        if (stopBtn) {
+            stopBtn.addEventListener('click', function() {
+                console.log('⏱️ Pomodoro stop');
+                if (typeof PomodoroAPI !== 'undefined') {
+                    PomodoroAPI.stopTimer();
+                    updatePomodoroDisplay();
+                }
+            });
+        }
+        
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function() {
+                console.log('⏱️ Pomodoro reset');
+                if (typeof PomodoroAPI !== 'undefined') {
+                    PomodoroAPI.stopTimer();
+                    // Сброс состояния помодоро
+                    const state = PomodoroAPI.getState();
+                    state.timeLeft = 25 * 60;
+                    state.totalSeconds = 25 * 60;
+                    state.isWork = true;
+                    state.sessionsCompleted = 0;
+                    if (typeof PomodoroAPI.saveState === 'function') {
+                        PomodoroAPI.saveState();
+                    }
+                    updatePomodoroDisplay();
+                }
+            });
+        }
+        
+        // Обновление дисплея каждую секунду
+        setInterval(() => {
+            if (typeof PomodoroAPI !== 'undefined') {
+                updatePomodoroDisplay();
+            }
+        }, 1000);
+    }
+
+    function updatePomodoroDisplay() {
+        if (typeof PomodoroAPI === 'undefined') return;
+        
+        const timeDisplay = document.getElementById('pomodoroTime');
+        const phaseDisplay = document.getElementById('pomodoroPhase');
+        const sessionsDisplay = document.getElementById('pomodoroSessions');
+        const state = PomodoroAPI.getState();
+        
+        if (timeDisplay) {
+            const mins = Math.floor(state.timeLeft / 60);
+            const secs = state.timeLeft % 60;
+            timeDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        
+        if (phaseDisplay) {
+            phaseDisplay.textContent = state.isWork ? 'Работа' : 'Отдых';
+            phaseDisplay.style.color = state.isWork ? '#1a1a1a' : '#4ade80';
+        }
+        
+        if (sessionsDisplay) {
+            sessionsDisplay.textContent = state.sessionsCompleted || 0;
+        }
+    }
+
+    // ----- ОНБОРДИНГ -----
     function showOnboarding() {
         if (localStorage.getItem('questnet_onboarding_done')) return;
         
         const steps = [
             {
                 title: '7 сфер жизни',
-                description: 'Тело, Разум, Финансы, Работа, Отношения, Среда, Дух — каждая сфера имеет свои квесты и цвет. Развивайся гармонично!'
+                description: 'Тело, Разум, Финансы, Работа, Отношения, Среда, Дух — каждая сфера имеет свои квесты. Развивайся гармонично!'
             },
             {
                 title: 'Монеты и баланс сфер',
-                description: 'Выполняй квесты, получай монеты. Чем разнообразнее твои квесты, тем больше бонусов. Баланс сфер показывает твою активность.'
+                description: 'Выполняй квесты, получай монеты. Чем разнообразнее твои квесты, тем больше бонусов.'
             },
             {
                 title: 'Магазин артефактов',
-                description: 'Покупай артефакты за монеты. Они пассивно майнят токены, которые скоро будут доступны на DEX. Инвестируй в своё развитие!'
+                description: 'Покупай артефакты за монеты. Они пассивно майнят токены, которые скоро будут доступны на DEX.'
             },
             {
                 title: 'Геймификация продуктивности',
@@ -339,14 +576,13 @@
         function showStep() {
             const s = steps[step];
             const overlay = document.createElement('div');
-            overlay.className = 'onboarding-overlay';
             overlay.style.cssText = `
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0,0,0,0.85);
+                background: rgba(255,255,255,0.92);
                 backdrop-filter: blur(12px);
                 z-index: 99999;
                 display: flex;
@@ -357,37 +593,39 @@
             
             const modal = document.createElement('div');
             modal.style.cssText = `
-                background: #111114;
-                border: 1px solid rgba(255,255,255,0.06);
-                border-radius: 16px;
+                background: #ffffff;
+                border: 1px solid #e8e5de;
+                border-radius: 12px;
                 padding: 40px;
                 max-width: 480px;
                 width: 90%;
                 text-align: center;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.04);
             `;
             
             modal.innerHTML = `
-                <div style="color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">
+                <div style="color: #9b9b9b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; font-family: 'Inter', sans-serif;">
                     ${step + 1} / ${steps.length}
                 </div>
-                <h2 style="font-size: 1.5rem; font-weight: 500; color: #e8e8e8; margin-bottom: 12px;">
+                <h2 style="font-size: 1.5rem; font-weight: 500; color: #1a1a1a; margin-bottom: 12px; font-family: 'Playfair Display', serif;">
                     ${s.title}
                 </h2>
-                <p style="color: #aaa; font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+                <p style="color: #6b6b6b; font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px; font-family: 'Inter', sans-serif;">
                     ${s.description}
                 </p>
                 ${s.link ? `
                     <a href="${s.link}" target="_blank" style="
                         display: inline-block;
-                        color: #6c8aff;
+                        color: #1a1a1a;
                         font-size: 0.85rem;
                         text-decoration: none;
                         margin-bottom: 20px;
                         padding: 6px 12px;
-                        border: 1px solid rgba(108,138,255,0.2);
-                        border-radius: 6px;
+                        border: 1px solid #e8e5de;
+                        border-radius: 4px;
                         transition: all 0.15s ease;
-                    " onmouseenter="this.style.borderColor='rgba(108,138,255,0.4)'" onmouseleave="this.style.borderColor='rgba(108,138,255,0.2)'">
+                        font-family: 'Inter', sans-serif;
+                    " onmouseenter="this.style.borderColor='#1a1a1a'" onmouseleave="this.style.borderColor='#e8e5de'">
                         📄 Исследование →
                     </a>
                 ` : ''}
@@ -436,7 +674,6 @@
                 });
             }
             
-            // Закрытие по клику вне модалки
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
                     overlay.remove();
@@ -448,9 +685,8 @@
         showStep();
     }
 
-    // Майнинг токенов
+    // ----- МАЙНИНГ ТОКЕНОВ -----
     function startTokenMining() {
-        // Проверяем каждые 5 секунд
         setInterval(() => {
             let miningRate = 0;
             
@@ -459,7 +695,6 @@
             }
             
             if (miningRate > 0) {
-                // Майним токены пропорционально времени (в час / 720 = за 5 сек)
                 const tokensEarned = miningRate / 720;
                 state.tokens += tokensEarned;
                 updateUI();
@@ -468,7 +703,7 @@
         }, 5000);
     }
 
-    // Рендер кошелька
+    // ----- КОШЕЛЁК -----
     function renderWallet() {
         const balanceEl = document.getElementById('walletTokenBalance');
         const artifactsList = document.getElementById('activeArtifactsList');
@@ -477,13 +712,12 @@
             balanceEl.textContent = `${Math.round(state.tokens * 100) / 100} 💎`;
         }
         
-        // Рендер активных артефактов
         if (artifactsList && typeof ShopAPI !== 'undefined') {
             const artifacts = ShopAPI.getActiveArtifacts();
             
             if (artifacts.length === 0) {
                 artifactsList.innerHTML = `
-                    <div style="color: #666; font-size: 0.85rem; padding: 12px 0;">
+                    <div style="color: #9b9b9b; font-size: 0.85rem; padding: 12px 0; font-family: 'Inter', sans-serif;">
                         Нет активных артефактов. Посети магазин!
                     </div>
                 `;
@@ -492,25 +726,22 @@
                     <div class="card" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin-bottom: 6px;">
                         <span style="font-size: 1.5rem;">${a.emoji}</span>
                         <div style="flex: 1;">
-                            <div style="color: #e8e8e8; font-weight: 500; font-size: 0.9rem;">${a.name}</div>
-                            <div style="color: #666; font-size: 0.75rem;">${a.sphere} • ${a.rate} токен/час</div>
+                            <div style="color: #1a1a1a; font-weight: 500; font-size: 0.9rem; font-family: 'Playfair Display', serif;">${a.name}</div>
+                            <div style="color: #9b9b9b; font-size: 0.75rem; font-family: 'Inter', sans-serif;">${a.sphere} • ${a.rate} токен/час</div>
                         </div>
-                        <div style="color: #4ade80; font-size: 0.8rem;">⚡ активен</div>
+                        <div style="color: #4ade80; font-size: 0.8rem; font-family: 'Inter', sans-serif;">⚡ активен</div>
                     </div>
                 `).join('');
             }
         }
         
-        // Рендер графика токенов
         renderTokenChart();
     }
 
-    // Рендер графика токенов
     function renderTokenChart() {
         const svg = document.getElementById('tokenChartSvg');
         if (!svg) return;
         
-        // Получаем историю токенов из localStorage
         let history = [];
         try {
             const stored = localStorage.getItem('questnet_token_history');
@@ -519,11 +750,10 @@
             }
         } catch (e) {}
         
-        // Если нет истории, создаем демо
         if (history.length === 0) {
             history = Array.from({ length: 30 }, (_, i) => ({
                 day: i + 1,
-                value: Math.random() * 10 + 5
+                value: Math.random() * 5 + 2
             }));
         }
         
@@ -533,7 +763,7 @@
         const chartWidth = width - padding * 2;
         const chartHeight = height - padding * 2;
         
-        const maxValue = Math.max(...history.map(h => h.value), 10);
+        const maxValue = Math.max(...history.map(h => h.value), 5);
         const step = Math.max(1, Math.floor(history.length / 15));
         
         let points = '';
@@ -546,50 +776,47 @@
             
             if (i % step === 0 || i === history.length - 1) {
                 labels += `
-                    <text x="${x}" y="${height - 5}" text-anchor="middle" fill="#444" font-size="8">
+                    <text x="${x}" y="${height - 5}" text-anchor="middle" fill="#9b9b9b" font-size="8" font-family="Inter, sans-serif;">
                         ${h.day}
                     </text>
                 `;
             }
         });
         
-        const svgContent = `
-            <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-            <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        svg.innerHTML = `
+            <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#e8e5de" stroke-width="1"/>
+            <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#e8e5de" stroke-width="1"/>
             
-            <polyline points="${points}" fill="none" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <polygon points="${padding},${padding + chartHeight} ${points} ${padding + chartWidth},${padding + chartHeight}" fill="rgba(250,204,21,0.05)"/>
+            <polyline points="${points}" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polygon points="${padding},${padding + chartHeight} ${points} ${padding + chartWidth},${padding + chartHeight}" fill="rgba(26,26,26,0.04)"/>
             
             ${labels}
             
-            <text x="${padding - 5}" y="${padding}" text-anchor="end" fill="#444" font-size="8">${Math.round(maxValue)}</text>
-            <text x="${padding - 5}" y="${height - padding}" text-anchor="end" fill="#444" font-size="8">0</text>
+            <text x="${padding - 5}" y="${padding}" text-anchor="end" fill="#9b9b9b" font-size="8" font-family="Inter, sans-serif;">${Math.round(maxValue)}</text>
+            <text x="${padding - 5}" y="${height - padding}" text-anchor="end" fill="#9b9b9b" font-size="8" font-family="Inter, sans-serif;">0</text>
             
-            <text x="${width - 100}" y="15" fill="#facc15" font-size="9">💎 Токены</text>
+            <text x="${width - 100}" y="15" fill="#1a1a1a" font-size="9" font-family="Inter, sans-serif;">💎 Токены</text>
         `;
-        
-        svg.innerHTML = svgContent;
     }
 
-    // Публичное API
+    // ----- ГЛОБАЛЬНЫЙ API -----
     window.QuestNet = {
         state: state,
         updateUI: updateUI,
         saveState: saveState,
         navigateTo: navigateTo,
         addCoins: function(amount) {
+            console.log('💰 Adding coins:', amount, 'current:', state.coins);
             state.coins += amount;
             updateUI();
             saveState();
             document.dispatchEvent(new Event('activity'));
-            // Сохраняем активность для стрика
             updateStreakDisplay();
         },
         addTokens: function(amount) {
             state.tokens += amount;
             updateUI();
             saveState();
-            // Сохраняем историю токенов
             try {
                 let history = JSON.parse(localStorage.getItem('questnet_token_history') || '[]');
                 const today = new Date().toISOString().split('T')[0];
@@ -606,37 +833,38 @@
         getState: function() {
             return state;
         },
-        showNotification: function(title, text, icon = '📌', color = '#6c8aff') {
+        showNotification: function(title, text, icon = '📌', color = '#1a1a1a') {
             const container = document.getElementById('notificationContainer');
             if (!container) return;
             
             const notif = document.createElement('div');
             notif.className = 'notification';
             notif.style.cssText = `
-                background: #1a1a1e;
-                border: 1px solid rgba(255,255,255,0.08);
-                border-radius: 10px;
+                background: #ffffff;
+                border: 1px solid #e8e5de;
+                border-radius: 8px;
                 padding: 12px 16px;
-                color: #e8e8e8;
+                color: #1a1a1a;
                 font-size: 0.85rem;
                 pointer-events: all;
                 animation: slideUp 0.2s ease;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.06);
                 display: flex;
                 align-items: flex-start;
                 gap: 10px;
                 margin-bottom: 8px;
                 min-width: 280px;
                 max-width: 420px;
+                font-family: 'Inter', sans-serif;
             `;
             
             notif.innerHTML = `
-                <div class="notif-icon" style="font-size: 1.2rem; flex-shrink: 0;">${icon}</div>
-                <div class="notif-content" style="flex: 1;">
-                    <div class="notif-title" style="font-weight: 500; margin-bottom: 2px;">${title}</div>
-                    <div class="notif-text" style="color: #aaa; font-size: 0.8rem; line-height: 1.4;">${text}</div>
+                <div style="font-size: 1.2rem; flex-shrink: 0;">${icon}</div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 500; margin-bottom: 2px;">${title}</div>
+                    <div style="color: #6b6b6b; font-size: 0.8rem; line-height: 1.4;">${text}</div>
                 </div>
-                <div class="notif-border" style="width: 3px; border-radius: 4px; flex-shrink: 0; align-self: stretch; background: ${color};"></div>
+                <div style="width: 3px; border-radius: 2px; flex-shrink: 0; align-self: stretch; background: ${color};"></div>
             `;
             
             container.appendChild(notif);
@@ -651,7 +879,7 @@
         updateStreakDisplay: updateStreakDisplay
     };
 
-    // Стили для уведомлений и онбординга
+    // Стили
     const style = document.createElement('style');
     style.textContent = `
         .notification {
@@ -675,44 +903,10 @@
                 opacity: 1;
             }
         }
-        .onboarding-overlay {
-            animation: fadeIn 0.3s ease;
-        }
-        .onboarding-overlay .btn-primary {
-            background: #fff;
-            color: #0d0d0d;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 32px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-        .onboarding-overlay .btn-primary:hover {
-            opacity: 0.85;
-        }
-        .onboarding-overlay .btn-secondary {
-            background: transparent;
-            color: #aaa;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 8px;
-            padding: 10px 24px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-        .onboarding-overlay .btn-secondary:hover {
-            background: rgba(255,255,255,0.04);
-            color: #e8e8e8;
-        }
     `;
     document.head.appendChild(style);
 
-    // Запуск
+    // ЗАПУСК
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
