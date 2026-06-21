@@ -1,250 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exclusion - Modular Zipper System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/animations.css">
-  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuestNet — геймифицированная OS для жизни</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <!-- Кастомный курсор -->
-  <div class="cursor"></div>
+    <div id="app">
+        <!-- Сайдбар -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">⛰️</span>
+                <span class="brand-name">QuestNet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <a href="#" class="nav-item active" data-section="quests">
+                        <span class="nav-icon">🗺️</span>
+                        <span class="nav-label">Квесты</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="path">
+                        <span class="nav-icon">🏔️</span>
+                        <span class="nav-label">Путь</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="calendar">
+                        <span class="nav-icon">📅</span>
+                        <span class="nav-label">Календарь</span>
+                    </a>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <div class="nav-group">
+                    <a href="#" class="nav-item" data-section="finance">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-label">Финансы</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="body">
+                        <span class="nav-icon">💪</span>
+                        <span class="nav-label">Тело</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="habits">
+                        <span class="nav-icon">🚫</span>
+                        <span class="nav-label">Привычки</span>
+                    </a>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <div class="nav-group">
+                    <a href="#" class="nav-item" data-section="shop">
+                        <span class="nav-icon">🏪</span>
+                        <span class="nav-label">Магазин</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="wallet">
+                        <span class="nav-icon">💎</span>
+                        <span class="nav-label">Кошелёк</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
 
-  <!-- Navbar -->
-  <nav>
-    <img src="images/Full%20Logo.png" alt="Exclusion" class="nav-logo" onerror="this.style.display='none'">
-    <div class="nav-menu">
-      <a href="#catalog" data-i18n="nav-catalog">Catalog</a>
-      <a href="#about" data-i18n="nav-about">About</a>
-      <a href="#preorder" data-i18n="nav-preorder">Preorder</a>
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Верхняя панель -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="section-title" id="sectionTitle">Квесты</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-tag" id="coinDisplay">
+                        <span class="tag-icon">🪙</span>
+                        <span class="tag-value" id="coinBalance">0</span>
+                    </div>
+                    <div class="topbar-tag" id="tokenDisplay">
+                        <span class="tag-icon">💎</span>
+                        <span class="tag-value" id="tokenBalance">0</span>
+                    </div>
+                    <button class="topbar-btn" id="pomodoroBtn" title="Запустить помодоро">
+                        <span>⏱️</span>
+                    </button>
+                    <div class="radar-widget" id="radarWidget">
+                        <svg viewBox="0 0 100 100" id="radarSvg">
+                            <!-- Будет отрисовано через JS -->
+                        </svg>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Контент разделов -->
+            <div class="content-area">
+                <!-- Квесты (canvas) -->
+                <section class="section active" id="section-quests">
+                    <div class="canvas-container" id="canvasContainer">
+                        <div class="canvas-toolbar">
+                            <button class="toolbar-btn" id="linkModeBtn">🔗 Связать</button>
+                            <button class="toolbar-btn" id="addQuestBtn">➕ Создать</button>
+                        </div>
+                        <div id="questCanvas"></div>
+                    </div>
+                </section>
+
+                <!-- Путь -->
+                <section class="section" id="section-path">
+                    <div class="section-header">
+                        <h2>Твой путь</h2>
+                        <p class="section-subtitle">Главная цель и прогресс</p>
+                    </div>
+                    <div class="path-container">
+                        <div class="goal-input">
+                            <input type="text" id="mainGoalInput" placeholder="Моя главная цель..." class="goal-input-field">
+                            <div class="goal-deadline">
+                                <label>Срок (дней):</label>
+                                <input type="number" id="goalDeadline" value="90" min="1" max="365">
+                            </div>
+                            <button class="btn-primary" id="setGoalBtn">Установить цель</button>
+                        </div>
+                        <div class="mountain-container">
+                            <svg viewBox="0 0 600 400" id="mountainSvg">
+                                <!-- Гора будет отрисована через JS -->
+                            </svg>
+                            <div class="progress-text">
+                                <span id="progressPercent">0%</span>
+                                <span id="progressDetails">0 / 0 квестов</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Календарь -->
+                <section class="section" id="section-calendar">
+                    <div class="section-header">
+                        <h2>90 дней</h2>
+                        <p class="section-subtitle">Твоя активность и стрики</p>
+                    </div>
+                    <div class="calendar-container">
+                        <div class="streak-display">
+                            <span class="streak-number" id="streakCount">0</span>
+                            <span class="streak-label">дней подряд</span>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- 90 клеток будут отрисованы через JS -->
+                        </div>
+                        <div class="daily-quote" id="dailyQuote">
+                            "Мотивационная фраза дня"
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Финансы -->
+                <section class="section" id="section-finance">
+                    <div class="section-header">
+                        <h2>Финансы</h2>
+                        <p class="section-subtitle">Учёт доходов и расходов</p>
+                    </div>
+                    <div class="finance-container">
+                        <div class="finance-summary">
+                            <div class="finance-balance">
+                                <span class="label">Баланс</span>
+                                <span class="amount" id="financeBalance">0 ₽</span>
+                            </div>
+                            <div class="finance-stats">
+                                <div class="stat">
+                                    <span class="label">Доходы</span>
+                                    <span class="value income" id="totalIncome">0 ₽</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Расходы</span>
+                                    <span class="value expense" id="totalExpense">0 ₽</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="finance-chart">
+                            <svg viewBox="0 0 500 200" id="financeChartSvg"></svg>
+                        </div>
+                        <div class="finance-form">
+                            <input type="number" id="transactionAmount" placeholder="Сумма">
+                            <select id="transactionType">
+                                <option value="income">Доход</option>
+                                <option value="expense">Расход</option>
+                            </select>
+                            <select id="transactionCategory">
+                                <option value="food">Еда</option>
+                                <option value="transport">Транспорт</option>
+                                <option value="entertainment">Развлечения</option>
+                                <option value="health">Здоровье</option>
+                                <option value="education">Обучение</option>
+                                <option value="other">Другое</option>
+                            </select>
+                            <input type="text" id="transactionDesc" placeholder="Описание">
+                            <button class="btn-primary" id="addTransactionBtn">➕ Добавить</button>
+                        </div>
+                        <div class="transaction-list" id="transactionList"></div>
+                    </div>
+                </section>
+
+                <!-- Тело -->
+                <section class="section" id="section-body">
+                    <div class="section-header">
+                        <h2>Тело</h2>
+                        <p class="section-subtitle">Вес, ИМТ и тренировки</p>
+                    </div>
+                    <div class="body-container">
+                        <div class="body-grid">
+                            <div class="body-card">
+                                <h3>Вес и ИМТ</h3>
+                                <div class="weight-input">
+                                    <input type="number" id="weightInput" placeholder="Вес (кг)" step="0.1">
+                                    <input type="number" id="heightInput" placeholder="Рост (см)" step="0.1">
+                                    <button class="btn-primary" id="addWeightBtn">Записать</button>
+                                </div>
+                                <div class="bmi-display">
+                                    <span>ИМТ: <strong id="bmiValue">—</strong></span>
+                                    <span>Цель: <strong id="weightGoal">—</strong></span>
+                                </div>
+                                <div class="weight-chart">
+                                    <svg viewBox="0 0 400 150" id="weightChartSvg"></svg>
+                                </div>
+                            </div>
+                            <div class="body-card">
+                                <h3>Тренировки</h3>
+                                <div class="workout-controls">
+                                    <button class="btn-primary" id="logWorkoutBtn">✅ Отметить тренировку</button>
+                                    <div class="workout-plan">
+                                        <label>План: <input type="number" id="workoutGoal" value="3" min="1" max="7"> раз/нед</label>
+                                    </div>
+                                </div>
+                                <div class="workout-calendar" id="workoutCalendar">
+                                    <!-- Календарь тренировок через JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Привычки -->
+                <section class="section" id="section-habits">
+                    <div class="section-header">
+                        <h2>Привычки</h2>
+                        <p class="section-subtitle">Отказ от вредных привычек</p>
+                    </div>
+                    <div class="habits-container">
+                        <div class="habit-form">
+                            <input type="text" id="habitName" placeholder="Название привычки (например, 'Курение')">
+                            <button class="btn-primary" id="addHabitBtn">➕ Добавить</button>
+                        </div>
+                        <div class="habit-list" id="habitList"></div>
+                    </div>
+                </section>
+
+                <!-- Магазин -->
+                <section class="section" id="section-shop">
+                    <div class="section-header">
+                        <h2>Магазин</h2>
+                        <p class="section-subtitle">Артефакты для майнинга токенов</p>
+                    </div>
+                    <div class="shop-container" id="shopContainer">
+                        <!-- Артефакты будут отрисованы через JS -->
+                    </div>
+                </section>
+
+                <!-- Кошелёк -->
+                <section class="section" id="section-wallet">
+                    <div class="section-header">
+                        <h2>Кошелёк</h2>
+                        <p class="section-subtitle">Твои токены и артефакты</p>
+                    </div>
+                    <div class="wallet-container">
+                        <div class="wallet-balance">
+                            <span class="label">Баланс токенов</span>
+                            <span class="amount" id="walletTokenBalance">0 💎</span>
+                        </div>
+                        <div class="wallet-chart">
+                            <svg viewBox="0 0 500 200" id="tokenChartSvg"></svg>
+                        </div>
+                        <div class="wallet-artifacts" id="walletArtifacts">
+                            <h3>Активные артефакты</h3>
+                            <div id="activeArtifactsList"></div>
+                        </div>
+                        <div class="wallet-dex">
+                            <div class="dex-banner">
+                                <span>🚀</span>
+                                <span>Листинг на DEX — скоро. Следи за обновлениями.</span>
+                            </div>
+                            <div class="dex-subscribe">
+                                <input type="email" id="emailSubscribe" placeholder="Email для уведомлений">
+                                <button class="btn-primary" id="subscribeBtn">Подписаться</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
     </div>
-    <div class="lang-switcher">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="ru">RU</button>
-      <button class="lang-btn" data-lang="by">BY</button>
-    </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1 class="hero-title" data-i18n="hero-title">One base. Infinite styles.</h1>
-    <p class="hero-subtitle" data-i18n="hero-subtitle">Modular zipper system that transforms any outfit.</p>
-    <button class="cta-button" data-i18n="cta-button" onclick="document.getElementById('preorder').scrollIntoView()">Leave a request</button>
-    <div class="scroll-indicator">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 5v14M5 12l7 7 7-7"/>
-      </svg>
-    </div>
-  </section>
+    <!-- Уведомления -->
+    <div id="notificationContainer"></div>
 
-  <!-- Каталог -->
-  <section class="catalog" id="catalog">
-    <div class="catalog-header">
-      <canvas id="pendulum-canvas" class="catalog-logo"></canvas>
-      <h2 class="catalog-title" data-i18n="catalog-title">PULLERS</h2>
-      <span class="catalog-caption" data-i18n="catalog-caption">SLIDE ONE COLLECTION</span>
-    </div>
-    <div class="products-grid">
-      <article class="product-card" data-animate>
-        <img src="images/Render.jpg" alt="Product" class="product-image" onerror="this.parentElement.style.backgroundColor='#F5F5F5'">
-        <div class="product-info">
-          <h3 class="product-name" data-i18n="product-1">Exclusion Zipper Base</h3>
-          <p class="product-price" data-price-usd="25" data-price-rub="2500" data-price-byn="82">$25</p>
-        </div>
-        <button class="preorder-btn" data-i18n="preorder-btn">Preorder</button>
-      </article>
-      <article class="product-card" data-animate>
-        <img src="images/Render.jpg" alt="Product" class="product-image" onerror="this.parentElement.style.backgroundColor='#F5F5F5'">
-        <div class="product-info">
-          <h3 class="product-name" data-i18n="product-2">Exclusion EX Zipper #1</h3>
-          <p class="product-price" data-price-usd="25" data-price-rub="2500" data-price-byn="82">$25</p>
-        </div>
-        <button class="preorder-btn" data-i18n="preorder-btn">Preorder</button>
-      </article>
-      <article class="product-card" data-animate>
-        <img src="images/Render.jpg" alt="Product" class="product-image" onerror="this.parentElement.style.backgroundColor='#F5F5F5'">
-        <div class="product-info">
-          <h3 class="product-name" data-i18n="product-3">Exclusion EX Zipper #2</h3>
-          <p class="product-price" data-price-usd="25" data-price-rub="2500" data-price-byn="82">$25</p>
-        </div>
-        <button class="preorder-btn" data-i18n="preorder-btn">Preorder</button>
-      </article>
-      <article class="product-card" data-animate>
-        <img src="images/Render.jpg" alt="Product" class="product-image" onerror="this.parentElement.style.backgroundColor='#F5F5F5'">
-        <div class="product-info">
-          <h3 class="product-name" data-i18n="product-4">Exclusion EX Zipper #3</h3>
-          <p class="product-price" data-price-usd="25" data-price-rub="2500" data-price-byn="82">$25</p>
-        </div>
-        <button class="preorder-btn" data-i18n="preorder-btn">Preorder</button>
-      </article>
-    </div>
-  </section>
-
-  <!-- Blueprint -->
-  <section class="blueprint" id="blueprint">
-    <svg class="blueprint-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-      <line x1="200" y1="0" x2="200" y2="100" stroke="white" stroke-width="2"/>
-      <circle cx="200" cy="100" r="10" fill="white"/>
-      <rect x="170" y="100" width="60" height="40" fill="none" stroke="white" stroke-width="2"/>
-      <rect x="160" y="140" width="80" height="60" fill="none" stroke="white" stroke-width="2"/>
-      <circle cx="200" cy="80" r="5" fill="white"/>
-    </svg>
-<div class="blueprint-panels">
-      <div class="blueprint-panel">
-        <h4 data-i18n="fact-1">Базовая часть</h4>
-        <p data-i18n="fact-1-text">Крепится на молнию навсегда, служит фиксатором</p>
-      </div>
-      <div class="blueprint-panel">
-        <h4 data-i18n="fact-2">Съёмная подвеска</h4>
-        <p data-i18n="fact-2-text">Кастомный дизайн, меняется нажатием</p>
-      </div>
-      <div class="blueprint-panel">
-        <h4 data-i18n="fact-3">Система фиксации</h4>
-        <p data-i18n="fact-3-text">Пластиковый крепёж: вставил и зафиксировал</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- О бренде -->
-  <section class="about" id="about">
-    <div class="about-content">
-      <div>
-        <h2 class="about-title" data-i18n="about-title">A system, not an accessory</h2>
-        <p class="about-text" data-i18n="about-text-1">Exclusion is not just another accessory.</p>
-        <p class="about-text" data-i18n="about-text-2">It's a modular system for street wear.</p>
-      </div>
-      <div>
-        <div class="fact" data-animate>
-          <div class="fact-number">01</div>
-          <div class="fact-text" data-i18n="fact-1-text">Один крепёж для всего</div>
-        </div>
-        <div class="fact" data-animate>
-          <div class="fact-number">02</div>
-          <div class="fact-text" data-i18n="fact-2-text">Меняется за секунду</div>
-        </div>
-        <div class="fact" data-animate>
-          <div class="fact-number">03</div>
-          <div class="fact-text" data-i18n="fact-3-text">Коллаборации с брендами и артистами</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Предзаказ -->
-  <section class="preorder" id="preorder">
-    <h2 class="preorder-title" data-i18n="preorder-section-title">Be first</h2>
-    <p class="preorder-subtitle" data-i18n="preorder-section-subtitle">Leave your email to get notification about sales launch.</p>
-    <form class="preorder-form" onsubmit="handleSubscribe(event)">
-      <input type="email" class="email-input" placeholder="your@email.com" data-i18n="email-placeholder" required>
-      <button type="submit" class="subscribe-btn" data-i18n="subscribe-btn">Subscribe</button>
-    </form>
-    <p class="success-message" style="display: none;" data-i18n="success-message">Done. See you at the drop.</p>
-  </section>
-
-  <!-- Футер -->
-  <footer>
-    <div class="footer-top">
-      <img src="images/Full%20Logo.png" alt="Exclusion" class="footer-logo" onerror="this.style.display='none'">
-      <div class="social-links">
-        <a href="#" class="social-link">Instagram</a>
-        <a href="#" class="social-link">Telegram</a>
-        <a href="#" class="social-link">TikTok</a>
-      </div>
-      <div data-i18n="copyright">© 2025 Exclusion. All rights reserved.</div>
-    </div>
-    <div class="footer-bottom" data-i18n="slogan">Modular zipper system. One base — infinite styles.</div>
-  </footer>
-
-  <script src="js/main.js"></script>
-  <script src="js/pendulum.js"></script>
-  <script src="js/blueprint.js"></script>
-  <script src="js/scroll-lock.js"></script>
-  <script>
-    // Инициализация курсора
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-
-    // Анимация появления при скролле
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
-
-    // Анимация hero при загрузке
-    window.addEventListener('load', () => {
-      document.querySelector('.hero-title').classList.add('visible');
-      document.querySelector('.hero-subtitle').classList.add('visible');
-      document.querySelector('.cta-button').classList.add('visible');
-    });
-
-    // Navbar blur при скролле
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        document.querySelector('nav').classList.add('scrolled');
-      } else {
-        document.querySelector('nav').classList.remove('scrolled');
-      }
-    });
-
-    // Переключение языка
-    let currentLang = 'en';
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentLang = btn.dataset.lang;
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        updateTranslations();
-      });
-    });
-
-    function updateTranslations() {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.dataset.i18n;
-        if (translations[currentLang] && translations[currentLang][key]) {
-          if (el.tagName === 'INPUT') {
-            el.placeholder = translations[currentLang][key];
-          } else {
-            el.textContent = translations[currentLang][key];
-          }
-        }
-      });
-
-      // Обновление цен
-      document.querySelectorAll('[data-price-usd]').forEach(el => {
-        const price = prices[currentLang];
-        const usd = el.dataset.priceUsd;
-        const rub = el.dataset.priceRub;
-        const byn = el.dataset.priceByn;
-        const value = currentLang === 'en' ? usd : currentLang === 'ru' ? rub : byn;
-        const symbol = price.symbol;
-        el.textContent = symbol + value;
-      });
-    }
-
-    // Обработка подписки
-    function handleSubscribe(e) {
-      e.preventDefault();
-      document.querySelector('.preorder-form').style.display = 'none';
-      document.querySelector('.success-message').style.display = 'block';
-      document.querySelector('.success-message').style.opacity = 1;
-    }
-
-    // Инициализация маятника
-    initPendulum();
-    initBlueprint();
-  </script>
+    <!-- Скрипты -->
+    <script src="data/quotes.js"></script>
+    <script src="js/coins.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/pomodoro.js"></script>
+    <script src="js/finance.js"></script>
+    <script src="js/body.js"></script>
+    <script src="js/habits.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
