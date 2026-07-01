@@ -1,459 +1,337 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuestNet — геймифицированная OS для жизни</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exclusion — Modular Zipper Accessories</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="img/favicon.ico" sizes="32x32">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Сайдбар -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-brand">
-                <span class="brand-icon">🏔️</span>
-                <span class="brand-name">QuestNet</span>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <!-- Главная цель -->
-                <div class="nav-group">
-                    <div class="nav-group-label">Главная цель</div>
-                    <a href="#" class="nav-item active" data-section="path">
-                        <span class="nav-icon">🎯</span>
-                        <span class="nav-label">Путь</span>
-                    </a>
-                </div>
-                
-                <div class="nav-divider"></div>
-                
-                <!-- 7 сфер жизни -->
-                <div class="nav-group">
-                    <div class="nav-group-label">Сферы жизни</div>
-                    <a href="#" class="nav-item" data-section="sphere-body">
-                        <span class="nav-icon">💪</span>
-                        <span class="nav-label">Тело</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="sphere-mind">
-                        <span class="nav-icon">🧠</span>
-                        <span class="nav-label">Разум</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="sphere-finance">
-                        <span class="nav-icon">💰</span>
-                        <span class="nav-label">Финансы</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="sphere-work">
-                        <span class="nav-icon">💼</span>
-                        <span class="nav-label">Работа</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="sphere-relations">
-                        <span class="nav-icon">💕</span>
-                        <span class="nav-label">Отношения</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="sphere-environment">
-                        <span class="nav-icon">🏠</span>
-                        <span class="nav-label">Среда</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="sphere-spirit">
-                        <span class="nav-icon">✨</span>
-                        <span class="nav-label">Дух</span>
-                    </a>
-                </div>
-                
-                <div class="nav-divider"></div>
-                
-                <!-- Инструменты -->
-                <div class="nav-group">
-                    <div class="nav-group-label">Инструменты</div>
-                    <a href="#" class="nav-item" data-section="pomodoro">
-                        <span class="nav-icon">⏱️</span>
-                        <span class="nav-label">Помодоро</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="finance">
-                        <span class="nav-icon">📊</span>
-                        <span class="nav-label">Финансы</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="body">
-                        <span class="nav-icon">💪</span>
-                        <span class="nav-label">Трекер тела</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="habits">
-                        <span class="nav-icon">🚫</span>
-                        <span class="nav-label">Привычки</span>
-                    </a>
-                </div>
-                
-                <div class="nav-divider"></div>
-                
-                <!-- Магазин и кошелёк -->
-                <div class="nav-group">
-                    <div class="nav-group-label">Магазин и кошелёк</div>
-                    <a href="#" class="nav-item" data-section="shop">
-                        <span class="nav-icon">🏪</span>
-                        <span class="nav-label">Магазин</span>
-                    </a>
-                    <a href="#" class="nav-item" data-section="wallet">
-                        <span class="nav-icon">💎</span>
-                        <span class="nav-label">Кошелёк</span>
-                    </a>
-                </div>
-            </nav>
-        </aside>
 
-        <!-- Основной контент -->
-        <main class="main-content">
-            <!-- Верхняя панель -->
-            <header class="topbar">
-                <div class="topbar-left">
-                    <h1 class="section-title" id="sectionTitle">Путь</h1>
-                </div>
-                <div class="topbar-right">
-                    <div class="topbar-tag" id="coinDisplay">
-                        <span class="tag-icon">🪙</span>
-                        <span class="tag-value" id="coinBalance">0</span>
-                    </div>
-                    <div class="topbar-tag" id="tokenDisplay">
-                        <span class="tag-icon">💎</span>
-                        <span class="tag-value" id="tokenBalance">0</span>
-                    </div>
-                    <button class="topbar-btn" id="pomodoroBtn" title="Запустить помодоро">
-                        <span>⏱️ 25:00</span>
-                    </button>
-                </div>
-            </header>
+  <!-- ===== КАСТОМНЫЙ КУРСОР ===== -->
+  <div class="custom-cursor" id="customCursor">
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="2" y1="2" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="2" x2="2" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </div>
 
-            <!-- Контент разделов -->
-            <div class="content-area">
-                <!-- Путь (главная цель) -->
-                <section class="section active" id="section-path">
-                    <div class="section-header">
-                        <h2>Твой путь</h2>
-                        <p class="section-subtitle">Главная цель и прогресс</p>
-                    </div>
-                    <div class="path-container">
-                        <div class="goal-input">
-                            <input type="text" id="mainGoalInput" placeholder="Моя главная цель..." class="goal-input-field">
-                            <div class="goal-deadline">
-                                <label>Срок (дней):</label>
-                                <input type="number" id="goalDeadline" value="90" min="1" max="365">
-                            </div>
-                            <button class="btn-primary" id="setGoalBtn">Установить цель</button>
-                        </div>
-                        <div class="mountain-container">
-                            <svg viewBox="0 0 600 400" id="mountainSvg"></svg>
-                            <div class="progress-text">
-                                <span id="progressPercent">0%</span>
-                                <span id="progressDetails">0 / 0 квестов</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+  <!-- ===== ЭКРАН ЗАГРУЗКИ ===== -->
+  <div class="loader-overlay" id="loaderOverlay">
+    <div class="loader-container">
+      <div class="loader-logo">
+        <img src="img/logo.jpg" alt="EXCLUSION">
+      </div>
+      <div class="loader-progress">
+        <div class="loader-bar" id="loaderBar"></div>
+      </div>
+      <span class="loader-percent" id="loaderPercent">0%</span>
+    </div>
+  </div>
 
-                <!-- Квесты (главный канвас) -->
-                <section class="section" id="section-quests">
-                    <div class="section-header">
-                        <h2>Квесты</h2>
-                        <p class="section-subtitle">Все квесты на одной карте</p>
-                    </div>
-                    <div class="canvas-container" id="canvasContainer">
-                        <div class="canvas-toolbar">
-                            <button class="toolbar-btn" id="linkModeBtn">🔗 Связать</button>
-                            <button class="toolbar-btn" id="addQuestBtn">➕ Создать</button>
-                        </div>
-                        <div id="questCanvas"></div>
-                        <div class="empty-canvas-hint" id="emptyCanvasHint">
-                            <div class="empty-canvas-icon">🗺️</div>
-                            <div class="empty-canvas-title">Нет квестов</div>
-                            <div class="empty-canvas-sub">Создайте первый квест, нажав «Создать»</div>
-                        </div>
-                    </div>
-                </section>
+  <!-- ===== ЭКРАН ПРИВЕТСТВИЯ ===== -->
+  <div class="intro-overlay active" id="introOverlay">
+    <div class="intro-container">
+      <p class="intro-text">
+        <span class="intro-word" data-delay="0">ONE</span>
+        <span class="intro-word" data-delay="0.3">BASE,</span>
+        <span class="intro-word" data-delay="0.9">INFINITY</span>
+        <span class="intro-word" data-delay="1.2">STYLES.</span>
+      </p>
+    </div>
+  </div>
 
-                <!-- Сфера: Тело -->
-                <section class="section" id="section-sphere-body">
-                    <div class="section-header">
-                        <h2>Тело</h2>
-                        <p class="section-subtitle">Спорт, сон, питание</p>
-                    </div>
-                    <div class="sphere-canvas-container">
-                        <div class="sphere-canvas-toolbar">
-                            <span class="sphere-stats">Выполнено: <strong id="bodyCompleted">0</strong> • Всего: <strong id="bodyTotal">0</strong></span>
-                            <button class="btn-primary sphere-add-btn" data-sphere="Тело">➕ Создать квест</button>
-                        </div>
-                        <div class="sphere-canvas" id="sphereCanvasBody"></div>
-                    </div>
-                </section>
+  <!-- ===== НАВИГАЦИЯ ===== -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="nav-left">
+      <a href="#heroSection" data-section="heroSection">HOW IT WORKS</a>
+      <a href="#catalogSection" data-section="catalogSection">CATALOG</a>
+      <a href="#photosessionSection" data-section="photosessionSection">PHOTOSESSION</a>
+      <a href="#formSection" data-section="formSection">RESERVE</a>
+    </div>
+    <div class="nav-center">
+      <a href="#heroSection" class="nav-logo-link">
+        <img src="img/logo.jpg" alt="EXCLUSION" class="nav-logo" id="navLogo">
+      </a>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="active" data-lang="en">EN</a>
+      <a href="#" data-lang="ru">RU</a>
+      <a href="#" data-lang="by">BY</a>
+    </div>
+  </nav>
 
-                <!-- Сфера: Разум -->
-                <section class="section" id="section-sphere-mind">
-                    <div class="section-header">
-                        <h2>Разум</h2>
-                        <p class="section-subtitle">Обучение, чтение, навыки</p>
-                    </div>
-                    <div class="sphere-canvas-container">
-                        <div class="sphere-canvas-toolbar">
-                            <span class="sphere-stats">Выполнено: <strong id="mindCompleted">0</strong> • Всего: <strong id="mindTotal">0</strong></span>
-                            <button class="btn-primary sphere-add-btn" data-sphere="Разум">➕ Создать квест</button>
-                        </div>
-                        <div class="sphere-canvas" id="sphereCanvasMind"></div>
-                    </div>
-                </section>
+  <!-- ===== ГЛАВНЫЙ ЭКРАН (HERO) ===== -->
+  <section class="hero-section" id="heroSection">
+    <div class="hero-container">
+      <!-- Левый нижний текст -->
+      <div class="hero-left-text">
+        <span>UNIQUE MODULAR ZIPPER SYSTEM.</span>
+      </div>
+      
+      <!-- Правый нижний текст -->
+      <div class="hero-right-text">
+        <span>ONE BASE, INFINITY STYLES.</span>
+      </div>
+      
+      <!-- Слой со звёздами поверх hero -->
+      <div class="hero-stars-layer" id="heroStarsLayer">
+        <img src="img/stars-left.svg" alt="stars" class="stars-left" id="starsLeft">
+        <img src="img/stars-right.svg" alt="stars" class="stars-right" id="starsRight">
+      </div>
+      
+      <!-- Центральное изображение -->
+      <div class="hero-image" id="heroImage">
+        <!-- Бегущие строчки позади изображения -->
+        <div class="hero-marquee">
+          <div class="marquee-track">
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+          </div>
+          <div class="marquee-track marquee-track-2">
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+          </div>
+          <div class="marquee-track marquee-track-3">
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+          </div>
+          <div class="marquee-track marquee-track-4">
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+          </div>
+          <div class="marquee-track marquee-track-5">
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+            <span>SLIDE ONE COLLECTION</span>
+          </div>
+        </div>
+        
+        <img src="img/header.png" alt="EXCLUSION" id="headerImage">
+      </div>
+      
+      <!-- Нижний блок -->
+      <div class="hero-bottom">
+        <span class="hero-collection">SLIDE ONE COLLECTION</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </div>
+  </section>
 
-                <!-- Сфера: Финансы -->
-                <section class="section" id="section-sphere-finance">
-                    <div class="section-header">
-                        <h2>Финансы</h2>
-                        <p class="section-subtitle">Бюджет, доходы, инвестиции</p>
-                    </div>
-                    <div class="sphere-canvas-container">
-                        <div class="sphere-canvas-toolbar">
-                            <span class="sphere-stats">Выполнено: <strong id="financeCompleted">0</strong> • Всего: <strong id="financeTotal">0</strong></span>
-                            <button class="btn-primary sphere-add-btn" data-sphere="Финансы">➕ Создать квест</button>
-                        </div>
-                        <div class="sphere-canvas" id="sphereCanvasFinance"></div>
-                    </div>
-                </section>
-
-                <!-- Сфера: Работа -->
-                <section class="section" id="section-sphere-work">
-                    <div class="section-header">
-                        <h2>Работа</h2>
-                        <p class="section-subtitle">Задачи, проекты, дедлайны</p>
-                    </div>
-                    <div class="sphere-canvas-container">
-                        <div class="sphere-canvas-toolbar">
-                            <span class="sphere-stats">Выполнено: <strong id="workCompleted">0</strong> • Всего: <strong id="workTotal">0</strong></span>
-                            <button class="btn-primary sphere-add-btn" data-sphere="Работа">➕ Создать квест</button>
-                        </div>
-                        <div class="sphere-canvas" id="sphereCanvasWork"></div>
-                    </div>
-                </section>
-
-                <!-- Сфера: Отношения -->
-                <section class="section" id="section-sphere-relations">
-                    <div class="section-header">
-                        <h2>Отношения</h2>
-                        <p class="section-subtitle">Семья, друзья, нетворкинг</p>
-                    </div>
-                    <div class="sphere-canvas-container">
-                        <div class="sphere-canvas-toolbar">
-                            <span class="sphere-stats">Выполнено: <strong id="relationsCompleted">0</strong> • Всего: <strong id="relationsTotal">0</strong></span>
-                            <button class="btn-primary sphere-add-btn" data-sphere="Отношения">➕ Создать квест</button>
-                        </div>
-                        <div class="sphere-canvas" id="sphereCanvasRelations"></div>
-                    </div>
-                </section>
-
-                <!-- Сфера: Среда -->
-                <section class="section" id="section-sphere-environment">
-                    <div class="section-header">
-                        <h2>Среда</h2>
-                        <p class="section-subtitle">Порядок, инструменты, окружение</p>
-                    </div>
-                    <div class="sphere-canvas-container">
-                        <div class="sphere-canvas-toolbar">
-                            <span class="sphere-stats">Выполнено: <strong id="environmentCompleted">0</strong> • Всего: <strong id="environmentTotal">0</strong></span>
-                            <button class="btn-primary sphere-add-btn" data-sphere="Среда">➕ Создать квест</button>
-                        </div>
-                        <div class="sphere-canvas" id="sphereCanvasEnvironment"></div>
-                    </div>
-                </section>
-
-                <!-- Сфера: Дух -->
-                <section class="section" id="section-sphere-spirit">
-                    <div class="section-header">
-                        <h2>Дух</h2>
-                        <p class="section-subtitle">Цели, ценности, рефлексия</p>
-                    </div>
-                    <div class="sphere-canvas-container">
-                        <div class="sphere-canvas-toolbar">
-                            <span class="sphere-stats">Выполнено: <strong id="spiritCompleted">0</strong> • Всего: <strong id="spiritTotal">0</strong></span>
-                            <button class="btn-primary sphere-add-btn" data-sphere="Дух">➕ Создать квест</button>
-                        </div>
-                        <div class="sphere-canvas" id="sphereCanvasSpirit"></div>
-                    </div>
-                </section>
-
-                <!-- Помодоро -->
-                <section class="section" id="section-pomodoro">
-                    <div class="section-header">
-                        <h2>Помодоро</h2>
-                        <p class="section-subtitle">25 минут работы / 5 минут отдыха</p>
-                    </div>
-                    <div class="pomodoro-container">
-                        <div class="pomodoro-display">
-                            <span class="pomodoro-time" id="pomodoroTime">25:00</span>
-                            <span class="pomodoro-phase" id="pomodoroPhase">Работа</span>
-                        </div>
-                        <div class="pomodoro-controls">
-                            <button class="btn-primary" id="pomodoroStartBtn">▶ Старт</button>
-                            <button class="btn-secondary" id="pomodoroStopBtn">⏹ Стоп</button>
-                            <button class="btn-secondary" id="pomodoroResetBtn">⟳ Сброс</button>
-                        </div>
-                        <div class="pomodoro-stats">
-                            <span>Сессий: <strong id="pomodoroSessions">0</strong></span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Финансы -->
-                <section class="section" id="section-finance">
-                    <div class="section-header">
-                        <h2>Финансы</h2>
-                        <p class="section-subtitle">Учёт доходов и расходов</p>
-                    </div>
-                    <div class="finance-container">
-                        <div class="finance-summary">
-                            <div class="finance-balance">
-                                <span class="label">Баланс</span>
-                                <span class="amount" id="financeBalance">0 ₽</span>
-                            </div>
-                            <div class="finance-stats">
-                                <div class="stat">
-                                    <span class="label">Доходы</span>
-                                    <span class="value income" id="totalIncome">0 ₽</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="label">Расходы</span>
-                                    <span class="value expense" id="totalExpense">0 ₽</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="finance-chart">
-                            <svg viewBox="0 0 500 200" id="financeChartSvg"></svg>
-                        </div>
-                        <div class="finance-form">
-                            <input type="number" id="transactionAmount" placeholder="Сумма">
-                            <select id="transactionType">
-                                <option value="income">Доход</option>
-                                <option value="expense">Расход</option>
-                            </select>
-                            <select id="transactionCategory">
-                                <option value="food">Еда</option>
-                                <option value="transport">Транспорт</option>
-                                <option value="entertainment">Развлечения</option>
-                                <option value="health">Здоровье</option>
-                                <option value="education">Обучение</option>
-                                <option value="other">Другое</option>
-                            </select>
-                            <input type="text" id="transactionDesc" placeholder="Описание">
-                            <button class="btn-primary" id="addTransactionBtn">➕ Добавить</button>
-                        </div>
-                        <div class="transaction-list" id="transactionList"></div>
-                    </div>
-                </section>
-
-                <!-- Трекер тела -->
-                <section class="section" id="section-body">
-                    <div class="section-header">
-                        <h2>Трекер тела</h2>
-                        <p class="section-subtitle">Вес, ИМТ и тренировки</p>
-                    </div>
-                    <div class="body-container">
-                        <div class="body-grid">
-                            <div class="body-card card">
-                                <h3>Вес и ИМТ</h3>
-                                <div class="weight-input">
-                                    <input type="number" id="weightInput" placeholder="Вес (кг)" step="0.1">
-                                    <input type="number" id="heightInput" placeholder="Рост (см)" step="0.1">
-                                    <button class="btn-primary" id="addWeightBtn">Записать</button>
-                                </div>
-                                <div class="bmi-display">
-                                    <span>ИМТ: <strong id="bmiValue">—</strong></span>
-                                    <span>Цель: <strong id="weightGoal">—</strong></span>
-                                </div>
-                                <div class="weight-chart">
-                                    <svg viewBox="0 0 400 150" id="weightChartSvg"></svg>
-                                </div>
-                            </div>
-                            <div class="body-card card">
-                                <h3>Тренировки</h3>
-                                <div class="workout-controls">
-                                    <button class="btn-primary" id="logWorkoutBtn">✅ Отметить тренировку</button>
-                                    <div class="workout-plan">
-                                        <label>План: <input type="number" id="workoutGoal" value="3" min="1" max="7"> раз/нед</label>
-                                    </div>
-                                </div>
-                                <div class="workout-calendar" id="workoutCalendar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Привычки -->
-                <section class="section" id="section-habits">
-                    <div class="section-header">
-                        <h2>Привычки</h2>
-                        <p class="section-subtitle">Отказ от вредных привычек</p>
-                    </div>
-                    <div class="habits-container">
-                        <div class="habit-form">
-                            <input type="text" id="habitName" placeholder="Название привычки (например, 'Курение')">
-                            <button class="btn-primary" id="addHabitBtn">➕ Добавить</button>
-                        </div>
-                        <div class="habit-list" id="habitList"></div>
-                    </div>
-                </section>
-
-                <!-- Магазин -->
-                <section class="section" id="section-shop">
-                    <div class="section-header">
-                        <h2>Магазин</h2>
-                        <p class="section-subtitle">Артефакты для майнинга токенов</p>
-                    </div>
-                    <div class="shop-container" id="shopContainer"></div>
-                </section>
-
-                <!-- Кошелёк -->
-                <section class="section" id="section-wallet">
-                    <div class="section-header">
-                        <h2>Кошелёк</h2>
-                        <p class="section-subtitle">Твои токены и артефакты</p>
-                    </div>
-                    <div class="wallet-container">
-                        <div class="wallet-balance">
-                            <span class="label">Баланс токенов</span>
-                            <span class="amount" id="walletTokenBalance">0 💎</span>
-                        </div>
-                        <div class="wallet-chart">
-                            <svg viewBox="0 0 500 200" id="tokenChartSvg"></svg>
-                        </div>
-                        <div class="wallet-artifacts">
-                            <h3>Активные артефакты</h3>
-                            <div id="activeArtifactsList"></div>
-                        </div>
-                        <div class="wallet-dex">
-                            <div class="dex-banner">
-                                <span>🚀</span>
-                                <span>Листинг на DEX — скоро. Следи за обновлениями.</span>
-                            </div>
-                            <div class="dex-subscribe">
-                                <input type="email" id="emailSubscribe" placeholder="Email для уведомлений">
-                                <button class="btn-primary" id="subscribeBtn">Подписаться</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
+  <!-- ===== СЕКЦИЯ STORIES + КАТАЛОГ (общий блок) ===== -->
+  <section class="catalog-section" id="catalogSection">
+    
+    <!-- Stories -->
+    <div class="stories-container">
+      <div class="stories-grid" id="storiesGrid">
+        <!-- Stories будут созданы через JS -->
+      </div>
     </div>
 
-    <!-- Уведомления -->
-    <div id="notificationContainer"></div>
+    <!-- Разделительная линия -->
+    <div class="section-divider-wrapper">
+      <img src="img/line.png" alt="divider" class="section-divider">
+    </div>
 
-    <!-- Скрипты -->
-    <script src="data/quotes.js"></script>
-    <script src="js/coins.js"></script>
-    <script src="js/canvas.js"></script>
-    <script src="js/sphere-canvases.js"></script>
-    <script src="js/shop.js"></script>
-    <script src="js/pomodoro.js"></script>
-    <script src="js/finance.js"></script>
-    <script src="js/body.js"></script>
-    <script src="js/habits.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Заголовок каталога -->
+    <div class="catalog-container">
+      <div class="section-header">
+        <img src="img/icons/icon1.png" alt="icon" class="section-icon">
+        <div class="section-header-text">
+          <h2 class="section-title">PULLERS</h2>
+          <h3 class="section-subtitle">SLIDE ONE COLLECTION</h3>
+        </div>
+      </div>
+      
+      <!-- Сетка каталога -->
+      <div class="catalog-grid" id="catalogGrid">
+        <!-- Карточки будут созданы через JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Разделительная линия -->
+  <div class="section-divider-wrapper">
+    <img src="img/line.png" alt="divider" class="section-divider">
+  </div>
+
+  <!-- ===== ТЕКСТОВЫЙ БЛОК ===== -->
+  <div class="text-block-section">
+    <div class="text-block-container">
+      <h2 class="text-block-title">Switch without limits.</h2>
+      <p class="text-block-description">
+        <span class="text-block-line">The base gives you reliability. The charms give you character.</span>
+        <span class="text-block-line">Mix, match, and remix as often as you want. One click changes everything — literally.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Разделительная линия -->
+  <div class="section-divider-wrapper">
+    <img src="img/line.png" alt="divider" class="section-divider">
+  </div>
+
+  <!-- ===== СЕКЦИЯ ФОТОСЕССИЯ ===== -->
+  <section class="photosession-section" id="photosessionSection">
+    <div class="photosession-container">
+      <!-- Заголовок -->
+      <div class="photosession-header-wrapper">
+        <div class="section-header">
+          <img src="img/icons/icon2.png" alt="icon" class="section-icon">
+          <div class="section-header-text">
+            <h2 class="section-title">PHOTOSESSION</h2>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Слайдер на всю ширину -->
+      <div class="slider-wrapper">
+        <div class="slider-track" id="sliderTrack">
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+          <div class="slide"><img src="img/photos/photo.jpg" alt="photo"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Разделительная линия -->
+  <div class="section-divider-wrapper">
+    <img src="img/line.png" alt="divider" class="section-divider">
+  </div>
+
+  <!-- ===== СЕКЦИЯ ФОРМЫ ===== -->
+  <section class="form-section" id="formSection">
+    <div class="form-container">
+      <div class="form-wrapper" id="formWrapper">
+        <!-- Левая цепь -->
+        <div class="form-chain-left">
+          <img src="img/left-chain.jpg" alt="chain">
+        </div>
+        
+        <!-- Центр с формой -->
+        <div class="form-center">
+          <!-- Заголовок с иконкой -->
+          <div class="form-header">
+            <img src="img/icons/icon3.png" alt="icon" class="form-icon">
+            <h2 class="form-title" id="formTitle">Find your base.</h2>
+          </div>
+          
+          <!-- Описание -->
+          <p class="form-description" id="formDescription">
+            Your outfit changes, your accessories shouldn't stay the same. Subscribe to the first drop and get a chance to vote for the first collaborative artist series.
+          </p>
+          
+          <form class="subscribe-form" id="subscribeForm">
+            <div class="form-group">
+              <input type="email" placeholder="your@email.com" id="emailInput" required>
+              <div class="form-line"></div>
+            </div>
+            <button type="submit" class="form-submit" id="formSubmit">RESERVE YOUR SLOT</button>
+            <p class="form-footer" id="formFooter">No spam. Drop notification only.</p>
+          </form>
+          
+          <div class="form-success" id="formSuccess" style="display: none;">
+            <p class="success-text" id="successText">YOU'RE IN. SLOT RESERVED.</p>
+          </div>
+        </div>
+        
+        <!-- Правая цепь -->
+        <div class="form-chain-right">
+          <img src="img/right-chain.jpg" alt="chain">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ПОДВАЛ ===== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <a href="#heroSection">
+          <img src="img/logo.jpg" alt="EXCLUSION" id="footerLogo">
+        </a>
+      </div>
+      <div class="footer-copyright" id="footerCopyright">Exclusion @ All rights reserved, 2026</div>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/exclusion_brand/" target="_blank"><img src="img/icons/instagram.svg" alt="Instagram"></a>
+        <a href="https://www.tiktok.com/@exclusion_brand" target="_blank"><img src="img/icons/tiktok.svg" alt="TikTok"></a>
+        <a href="https://t.me/exclusion_brand" target="_blank"><img src="img/icons/telegram.svg" alt="Telegram"></a>
+        <a href="https://www.youtube.com/@exclusion_brand" target="_blank"><img src="img/icons/youtube.svg" alt="YouTube"></a>
+        <a href="https://vk.com/exclusion_brand" target="_blank"><img src="img/icons/vkontakte.svg" alt="VKontakte"></a>
+        <a href="https://www.pinterest.com/exclusion_brand/" target="_blank"><img src="img/icons/pinterest.svg" alt="Pinterest"></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Подключаем JS -->
+  <script src="js/stories-data.js"></script>
+  <script src="js/catalog-data.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
