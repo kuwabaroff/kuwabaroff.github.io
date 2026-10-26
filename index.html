@@ -1,0 +1,2945 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f5f5f7;
+  --surface:#ffffff;
+  --fill:#f5f5f7;
+  --fill-2:#ebebed;
+  --ink:#1d1d1f;
+  --ink-2:#6e6e73;
+  --ink-3:#aeaeb2;
+  --ink-4:#d1d1d6;
+  --hairline:rgba(0,0,0,.08);
+  --hairline-2:rgba(0,0,0,.16);
+  --r-lg:16px;
+  --r-md:12px;
+  --r-sm:9px;
+  --r-xs:7px;
+  --shadow-card:0 1px 2px rgba(0,0,0,.04), 0 0 0 .5px rgba(0,0,0,.05);
+  --shadow-pop:0 18px 50px rgba(0,0,0,.16), 0 0 0 .5px rgba(0,0,0,.06);
+  --s-idea:#8e8e93;   --s-idea-bg:rgba(142,142,147,.12);   --s-idea-txt:#6e6e73;
+  --s-work:#ff9f0a;   --s-work-bg:rgba(255,159,10,.14);    --s-work-txt:#c93400;
+  --s-ready:#34c759;  --s-ready-bg:rgba(52,199,89,.14);    --s-ready-txt:#248a3d;
+  --s-pub:#007aff;    --s-pub-bg:rgba(0,122,255,.12);      --s-pub-txt:#0055b3;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-size:14px;
+  line-height:1.45;
+  letter-spacing:-.006em;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+[hidden]{display:none !important;}
+
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;}
+button{letter-spacing:-.006em;}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+::-webkit-scrollbar{width:10px;height:10px;}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,.16);border-radius:10px;border:3px solid transparent;background-clip:content-box;}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.28);background-clip:content-box;}
+::-webkit-scrollbar-track{background:transparent;}
+svg{display:block;}
+
+.app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+.topbar{
+  display:flex;align-items:center;gap:14px;
+  min-height:58px;padding:8px 24px;flex:0 0 auto;
+  background:rgba(245,245,247,.8);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:.5px solid var(--hairline);
+  position:relative;z-index:10;
+  flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:9px;user-select:none;white-space:nowrap;}
+.brand-dot{width:11px;height:11px;border-radius:3px;background:var(--ink);}
+.brand-name{font-size:14px;font-weight:600;letter-spacing:-.015em;}
+
+.view-tabs,
+.scale-toggle{
+  display:inline-flex;align-items:center;gap:2px;
+  background:var(--fill-2);border-radius:var(--r-sm);padding:2px;
+}
+.view-tab,
+.scale-btn{
+  border:0;background:transparent;color:var(--ink-2);
+  font-size:12.5px;font-weight:500;padding:6px 14px;
+  border-radius:7px;cursor:pointer;white-space:nowrap;
+  transition:background .16s ease, color .16s ease, box-shadow .16s ease;
+}
+.scale-btn{font-size:12px;padding:5px 12px;}
+.view-tab:hover,.scale-btn:hover{color:var(--ink);}
+.view-tab.active,.scale-btn.active{
+  background:#fff;color:var(--ink);
+  box-shadow:0 1px 2px rgba(0,0,0,.09), 0 0 0 .5px rgba(0,0,0,.04);
+}
+
+.week-nav{display:flex;align-items:center;gap:4px;}
+.week-label{
+  min-width:172px;text-align:center;font-size:13px;font-weight:600;
+  letter-spacing:-.01em;font-variant-numeric:tabular-nums;
+}
+.icon-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border:0;border-radius:8px;
+  background:transparent;color:var(--ink);cursor:pointer;
+  transition:background .15s ease;
+}
+.icon-btn:hover{background:rgba(0,0,0,.055);}
+.icon-btn:active{background:rgba(0,0,0,.09);}
+
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.stats{
+  font-size:12px;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+  margin-right:4px;
+}
+
+.primary-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--ink);color:#fff;border:0;
+  padding:8px 16px;border-radius:980px;cursor:pointer;
+  font-size:13px;font-weight:500;letter-spacing:-.01em;
+  transition:opacity .15s ease, transform .08s ease;
+  white-space:nowrap;
+}
+.primary-btn:hover{opacity:.86;}
+.primary-btn:active{transform:scale(.98);}
+
+.ghost-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,0,0,.055);color:var(--ink);border:0;
+  padding:7px 13px;border-radius:980px;cursor:pointer;
+  font-size:12.5px;font-weight:500;transition:background .15s ease;
+  white-space:nowrap;
+}
+.ghost-btn:hover{background:rgba(0,0,0,.09);}
+
+.text-btn{
+  background:transparent;border:0;color:var(--ink-2);
+  padding:7px 10px;border-radius:8px;cursor:pointer;
+  font-size:13px;font-weight:500;transition:color .15s ease, background .15s ease;
+}
+.text-btn:hover{color:var(--ink);background:rgba(0,0,0,.04);}
+
+.content{
+  flex:1;min-height:0;
+  padding:16px 24px 22px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.calendar-view{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;}
+.list-view{flex:1;min-height:0;overflow-y:auto;padding-bottom:8px;}
+.stats-view{flex:1;min-height:0;overflow-y:auto;padding-bottom:8px;}
+.analytics-view{flex:1;min-height:0;overflow-y:auto;padding-bottom:8px;}
+
+.bar{height:4px;background:var(--fill-2);border-radius:4px;overflow:hidden;flex:1;min-width:26px;}
+.bar-fill{height:100%;background:var(--ink);border-radius:4px;transition:width .3s ease;}
+
+.calendar{
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:10px;min-height:0;flex:1;
+}
+.calendar.month{
+  grid-auto-rows: minmax(118px, auto);
+  flex: none;
+  margin-bottom: 4px;
+}
+.day{
+  display:flex;flex-direction:column;min-height:0;overflow:hidden;
+  background:var(--surface);border-radius:var(--r-md);
+  box-shadow:var(--shadow-card);
+  transition:box-shadow .16s ease, background .16s ease;
+}
+.day.is-off{background:transparent;box-shadow:none;}
+.day.is-outside{background:transparent;box-shadow:none;}
+.day.is-outside .day-num{color:var(--ink-4);}
+.day.is-outside .day-name{color:var(--ink-4);}
+.day.is-today{box-shadow:0 0 0 1.5px var(--ink);}
+.day.drag-over{background:var(--fill-2);box-shadow:inset 0 0 0 1.5px var(--ink-3);}
+
+.day-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 12px 9px;flex:0 0 auto;
+}
+.calendar.month .day-head{padding:8px 9px 6px;}
+.day.is-on .day-head{border-bottom:.5px solid var(--hairline);}
+.calendar.month .day.is-on .day-head{border-bottom:0;}
+.day-name{
+  font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+.day.is-on .day-name{color:var(--ink-2);}
+.calendar.month .day-name{display:none;}
+.day-num{
+  font-size:15px;font-weight:600;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;color:var(--ink);
+}
+.calendar.month .day-num{font-size:12px;}
+.day.is-off .day-num{color:var(--ink-3);}
+.day.is-today .day-num{
+  background:var(--ink);color:#fff;
+  min-width:23px;height:23px;border-radius:980px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:13px;margin:-2px 0;
+}
+.calendar.month .day.is-today .day-num{
+  min-width:20px;height:20px;font-size:11px;
+}
+.day-body{
+  flex:1;min-height:0;overflow-y:auto;
+  padding:9px;display:flex;flex-direction:column;gap:8px;
+}
+.calendar.month .day-body{padding:4px 6px 6px;gap:3px;overflow:hidden;}
+
+.day-add{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:27px;flex:0 0 auto;
+  border:1px dashed var(--ink-4);background:transparent;
+  border-radius:var(--r-xs);color:var(--ink-3);cursor:pointer;
+  transition:border-color .16s ease, color .16s ease, background .16s ease;
+}
+.day-add:hover{border-color:var(--ink-3);color:var(--ink);background:rgba(0,0,0,.02);}
+
+.post-card{
+  background:var(--fill);border-radius:var(--r-xs);
+  padding:10px 11px;cursor:pointer;flex:0 0 auto;
+  transition:background .16s ease, transform .08s ease;
+}
+.post-card:hover{background:var(--fill-2);}
+.post-card:active{transform:scale(.985);}
+.post-card.dragging{opacity:.35;}
+
+.card-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:6px;margin-bottom:7px;flex-wrap:wrap;
+}
+.plat-tags{display:flex;gap:4px;flex-wrap:wrap;}
+.plat-tag{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:20px;height:17px;padding:0 5px;
+  font-size:9px;font-weight:600;letter-spacing:.03em;
+  border-radius:5px;background:var(--fill-2);color:var(--ink-2);
+}
+.plat-tag.muted{background:transparent;color:var(--ink-3);}
+
+.status-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:2px 7px;border-radius:6px;
+  font-size:10px;font-weight:500;white-space:nowrap;
+  flex:0 0 auto;
+}
+.status-dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto;}
+
+.card-title{
+  margin:0 0 6px;font-size:13px;font-weight:600;line-height:1.35;
+  letter-spacing:-.01em;color:var(--ink);word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-desc{
+  font-size:11px;color:var(--ink-2);line-height:1.4;
+  margin:-2px 0 8px;
+  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-progress{display:flex;align-items:center;gap:8px;}
+.card-time{
+  font-size:10.5px;font-weight:600;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.pct{
+  font-size:10.5px;font-weight:500;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;min-width:30px;text-align:right;
+}
+
+.month-post{
+  display:flex;align-items:center;gap:5px;
+  padding:3px 6px;border-radius:4px;
+  background:var(--fill);cursor:pointer;
+  font-size:10.5px;line-height:1.3;
+  transition:background .14s ease;
+  flex:0 0 auto;
+}
+.month-post:hover{background:var(--fill-2);}
+.month-post.dragging{opacity:.35;}
+.mp-time{
+  font-variant-numeric:tabular-nums;
+  font-weight:600;color:var(--ink-2);
+  font-size:9.5px;flex:0 0 auto;
+}
+.mp-title{
+  flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-weight:500;color:var(--ink);
+}
+.mp-status{
+  width:5px;height:5px;border-radius:50%;flex:0 0 auto;
+}
+
+.list-inner{
+  display:flex;flex-direction:column;gap:8px;
+  max-width:920px;margin:0 auto;
+}
+.empty-state{
+  text-align:center;padding:60px 20px;color:var(--ink-3);
+  font-size:14px;
+}
+.list-item{
+  display:flex;align-items:stretch;
+  background:var(--surface);border-radius:var(--r-md);
+  box-shadow:var(--shadow-card);
+  padding:14px 16px;gap:14px;
+  cursor:pointer;position:relative;
+  transition:box-shadow .15s, opacity .15s;
+}
+.list-item:hover{box-shadow:0 0 0 .5px rgba(0,0,0,.1), 0 2px 10px rgba(0,0,0,.06);}
+.list-item.dragging{opacity:.4;}
+.list-item.drop-before::before,
+.list-item.drop-after::after{
+  content:'';position:absolute;left:0;right:0;
+  height:2px;background:var(--ink);border-radius:2px;
+}
+.list-item.drop-before::before{top:-5px;}
+.list-item.drop-after::after{bottom:-5px;}
+
+.list-handle{
+  display:flex;align-items:center;color:var(--ink-3);
+  cursor:grab;padding:0 2px;flex:0 0 auto;
+}
+.list-handle:active{cursor:grabbing;}
+
+.list-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;}
+.list-top{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.list-title{
+  margin:0;font-size:15px;font-weight:600;letter-spacing:-.015em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.list-desc{
+  font-size:12.5px;color:var(--ink-2);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  margin-top:-2px;
+}
+.list-meta{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  font-size:12px;color:var(--ink-2);margin-top:2px;
+}
+.list-date{font-variant-numeric:tabular-nums;white-space:nowrap;}
+.list-date b{color:var(--ink);font-weight:600;}
+.list-bar{flex:1;min-width:60px;max-width:200px;}
+.list-progress-pct{
+  font-variant-numeric:tabular-nums;font-weight:500;
+  color:var(--ink-2);min-width:34px;text-align:right;
+}
+
+/* ---------- Stats view ---------- */
+.stats-wrap{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+.stats-hero{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.stat-card{
+  background:var(--surface);border-radius:var(--r-md);
+  padding:18px 20px;box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:6px;
+  min-height:120px;
+}
+.stat-label{font-size:11.5px;font-weight:500;color:var(--ink-2);letter-spacing:-.005em;}
+.stat-value{
+  font-size:28px;font-weight:600;letter-spacing:-.035em;
+  font-variant-numeric:tabular-nums;line-height:1.1;
+}
+.stat-sub{
+  font-size:12px;color:var(--ink-2);margin-top:auto;
+  font-variant-numeric:tabular-nums;
+}
+.stat-card .bar{margin-top:auto;}
+.stat-card .bar .bar-fill{background:var(--ink);}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.stat-panel{
+  background:var(--surface);border-radius:var(--r-md);
+  padding:20px;box-shadow:var(--shadow-card);
+}
+.stat-panel h3{margin:0 0 16px;font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.stat-bar-row{display:flex;align-items:center;gap:12px;padding:7px 0;}
+.stat-bar-label{
+  font-size:12.5px;color:var(--ink-2);
+  width:110px;flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.stat-bar-label .legend-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;}
+.stat-bar-row .bar{height:6px;border-radius:3px;}
+.stat-bar-value{
+  font-size:12.5px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+  min-width:36px;text-align:right;
+}
+.stat-panel .empty-mini{
+  padding:24px 0;text-align:center;
+  font-size:12.5px;color:var(--ink-3);
+}
+.upcoming-list{display:flex;flex-direction:column;gap:1px;margin:0 -8px;}
+.upcoming-row{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 8px;border-radius:8px;
+  transition:background .13s ease;
+}
+.upcoming-row:hover{background:var(--fill);}
+.upcoming-date{
+  font-size:12px;font-weight:600;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+  width:120px;flex:0 0 auto;
+}
+.upcoming-title{
+  flex:1;min-width:0;font-size:13.5px;font-weight:500;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.upcoming-plats{display:flex;gap:3px;flex:0 0 auto;}
+
+/* ---------- Analytics view ---------- */
+.analytics-wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+
+.an-intro h2{margin:0 0 4px;font-size:20px;font-weight:600;letter-spacing:-.02em;}
+.an-intro p{margin:0 0 4px;font-size:13px;color:var(--ink-2);line-height:1.5;}
+
+.an-hero{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.an-card{
+  background:var(--surface);border-radius:var(--r-md);
+  padding:20px;box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;gap:6px;
+  min-height:114px;
+}
+.an-label{font-size:12px;font-weight:500;color:var(--ink-2);}
+.an-value{
+  font-size:30px;font-weight:600;letter-spacing:-.035em;
+  font-variant-numeric:tabular-nums;line-height:1.1;
+}
+.an-sub{font-size:11.5px;color:var(--ink-3);margin-top:auto;}
+
+.an-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.an-panel{
+  background:var(--surface);border-radius:var(--r-md);
+  padding:22px;box-shadow:var(--shadow-card);
+}
+.an-panel h3{margin:0 0 16px;font-size:14px;font-weight:600;letter-spacing:-.01em;}
+
+.an-metric-row{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:12px 0;border-bottom:.5px solid var(--hairline);gap:12px;
+}
+.an-metric-row:last-child{border-bottom:0;}
+.an-metric-row .lbl{font-size:13px;color:var(--ink-2);}
+.an-metric-row .val{
+  font-size:20px;font-weight:600;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;
+}
+.an-metric-row .val small{font-size:12px;font-weight:500;color:var(--ink-2);margin-left:2px;}
+
+.an-plat-row{display:flex;align-items:center;gap:12px;padding:8px 0;}
+.an-plat-name{width:90px;flex:0 0 auto;font-size:12.5px;font-weight:500;color:var(--ink-2);}
+.an-plat-bar{flex:1;height:8px;background:var(--fill-2);border-radius:4px;overflow:hidden;}
+.an-plat-bar > div{height:100%;background:var(--ink);border-radius:4px;transition:width .3s ease;}
+.an-plat-value{
+  font-size:12.5px;font-weight:600;
+  font-variant-numeric:tabular-nums;
+  min-width:90px;text-align:right;
+}
+.an-plat-value small{font-size:11px;color:var(--ink-3);font-weight:500;margin-left:4px;}
+
+.an-post-list{display:flex;flex-direction:column;gap:1px;margin:0 -8px;}
+.an-post-item{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 8px;border-radius:8px;cursor:pointer;
+  transition:background .13s ease;
+}
+.an-post-item:hover{background:var(--fill);}
+.an-post-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.an-post-title{
+  font-size:13.5px;font-weight:600;letter-spacing:-.01em;
+  margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.an-post-meta{
+  font-size:11.5px;color:var(--ink-2);
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+}
+.an-post-nums{display:flex;gap:14px;flex:0 0 auto;align-items:center;}
+.an-num{display:flex;flex-direction:column;align-items:flex-end;min-width:56px;}
+.an-num .n{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);}
+.an-num .l{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;}
+.an-post-empty{font-size:11.5px;color:var(--ink-3);flex:0 0 auto;}
+
+/* ---------- Modal ---------- */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.34);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  animation:fade .16s ease;
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+#presetBackdrop{z-index:110;}
+#settingsBackdrop{z-index:115;}
+#dataBackdrop{z-index:120;}
+#metricsBackdrop{z-index:125;}
+
+.modal{
+  width:540px;max-width:100%;max-height:92vh;overflow-y:auto;
+  background:var(--surface);border-radius:var(--r-lg);
+  padding:22px 24px 24px;box-shadow:var(--shadow-pop);
+  animation:pop .2s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes pop{from{transform:translateY(10px) scale(.985);opacity:0}to{transform:none;opacity:1}}
+
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.modal-head h3{margin:0;font-size:17px;font-weight:600;letter-spacing:-.02em;}
+
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.field > span{font-size:12px;font-weight:500;color:var(--ink-2);letter-spacing:-.005em;}
+.field input[type="text"],
+.field input[type="date"],
+.field input[type="time"],
+.field textarea,
+.field select{
+  width:100%;background-color:var(--fill);border:1px solid transparent;
+  border-radius:var(--r-xs);color:var(--ink);
+  padding:11px 12px;font-size:14px;outline:none;
+  transition:border-color .15s ease, background-color .15s ease;
+}
+.field textarea{resize:vertical;min-height:64px;line-height:1.5;}
+.field select{
+  padding-right:34px;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.field input::placeholder,
+.field textarea::placeholder{color:var(--ink-3);}
+.field input:focus,.field select:focus,.field textarea:focus{background-color:#fff;border-color:var(--hairline-2);}
+.field input[readonly]{cursor:default;color:var(--ink-2);font-variant-numeric:tabular-nums;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.date-hint{
+  font-style:normal;font-size:12px;font-weight:500;
+  color:var(--ink-2);letter-spacing:-.005em;
+}
+.date-hint.is-off{color:var(--ink-3);}
+
+.preset-apply{display:flex;gap:8px;align-items:stretch;}
+.preset-apply select{flex:1;min-width:0;}
+.preset-apply .ghost-btn{
+  padding:0 16px;border-radius:var(--r-xs);
+  background:var(--fill-2);white-space:nowrap;font-size:12.5px;
+}
+.preset-apply .ghost-btn:hover{background:rgba(0,0,0,.1);}
+
+.status-picker{display:flex;gap:6px;flex-wrap:wrap;}
+.status-picker button{
+  padding:7px 14px;border-radius:8px;
+  border:1px solid var(--hairline);
+  background:transparent;color:var(--ink-2);
+  font-size:12px;font-weight:500;cursor:pointer;
+  transition:all .15s ease;
+}
+.status-picker button:hover{border-color:var(--hairline-2);}
+
+.ptabs-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:8px;
+}
+.ptabs-head span:first-child{font-size:12px;font-weight:500;color:var(--ink-2);}
+.progress-badge{
+  font-size:11px;font-weight:600;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+  background:var(--fill-2);padding:2px 8px;border-radius:6px;
+}
+.ptabs{
+  display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;margin:0 -2px;
+}
+.ptabs button{
+  flex:0 0 auto;padding:7px 11px;
+  border:1px solid var(--hairline);
+  background:transparent;color:var(--ink-2);
+  border-radius:8px;font-size:12px;font-weight:500;
+  cursor:pointer;white-space:nowrap;
+  transition:all .15s ease;
+}
+.ptabs button:hover{border-color:var(--hairline-2);color:var(--ink);}
+.ptabs button.active{
+  background:var(--ink);color:#fff;border-color:var(--ink);
+}
+.ptabs .count{
+  font-size:10px;opacity:.75;margin-left:5px;
+  font-variant-numeric:tabular-nums;
+}
+
+.ptasks{
+  background:var(--fill);border-radius:var(--r-sm);
+  padding:6px;margin-bottom:16px;
+  max-height:300px;overflow-y:auto;
+}
+.task-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 8px;border-radius:7px;
+  transition:background .12s ease;
+}
+.task-item:hover{background:rgba(0,0,0,.035);}
+.task-item input[type="checkbox"]{
+  -webkit-appearance:none;appearance:none;
+  width:17px;height:17px;flex:0 0 auto;margin:1px 0 0;
+  border:1.5px solid var(--ink-4);border-radius:50%;
+  background:#fff;cursor:pointer;position:relative;
+  transition:background .15s ease, border-color .15s ease;
+}
+.task-item input[type="checkbox"]:hover{border-color:var(--ink-3);}
+.task-item input[type="checkbox"]:checked{background:var(--ink);border-color:var(--ink);}
+.task-item input[type="checkbox"]:checked::after{
+  content:'';position:absolute;left:5px;top:2px;
+  width:4px;height:8px;border:solid #fff;
+  border-width:0 2px 2px 0;transform:rotate(45deg);
+}
+.task-item .task-txt{
+  flex:1;font-size:13px;line-height:1.45;
+  cursor:pointer;word-break:break-word;letter-spacing:-.005em;
+}
+.task-item.done .task-txt{color:var(--ink-3);text-decoration:line-through;}
+.task-del{
+  border:0;background:transparent;color:var(--ink-3);cursor:pointer;
+  width:22px;height:22px;border-radius:6px;display:inline-flex;
+  align-items:center;justify-content:center;
+  opacity:0;transition:opacity .13s, background .13s, color .13s;
+}
+.task-item:hover .task-del{opacity:1;}
+.task-del:hover{background:rgba(0,0,0,.06);color:var(--ink);}
+
+.add-task-form{display:flex;gap:6px;padding:6px 4px 2px;}
+.add-task-form input{
+  flex:1;background:#fff;border:1px solid var(--hairline);
+  border-radius:7px;color:var(--ink);
+  padding:8px 10px;font-size:12.5px;outline:none;
+  transition:border-color .15s ease;
+}
+.add-task-form input::placeholder{color:var(--ink-3);}
+.add-task-form input:focus{border-color:var(--hairline-2);}
+.add-task-form button{
+  width:30px;height:30px;flex:0 0 auto;
+  border:0;background:var(--ink);color:#fff;
+  border-radius:7px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:opacity .15s;
+}
+.add-task-form button:hover{opacity:.85;}
+
+.empty-tasks{
+  padding:14px 8px;text-align:center;
+  font-size:12px;color:var(--ink-3);
+}
+
+.modal-actions{display:flex;align-items:center;gap:8px;margin-top:22px;}
+.modal-actions .spacer{flex:1;}
+
+/* ---------- Presets ---------- */
+.preset-row{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;border-radius:10px;
+  background:var(--fill);margin-bottom:8px;
+  transition:background .15s ease;
+}
+.preset-row:hover{background:var(--fill-2);}
+.preset-info{flex:1;min-width:0;}
+.preset-name{
+  font-size:14px;font-weight:600;letter-spacing:-.012em;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.preset-badge{
+  font-size:10px;font-weight:600;color:#fff;background:var(--ink);
+  padding:2px 7px;border-radius:5px;letter-spacing:.02em;text-transform:uppercase;
+}
+.preset-meta{
+  font-size:12px;color:var(--ink-2);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.preset-row .ghost-btn{padding:7px 13px;font-size:12.5px;background:rgba(0,0,0,.055);}
+.preset-row .ghost-btn:hover{background:rgba(0,0,0,.1);}
+.preset-empty{
+  padding:34px 12px;text-align:center;color:var(--ink-3);font-size:13px;
+}
+.preset-actions{margin-top:14px;display:flex;gap:8px;}
+.preset-default-toggle{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 0 2px;font-size:13px;cursor:pointer;user-select:none;
+}
+.preset-default-toggle input{
+  -webkit-appearance:none;appearance:none;
+  width:18px;height:18px;flex:0 0 auto;
+  border:1.5px solid var(--ink-4);border-radius:5px;
+  background:#fff;cursor:pointer;position:relative;
+  transition:background .15s, border-color .15s;
+}
+.preset-default-toggle input:checked{background:var(--ink);border-color:var(--ink);}
+.preset-default-toggle input:checked::after{
+  content:'';position:absolute;left:5px;top:1.5px;
+  width:4px;height:9px;border:solid #fff;
+  border-width:0 2px 2px 0;transform:rotate(45deg);
+}
+
+/* ---------- Settings ---------- */
+.settings-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+.settings-row{
+  display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:10px;
+  background:var(--fill);border-radius:10px;padding:12px 14px;
+}
+.settings-day{font-size:13.5px;font-weight:600;letter-spacing:-.01em;}
+.settings-row input[type="time"]{
+  background:#fff;border:1px solid var(--hairline);
+  border-radius:7px;padding:8px 10px;font-size:13px;
+  width:100px;outline:none;
+  font-variant-numeric:tabular-nums;
+  transition:border-color .15s ease;
+}
+.settings-row input[type="time"]:focus{border-color:var(--hairline-2);}
+.settings-dash{color:var(--ink-3);font-size:13px;}
+.settings-help{
+  font-size:12.5px;color:var(--ink-2);line-height:1.55;
+  margin:0 0 18px;letter-spacing:-.005em;
+}
+
+/* ---------- Data modal ---------- */
+.data-section{margin-bottom:22px;}
+.data-section:last-child{margin-bottom:0;}
+.data-section h4{margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:-.01em;}
+.data-section p{font-size:12.5px;color:var(--ink-2);margin:0 0 10px;line-height:1.5;}
+.data-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.data-section input[type="file"]{font-size:12.5px;margin-bottom:8px;color:var(--ink-2);max-width:100%;}
+.data-section textarea{
+  width:100%;background:var(--fill);border:1px solid transparent;
+  border-radius:var(--r-xs);color:var(--ink);
+  padding:10px 12px;font-size:12px;
+  font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  resize:vertical;min-height:100px;outline:none;
+  margin-bottom:10px;line-height:1.5;
+  transition:border-color .15s ease, background-color .15s ease;
+}
+.data-section textarea:focus{background:#fff;border-color:var(--hairline-2);}
+.data-hint{font-size:11.5px;color:var(--ink-3);margin:8px 0 0;line-height:1.5;}
+
+/* ---------- Metrics modal ---------- */
+.metrics-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:18px;}
+.metrics-tabs button{
+  border:1px solid var(--hairline);background:transparent;color:var(--ink-2);
+  padding:7px 12px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;
+  transition:all .15s ease;white-space:nowrap;
+}
+.metrics-tabs button:hover{border-color:var(--hairline-2);color:var(--ink);}
+.metrics-tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.metrics-tabs .count{
+  display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:currentColor;opacity:.6;margin-left:6px;vertical-align:middle;
+}
+
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.metrics-field{display:flex;flex-direction:column;gap:6px;}
+.metrics-field span{font-size:11.5px;font-weight:500;color:var(--ink-2);}
+.metrics-field input{
+  background:var(--fill);border:1px solid transparent;
+  border-radius:var(--r-xs);color:var(--ink);
+  padding:11px 12px;font-size:16px;font-weight:500;
+  font-variant-numeric:tabular-nums;outline:none;
+  transition:border-color .15s ease, background-color .15s ease;
+  width:100%;
+}
+.metrics-field input:focus{background:#fff;border-color:var(--hairline-2);}
+.metrics-field input::-webkit-outer-spin-button,
+.metrics-field input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.metrics-field input[type=number]{-moz-appearance:textfield;}
+
+.metrics-total{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;border-radius:10px;background:var(--fill);
+  font-size:13px;color:var(--ink-2);
+  margin-bottom:4px;
+}
+.metrics-total b{font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .calendar{grid-template-columns:repeat(7,minmax(148px,1fr));overflow-x:auto;}
+  .calendar.month{grid-template-columns:repeat(7,minmax(110px,1fr));}
+  .stats-hero,.an-hero{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:860px){
+  .topbar{padding:10px 16px;gap:10px;}
+  .content{padding:12px 16px 18px;}
+  .week-label{min-width:auto;font-size:12.5px;}
+  .stats{display:none;}
+  .list-inner{max-width:none;}
+  .stats-row,.an-row{grid-template-columns:1fr;}
+}
+@media (max-width:640px){
+  .brand-name{display:none;}
+  .calendar{grid-template-columns:repeat(7,minmax(130px,1fr));}
+  .calendar.month{grid-template-columns:repeat(7,minmax(90px,1fr));}
+  .field-row{grid-template-columns:1fr;}
+  .modal{padding:18px;}
+  .list-meta{gap:8px;}
+  .stats-hero,.an-hero{grid-template-columns:1fr 1fr;}
+  .upcoming-date{width:100px;}
+  .upcoming-plats{display:none;}
+  .an-post-nums{display:none;}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span class="brand-name">SMM</span>
+    </div>
+
+    <div class="view-tabs" role="tablist" aria-label="Вид">
+      <button class="view-tab active" data-view="calendar" role="tab">Календарь</button>
+      <button class="view-tab" data-view="list" role="tab">Список</button>
+      <button class="view-tab" data-view="stats" role="tab">Статистика</button>
+      <button class="view-tab" data-view="analytics" role="tab">Аналитика</button>
+    </div>
+
+    <div class="scale-toggle" id="scaleToggle" style="display:none;">
+      <button class="scale-btn active" data-scale="week">Неделя</button>
+      <button class="scale-btn" data-scale="month">Месяц</button>
+    </div>
+
+    <div class="week-nav" id="weekNav">
+      <button class="icon-btn" id="prevWeek" aria-label="Назад">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="week-label" id="weekLabel">—</div>
+      <button class="icon-btn" id="nextWeek" aria-label="Вперёд">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <button class="ghost-btn" id="todayBtn" style="margin-left:6px;">Сегодня</button>
+    </div>
+
+    <div class="topbar-right">
+      <span class="stats" id="stats"></span>
+      <button class="ghost-btn" id="settingsBtn">Интервалы</button>
+      <button class="ghost-btn" id="presetsBtn">Пресеты</button>
+      <button class="ghost-btn" id="dataBtn">Данные</button>
+      <button class="primary-btn" id="addPostBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Добавить пост
+      </button>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="calendar-view" id="calendarView">
+      <div class="calendar" id="calendar" aria-label="Календарь"></div>
+    </section>
+    <section class="list-view" id="listView" hidden>
+      <div class="list-inner" id="listInner"></div>
+    </section>
+    <section class="stats-view" id="statsView" hidden>
+      <div class="stats-wrap" id="statsInner"></div>
+    </section>
+    <section class="analytics-view" id="analyticsView" hidden>
+      <div class="analytics-wrap" id="analyticsInner"></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <h3 id="modalTitle">Новый пост</h3>
+      <button class="icon-btn" id="modalClose" aria-label="Закрыть">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <form id="postForm">
+      <label class="field">
+        <span>Название или идея</span>
+        <input type="text" id="fTitle" required maxlength="90" placeholder="Разбор кроссовок SS26">
+      </label>
+
+      <label class="field">
+        <span>Описание (необязательно)</span>
+        <textarea id="fDescription" rows="2" maxlength="300" placeholder="Короткое описание, ссылки, идеи"></textarea>
+      </label>
+
+      <div class="field">
+        <span>Пресет задач</span>
+        <div class="preset-apply">
+          <select id="fPreset"></select>
+          <button type="button" class="ghost-btn" id="managePresetsBtn">Настроить</button>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <label class="field">
+          <span>Дата публикации</span>
+          <input type="date" id="fDate" required>
+          <em class="date-hint" id="fDateHint">—</em>
+        </label>
+        <div class="field">
+          <span>Время (авто)</span>
+          <input type="text" id="fTime" readonly placeholder="Авто">
+        </div>
+      </div>
+
+      <div class="field">
+        <span>Статус</span>
+        <div class="status-picker" id="statusPicker"></div>
+      </div>
+
+      <div class="field">
+        <div class="ptabs-head">
+          <span>Задачи по платформам</span>
+          <span class="progress-badge" id="modalProgress">0%</span>
+        </div>
+        <div class="ptabs" id="platformTabs"></div>
+      </div>
+      <div class="ptasks" id="platformTasks"></div>
+
+      <div class="modal-actions">
+        <button type="button" class="text-btn" id="deleteBtn" hidden>Удалить</button>
+        <div class="spacer"></div>
+        <button type="button" class="ghost-btn" id="cancelBtn">Отмена</button>
+        <button type="submit" class="primary-btn">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="presetBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="presetModalTitle">
+    <div class="modal-head">
+      <h3 id="presetModalTitle">Пресеты задач</h3>
+      <button class="icon-btn" id="presetClose" aria-label="Закрыть">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="presetBody"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="settingsBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-head">
+      <h3 id="settingsTitle">Интервалы публикаций</h3>
+      <button class="icon-btn" id="settingsClose" aria-label="Закрыть">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="settingsBody"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="dataBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dataTitle" style="width:560px;">
+    <div class="modal-head">
+      <h3 id="dataTitle">Данные</h3>
+      <button class="icon-btn" id="dataClose" aria-label="Закрыть">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="data-section">
+      <h4>Экспорт</h4>
+      <p>Скачайте файл или скопируйте данные, чтобы перенести план на другое устройство.</p>
+      <div class="data-actions">
+        <button type="button" class="primary-btn" id="exportFileBtn">Скачать файл</button>
+        <button type="button" class="ghost-btn" id="exportClipboardBtn">Скопировать в буфер</button>
+      </div>
+    </div>
+
+    <div class="data-section">
+      <h4>Импорт</h4>
+      <p>Выберите файл или вставьте JSON. Текущие данные будут заменены.</p>
+      <input type="file" id="importFile" accept=".json,application/json">
+      <textarea id="importText" placeholder="Вставьте JSON здесь…"></textarea>
+      <div class="data-actions">
+        <button type="button" class="primary-btn" id="importBtn">Импортировать</button>
+      </div>
+      <p class="data-hint">Импорт заменяет посты, пресеты и настройки интервалов текущего браузера.</p>
+    </div>
+  </div>
+</div>
+
+<!-- METRICS MODAL -->
+<div class="modal-backdrop" id="metricsBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="metricsTitle" style="width:520px;">
+    <div class="modal-head">
+      <h3 id="metricsTitle">Метрики</h3>
+      <button class="icon-btn" id="metricsClose" aria-label="Закрыть">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="metricsBody"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ========== CONSTANTS ========== */
+  const STORAGE_KEY = 'smm-planner-v2';
+  const PLATFORMS = ['TikTok', 'Instagram', 'Telegram', 'YouTube', 'Pinterest'];
+  const PLATFORM_SHORT = { TikTok:'TT', Instagram:'IG', Telegram:'TG', YouTube:'YT', Pinterest:'PT' };
+  const STATUSES = ['Идея', 'В работе', 'Готово', 'Опубликовано'];
+  const STATUS_STYLE = {
+    'Идея':        { dot:'var(--s-idea)',  bg:'var(--s-idea-bg)',  txt:'var(--s-idea-txt)'  },
+    'В работе':    { dot:'var(--s-work)',  bg:'var(--s-work-bg)',  txt:'var(--s-work-txt)'  },
+    'Готово':      { dot:'var(--s-ready)', bg:'var(--s-ready-bg)', txt:'var(--s-ready-txt)' },
+    'Опубликовано':{ dot:'var(--s-pub)',   bg:'var(--s-pub-bg)',   txt:'var(--s-pub-txt)'   }
+  };
+  const PUB_DOW   = [2, 4, 6];
+  const PUB_DOW_NAMES = { 2:'Вторник', 4:'Четверг', 6:'Суббота' };
+  const DAY_NAMES = ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'];
+  const DAY_NAMES_FULL = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+  const MONTHS    = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+  const MONTHS_FULL = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  const METRIC_KEYS = ['views', 'likes', 'comments', 'clicks'];
+  const METRIC_LABELS = { views:'Просмотры', likes:'Лайки', comments:'Комментарии', clicks:'Переходы по ссылке' };
+  const METRIC_SHORT = { views:'Просм.', likes:'Лайки', comments:'Комм.', clicks:'Клики' };
+
+  const DEFAULT_INTERVALS = {
+    2: { start:'18:00', end:'21:00' },
+    4: { start:'18:00', end:'21:00' },
+    6: { start:'15:00', end:'18:00' }
+  };
+
+  /* ========== UTILS ========== */
+  const $ = (s) => document.querySelector(s);
+  const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => (
+    { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]
+  ));
+  const ymd = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const parseYmd = (s) => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+  const addDays = (d, n) => { const r = new Date(d.getFullYear(), d.getMonth(), d.getDate()); r.setDate(r.getDate()+n); return r; };
+  const mondayOf = (d) => { const base = new Date(d.getFullYear(), d.getMonth(), d.getDate()); return addDays(base, -((base.getDay()+6)%7)); };
+  const plural = (n, one, few, many) => {
+    const n10 = n % 10, n100 = n % 100;
+    if (n10 === 1 && n100 !== 11) return one;
+    if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return few;
+    return many;
+  };
+  const formatDateLabel = (dateStr) => {
+    const d = parseYmd(dateStr);
+    return `${DAY_NAMES[(d.getDay()+6)%7]}, ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+  };
+  const timeToMin = (t) => {
+    if (!t || typeof t !== 'string') return 0;
+    const [h, m] = t.split(':').map(Number);
+    return (h * 60) + (m || 0);
+  };
+  const minToTime = (min) => {
+    const total = Math.max(0, Math.floor(min));
+    const h = Math.floor(total / 60);
+    const m = total % 60;
+    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  };
+  const formatNumber = (n) => {
+    const num = Math.round(Number(n) || 0);
+    return String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  };
+  const formatCompact = (n) => {
+    const num = Number(n) || 0;
+    if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (num >= 10000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return String(Math.round(num));
+  };
+  const formatPercent = (v) => {
+    if (!isFinite(v) || v <= 0) return '0%';
+    const fixed = v.toFixed(1);
+    return (fixed.endsWith('.0') ? fixed.slice(0, -2) : fixed) + '%';
+  };
+
+  function hashToFraction(str) {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return ((h >>> 0) % 100000) / 100000;
+  }
+
+  function computeTimeInSlot(postId, dateStr, slotIndex, totalCount, interval) {
+    if (!interval || totalCount <= 0) return null;
+    const startMin = timeToMin(interval.start);
+    const endMin = timeToMin(interval.end);
+    const span = endMin - startMin;
+    if (span <= 0) return null;
+    const slotStart = startMin + (span * slotIndex) / totalCount;
+    const slotEnd = startMin + (span * (slotIndex + 1)) / totalCount;
+    const slotSpan = slotEnd - slotStart;
+    const fraction = hashToFraction(String(postId) + '|' + dateStr);
+    const adjusted = 0.05 + fraction * 0.9;
+    const minutes = Math.floor(slotStart + adjusted * slotSpan);
+    return minToTime(minutes);
+  }
+
+  /* ========== STATE ========== */
+  let state = {
+    posts: [],
+    presets: [],
+    settings: { dayIntervals: Object.assign({}, DEFAULT_INTERVALS) },
+    weekStart: null,
+    view: 'calendar',
+    calendarScale: 'week'
+  };
+  let editingId = null;
+  let draft = null;
+  let activePlatform = 'TikTok';
+  let dragIndex = null;
+
+  let presetScreen = 'list';
+  let presetDraft = null;
+  let presetActivePlatform = 'TikTok';
+
+  let metricsPostId = null;
+  let metricsDraft = null;
+  let metricsActivePlatform = 'TikTok';
+
+  /* ========== METRICS HELPERS ========== */
+  function emptyMetrics() {
+    return { views: 0, likes: 0, comments: 0, clicks: 0 };
+  }
+
+  function ensureMetrics(post) {
+    if (!post.metrics || typeof post.metrics !== 'object') post.metrics = {};
+    PLATFORMS.forEach(pl => {
+      if (!post.metrics[pl] || typeof post.metrics[pl] !== 'object') {
+        post.metrics[pl] = emptyMetrics();
+      } else {
+        const m = post.metrics[pl];
+        METRIC_KEYS.forEach(k => {
+          const v = Number(m[k]);
+          m[k] = isFinite(v) && v >= 0 ? Math.round(v) : 0;
+        });
+      }
+    });
+  }
+
+  function postTotals(post) {
+    const t = emptyMetrics();
+    if (!post.metrics) return t;
+    PLATFORMS.forEach(pl => {
+      const m = post.metrics[pl];
+      if (!m) return;
+      METRIC_KEYS.forEach(k => { t[k] += Number(m[k]) || 0; });
+    });
+    return t;
+  }
+
+  function postHasMetrics(post) {
+    const t = postTotals(post);
+    return METRIC_KEYS.some(k => t[k] > 0);
+  }
+
+  function globalTotals() {
+    const t = emptyMetrics();
+    state.posts.forEach(p => {
+      const pt = postTotals(p);
+      METRIC_KEYS.forEach(k => { t[k] += pt[k]; });
+    });
+    return t;
+  }
+
+  function globalPerPlatform() {
+    const out = {};
+    PLATFORMS.forEach(pl => {
+      out[pl] = Object.assign(emptyMetrics(), { posts: 0 });
+    });
+    state.posts.forEach(p => {
+      PLATFORMS.forEach(pl => {
+        const m = p.metrics && p.metrics[pl];
+        if (!m) return;
+        const any = METRIC_KEYS.some(k => (Number(m[k]) || 0) > 0);
+        if (any) out[pl].posts++;
+        METRIC_KEYS.forEach(k => { out[pl][k] += Number(m[k]) || 0; });
+      });
+    });
+    return out;
+  }
+
+  function hasMetricsForPlatform(post, pl) {
+    const m = post.metrics && post.metrics[pl];
+    if (!m) return false;
+    return METRIC_KEYS.some(k => (Number(m[k]) || 0) > 0);
+  }
+
+  /* ========== NORMALIZE / PERSISTENCE ========== */
+  function normalizeState(raw) {
+    if (!raw || typeof raw !== 'object' || !Array.isArray(raw.posts)) return null;
+
+    raw.posts = raw.posts.filter(p => p && typeof p === 'object');
+    raw.posts.forEach(p => {
+      if (!p.id) p.id = uid();
+      if (typeof p.title !== 'string') p.title = 'Без названия';
+      if (typeof p.description !== 'string') p.description = '';
+      if (typeof p.date !== 'string') p.date = ymd(new Date());
+      if (!STATUSES.includes(p.status)) p.status = 'Идея';
+      if (typeof p.presetId !== 'string') p.presetId = '';
+      if (p.time === undefined) p.time = null;
+      if (!p.platforms) p.platforms = {};
+      PLATFORMS.forEach(pl => {
+        if (!Array.isArray(p.platforms[pl])) p.platforms[pl] = [];
+        p.platforms[pl].forEach(t => {
+          if (!t || typeof t !== 'object') return;
+          if (!t.id) t.id = uid();
+          if (typeof t.text !== 'string') t.text = '';
+          if (typeof t.done !== 'boolean') t.done = false;
+        });
+        p.platforms[pl] = p.platforms[pl].filter(t => t && typeof t.text === 'string');
+      });
+      ensureMetrics(p);
+    });
+
+    if (!Array.isArray(raw.presets)) raw.presets = [];
+    raw.presets = raw.presets.filter(pr => pr && typeof pr === 'object');
+    raw.presets.forEach(pr => {
+      if (!pr.id) pr.id = uid();
+      if (typeof pr.name !== 'string') pr.name = 'Пресет';
+      if (typeof pr.isDefault !== 'boolean') pr.isDefault = false;
+      if (!pr.tasks || typeof pr.tasks !== 'object') pr.tasks = {};
+      PLATFORMS.forEach(pl => {
+        if (!Array.isArray(pr.tasks[pl])) pr.tasks[pl] = [];
+        pr.tasks[pl].forEach(t => {
+          if (!t || typeof t !== 'object') return;
+          if (!t.id) t.id = uid();
+          if (typeof t.text !== 'string') t.text = '';
+        });
+        pr.tasks[pl] = pr.tasks[pl].filter(t => t && typeof t.text === 'string');
+      });
+    });
+
+    if (!raw.settings || typeof raw.settings !== 'object') raw.settings = {};
+    if (!raw.settings.dayIntervals || typeof raw.settings.dayIntervals !== 'object') {
+      raw.settings.dayIntervals = Object.assign({}, DEFAULT_INTERVALS);
+    }
+    PUB_DOW.forEach(dow => {
+      const iv = raw.settings.dayIntervals[dow];
+      if (!iv || typeof iv !== 'object' || !iv.start || !iv.end) {
+        raw.settings.dayIntervals[dow] = Object.assign({}, DEFAULT_INTERVALS[dow]);
+      }
+    });
+
+    if (typeof raw.weekStart !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(raw.weekStart)) {
+      raw.weekStart = ymd(mondayOf(new Date()));
+    }
+    if (!['calendar','list','stats','analytics'].includes(raw.view)) raw.view = 'calendar';
+    if (!['week','month'].includes(raw.calendarScale)) raw.calendarScale = 'week';
+
+    return raw;
+  }
+
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch (e) { console.warn('Ошибка сохранения:', e); }
+  }
+
+  function load() {
+    let parsed = null;
+    try { parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (e) { /* ignore */ }
+
+    if (!parsed || !Array.isArray(parsed.posts)) {
+      seed();
+    } else {
+      const normalized = normalizeState(parsed);
+      if (normalized) state = normalized;
+      else seed();
+    }
+    if (!state.presets || state.presets.length === 0) {
+      seedPresets();
+      state = normalizeState(state) || state;
+    }
+
+    recomputeAllTimes();
+    sortPosts();
+    save();
+  }
+
+  function mkTask(text) { return { id: uid(), text }; }
+
+  function seed() {
+    const mon = mondayOf(new Date());
+    const d = (i) => ymd(addDays(mon, i));
+    const lastMon = mondayOf(addDays(mon, -7));
+    const dp = (i) => ymd(addDays(lastMon, i));
+
+    state.posts = [
+      mkPost('Разбор кроссовок SS26', d(1), 'В работе',
+        'Обзор новой линейки, акцент на амортизации и посадке.',
+        { TikTok: ['Сценарий рилса','Снять обзор','Смонтировать'],
+          Instagram: ['Карусель: 5 фото','Текст описания'] }),
+      mkPost('Карусель: 5 правил streetstyle', d(1), 'Идея',
+        'Подборка с примерами образов и короткими комментариями.',
+        { Instagram: ['Подобрать референсы','Собрать 5 фото'],
+          Telegram: ['Анонс поста'] }),
+      mkPost('Анонс дропа капсулы', dp(1), 'Опубликовано',
+        'Единый анонс на все соцсети с датой и составом капсулы.',
+        { TikTok: ['Тизер 15 сек','Публикация'],
+          Instagram: ['Сторис с датой','Пост-анонс'],
+          Telegram: ['Пост с датой','Закрепить'],
+          YouTube: ['Shorts-версия'],
+          Pinterest: ['Пин-анонс'] },
+        { TikTok: { views: 12500, likes: 620, comments: 42, clicks: 180 },
+          Instagram: { views: 8200, likes: 480, comments: 31, clicks: 95 },
+          Telegram: { views: 3100, likes: 210, comments: 18, clicks: 140 },
+          YouTube: { views: 1800, likes: 95, comments: 8, clicks: 22 },
+          Pinterest: { views: 900, likes: 45, comments: 2, clicks: 15 } }),
+      mkPost('Бэкстейдж со съёмки', d(5), 'Идея',
+        'Короткие моменты со съёмочной площадки.',
+        { TikTok: ['Выбрать лучшие кадры'],
+          Instagram: ['Reels-версия'] }),
+      mkPost('Опрос: какой цвет капсулы?', dp(3), 'Опубликовано',
+        'Вовлечение аудитории в выбор цвета следующего дропа.',
+        { Telegram: ['Создать опрос'],
+          Instagram: ['Stories-опрос'] },
+        { Telegram: { views: 2800, likes: 180, comments: 65, clicks: 50 },
+          Instagram: { views: 4100, likes: 320, comments: 28, clicks: 40 } })
+    ];
+    state.view = 'calendar';
+    state.calendarScale = 'week';
+    state.settings = { dayIntervals: Object.assign({}, DEFAULT_INTERVALS) };
+  }
+
+  function seedPresets() {
+    const p = (tasks) => {
+      const out = {};
+      PLATFORMS.forEach(pl => out[pl] = (tasks[pl] || []).map(mkTask));
+      return out;
+    };
+    state.presets = [
+      {
+        id: uid(), name: 'Стандартный пост', isDefault: true,
+        tasks: p({
+          TikTok: ['Сценарий','Съёмка','Монтаж','Публикация'],
+          Instagram: ['Подготовить фото','Текст описания','Хэштеги','Публикация'],
+          Telegram: ['Текст поста','Медиа','Публикация'],
+          YouTube: ['Сценарий','Съёмка','Монтаж','Публикация'],
+          Pinterest: ['Подготовить пин','Описание','Публикация']
+        })
+      },
+      {
+        id: uid(), name: 'Быстрый пост (TikTok + Telegram)', isDefault: false,
+        tasks: p({
+          TikTok: ['Снять рилс','Смонтировать','Опубликовать'],
+          Telegram: ['Написать текст','Опубликовать']
+        })
+      }
+    ];
+  }
+
+  function mkPost(title, date, status, description, tasksByPlatform, metricsByPlatform) {
+    const platforms = {};
+    PLATFORMS.forEach(pl => {
+      platforms[pl] = (tasksByPlatform[pl] || []).map(text => ({ id: uid(), text, done: false }));
+    });
+    if (status === 'Опубликовано' || status === 'Готово') {
+      PLATFORMS.forEach(pl => platforms[pl].forEach(t => t.done = true));
+    }
+    const metrics = {};
+    PLATFORMS.forEach(pl => {
+      const m = metricsByPlatform && metricsByPlatform[pl];
+      metrics[pl] = m ? {
+        views: Math.max(0, Number(m.views) || 0),
+        likes: Math.max(0, Number(m.likes) || 0),
+        comments: Math.max(0, Number(m.comments) || 0),
+        clicks: Math.max(0, Number(m.clicks) || 0)
+      } : emptyMetrics();
+    });
+    return { id: uid(), title, description: description || '', date, status, time: null, presetId: '', platforms, metrics };
+  }
+
+  /* ========== TIME ASSIGNMENT ========== */
+  function recomputeDayTimes(dateStr) {
+    const date = parseYmd(dateStr);
+    const dow = date.getDay();
+    const interval = state.settings.dayIntervals[dow];
+    const dayPosts = state.posts
+      .filter(p => p.date === dateStr)
+      .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+    if (!interval || dayPosts.length === 0) {
+      dayPosts.forEach(p => { p.time = null; });
+      return;
+    }
+    const startMin = timeToMin(interval.start);
+    const endMin = timeToMin(interval.end);
+    if (endMin - startMin <= 0) {
+      dayPosts.forEach(p => { p.time = null; });
+      return;
+    }
+    dayPosts.forEach((p, i) => {
+      p.time = computeTimeInSlot(p.id, dateStr, i, dayPosts.length, interval);
+    });
+  }
+
+  function recomputeAllTimes() {
+    const dates = [...new Set(state.posts.map(p => p.date))];
+    dates.forEach(d => recomputeDayTimes(d));
+  }
+
+  function sortPosts() {
+    state.posts.sort((a, b) => {
+      if (a.date !== b.date) return a.date.localeCompare(b.date);
+      return (a.time || '99:99').localeCompare(b.time || '99:99');
+    });
+  }
+
+  function afterMutation() {
+    recomputeAllTimes();
+    sortPosts();
+    save();
+    render();
+  }
+
+  /* ========== PROGRESS ========== */
+  function postProgress(post) {
+    let total = 0, done = 0;
+    PLATFORMS.forEach(pl => (post.platforms[pl] || []).forEach(t => { total++; if (t.done) done++; }));
+    return total === 0 ? 0 : Math.round(done / total * 100);
+  }
+  function draftProgress() {
+    if (!draft) return 0;
+    let total = 0, done = 0;
+    PLATFORMS.forEach(pl => (draft.platforms[pl] || []).forEach(t => { total++; if (t.done) done++; }));
+    return total === 0 ? 0 : Math.round(done / total * 100);
+  }
+
+  /* ========== AUTO-SCHEDULE ========== */
+  function nextPubDayFrom(date) {
+    let d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    for (let i = 0; i < 14; i++) {
+      if (PUB_DOW.includes(d.getDay())) return ymd(d);
+      d = addDays(d, 1);
+    }
+    return ymd(date);
+  }
+  function nextPublicationDate() {
+    if (state.posts.length === 0) return nextPubDayFrom(new Date());
+    const maxDate = state.posts.reduce((m, p) => p.date > m ? p.date : m, '0000-00-00');
+    return nextPubDayFrom(addDays(parseYmd(maxDate), 1));
+  }
+  function reassignDates() {
+    const dates = state.posts.map(p => p.date).sort();
+    state.posts.forEach((p, i) => { p.date = dates[i]; });
+  }
+
+  function getMonthStart() {
+    const w = parseYmd(state.weekStart);
+    if (w.getDate() === 1) return w;
+    return new Date(w.getFullYear(), w.getMonth() + 1, 1);
+  }
+  function snapWeekStartToMonth(baseDate) {
+    const m = new Date(baseDate.getFullYear(), baseDate.getMonth(), 1);
+    state.weekStart = ymd(mondayOf(m));
+  }
+
+  /* ========== PRESET APPLY ========== */
+  function applyPresetToDraft(preset) {
+    PLATFORMS.forEach(pl => {
+      draft.platforms[pl] = (preset.tasks[pl] || []).map(t => ({ id: uid(), text: t.text, done: false }));
+    });
+    draft.presetId = preset.id;
+    activePlatform = PLATFORMS.find(pl => (draft.platforms[pl] || []).length > 0) || 'TikTok';
+    renderPlatformTabs();
+    renderPlatformTasks();
+    updateModalProgress();
+  }
+  function clearDraftTasks() {
+    PLATFORMS.forEach(pl => { draft.platforms[pl] = []; });
+    draft.presetId = '';
+    activePlatform = 'TikTok';
+    renderPlatformTabs();
+    renderPlatformTasks();
+    updateModalProgress();
+  }
+
+  /* ========== RENDER: WEEK LABEL ========== */
+  function renderWeekLabel() {
+    if (state.view === 'calendar' && state.calendarScale === 'month') {
+      const ms = getMonthStart();
+      $('#weekLabel').textContent = `${MONTHS_FULL[ms.getMonth()]} ${ms.getFullYear()}`;
+      return;
+    }
+    const start = parseYmd(state.weekStart);
+    const end = addDays(start, 6);
+    const m1 = MONTHS[start.getMonth()], m2 = MONTHS[end.getMonth()];
+    $('#weekLabel').textContent = m1 === m2
+      ? `${start.getDate()}–${end.getDate()} ${m1} ${end.getFullYear()}`
+      : `${start.getDate()} ${m1} – ${end.getDate()} ${m2} ${end.getFullYear()}`;
+  }
+
+  function statusPillHtml(status) {
+    const st = STATUS_STYLE[status] || STATUS_STYLE['Идея'];
+    return `<span class="status-pill" style="background:${st.bg};color:${st.txt}">
+      <i class="status-dot" style="background:${st.dot}"></i>${escapeHtml(status)}
+    </span>`;
+  }
+
+  function platformTagsHtml(post) {
+    const has = PLATFORMS.filter(pl => (post.platforms[pl] || []).length > 0);
+    if (has.length === 0) return '<span class="plat-tag muted">—</span>';
+    return has.map(pl => `<span class="plat-tag" title="${pl}">${PLATFORM_SHORT[pl]}</span>`).join('');
+  }
+
+  /* ========== RENDER: CALENDAR ========== */
+  function createPostCard(post) {
+    const progress = postProgress(post);
+    const el = document.createElement('article');
+    el.className = 'post-card';
+    el.draggable = true;
+    el.dataset.id = post.id;
+    el.title = 'Клик — редактировать, перетащить — сменить день';
+
+    const descHtml = post.description
+      ? `<div class="card-desc">${escapeHtml(post.description)}</div>` : '';
+
+    el.innerHTML = `
+      <div class="card-top">
+        <div class="plat-tags">${platformTagsHtml(post)}</div>
+        ${statusPillHtml(post.status)}
+      </div>
+      <h4 class="card-title">${escapeHtml(post.title)}</h4>
+      ${descHtml}
+      <div class="card-progress">
+        ${post.time ? `<span class="card-time">${post.time}</span>` : ''}
+        <div class="bar"><div class="bar-fill" style="width:${progress}%"></div></div>
+        <span class="pct">${progress}%</span>
+      </div>`;
+
+    el.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', post.id);
+      e.dataTransfer.effectAllowed = 'move';
+      el.classList.add('dragging');
+    });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    el.addEventListener('click', () => openModal(post.id));
+    return el;
+  }
+
+  function renderCalendarWeek() {
+    const cal = $('#calendar');
+    cal.className = 'calendar';
+    cal.innerHTML = '';
+    const start = parseYmd(state.weekStart);
+    const todayStr = ymd(new Date());
+
+    for (let i = 0; i < 7; i++) {
+      const date = addDays(start, i);
+      const dateStr = ymd(date);
+      const dow = date.getDay();
+      const isPub = PUB_DOW.includes(dow);
+      const isToday = dateStr === todayStr;
+
+      const col = document.createElement('div');
+      col.className = 'day' + (isPub ? ' is-on' : ' is-off') + (isToday ? ' is-today' : '');
+      col.dataset.date = dateStr;
+
+      const head = document.createElement('div');
+      head.className = 'day-head';
+      head.innerHTML = `<span class="day-name">${DAY_NAMES[(dow+6)%7]}</span>
+        <span class="day-num">${date.getDate()}</span>`;
+      col.appendChild(head);
+
+      const body = document.createElement('div');
+      body.className = 'day-body';
+      state.posts.filter(p => p.date === dateStr).forEach(p => body.appendChild(createPostCard(p)));
+
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'day-add';
+      addBtn.title = 'Добавить пост на этот день';
+      addBtn.setAttribute('aria-label', 'Добавить пост на этот день');
+      addBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+      addBtn.addEventListener('click', () => openModal(null, dateStr));
+      body.appendChild(addBtn);
+
+      col.appendChild(body);
+      attachDropHandlers(col, dateStr);
+      cal.appendChild(col);
+    }
+  }
+
+  function renderCalendarMonth() {
+    const cal = $('#calendar');
+    cal.className = 'calendar month';
+    cal.innerHTML = '';
+
+    const monthStart = getMonthStart();
+    const monthEnd = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0);
+    const gridStart = mondayOf(monthStart);
+    const totalDays = Math.round((monthEnd - gridStart) / 86400000) + 1;
+    const weeksCount = Math.ceil(totalDays / 7);
+    const todayStr = ymd(new Date());
+
+    for (let i = 0; i < weeksCount * 7; i++) {
+      const date = addDays(gridStart, i);
+      const dateStr = ymd(date);
+      const dow = date.getDay();
+      const isPub = PUB_DOW.includes(dow);
+      const isToday = dateStr === todayStr;
+      const inMonth = date.getMonth() === monthStart.getMonth();
+
+      const col = document.createElement('div');
+      col.className = 'day'
+        + (inMonth && isPub ? ' is-on' : ' is-off')
+        + (isToday ? ' is-today' : '')
+        + (!inMonth ? ' is-outside' : '');
+      col.dataset.date = dateStr;
+
+      const head = document.createElement('div');
+      head.className = 'day-head';
+      head.innerHTML = `<span class="day-num">${date.getDate()}</span>`;
+      col.appendChild(head);
+
+      const body = document.createElement('div');
+      body.className = 'day-body';
+
+      state.posts.filter(p => p.date === dateStr).forEach(p => {
+        const chip = document.createElement('div');
+        chip.className = 'month-post';
+        chip.draggable = true;
+        chip.dataset.id = p.id;
+        const st = STATUS_STYLE[p.status] || STATUS_STYLE['Идея'];
+        chip.innerHTML = `
+          <span class="mp-status" style="background:${st.dot}"></span>
+          ${p.time ? `<span class="mp-time">${p.time}</span>` : ''}
+          <span class="mp-title">${escapeHtml(p.title)}</span>`;
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openModal(p.id);
+        });
+        chip.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', p.id);
+          e.dataTransfer.effectAllowed = 'move';
+          chip.classList.add('dragging');
+        });
+        chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+        body.appendChild(chip);
+      });
+
+      col.appendChild(body);
+      col.addEventListener('click', (e) => {
+        if (e.target.closest('.month-post')) return;
+        openModal(null, dateStr);
+      });
+
+      attachDropHandlers(col, dateStr);
+      cal.appendChild(col);
+    }
+  }
+
+  function attachDropHandlers(col, dateStr) {
+    col.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      col.classList.add('drag-over');
+    });
+    col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+    col.addEventListener('drop', (e) => {
+      e.preventDefault();
+      col.classList.remove('drag-over');
+      const id = e.dataTransfer.getData('text/plain');
+      const post = state.posts.find(p => p.id === id);
+      if (post && post.date !== dateStr) {
+        post.date = dateStr;
+        afterMutation();
+      }
+    });
+  }
+
+  /* ========== RENDER: LIST ========== */
+  function renderList() {
+    const wrap = $('#listInner');
+    wrap.innerHTML = '';
+    if (state.posts.length === 0) {
+      wrap.innerHTML = '<div class="empty-state">Пока нет постов. Нажмите «Добавить пост».</div>';
+      return;
+    }
+    state.posts.forEach((post, index) => wrap.appendChild(createListItem(post, index)));
+  }
+
+  function createListItem(post, index) {
+    const progress = postProgress(post);
+    const el = document.createElement('div');
+    el.className = 'list-item';
+    el.draggable = true;
+    el.dataset.id = post.id;
+    el.dataset.index = index;
+
+    el.innerHTML = `
+      <div class="list-handle" title="Перетащите для изменения порядка">
+        <svg width="12" height="16" viewBox="0 0 12 16" fill="currentColor" aria-hidden="true">
+          <circle cx="3" cy="3.5" r="1.2"/><circle cx="9" cy="3.5" r="1.2"/>
+          <circle cx="3" cy="8" r="1.2"/><circle cx="9" cy="8" r="1.2"/>
+          <circle cx="3" cy="12.5" r="1.2"/><circle cx="9" cy="12.5" r="1.2"/>
+        </svg>
+      </div>
+      <div class="list-body">
+        <div class="list-top">
+          <h3 class="list-title">${escapeHtml(post.title)}</h3>
+          ${statusPillHtml(post.status)}
+        </div>
+        ${post.description ? `<div class="list-desc">${escapeHtml(post.description)}</div>` : ''}
+        <div class="list-meta">
+          <div class="plat-tags">${platformTagsHtml(post)}</div>
+          <span class="list-date">${formatDateLabel(post.date)}${post.time ? ` · <b>${post.time}</b>` : ''}</span>
+          <div class="bar list-bar"><div class="bar-fill" style="width:${progress}%"></div></div>
+          <span class="list-progress-pct">${progress}%</span>
+        </div>
+      </div>`;
+
+    el.addEventListener('click', () => {
+      if (el.classList.contains('dragging')) return;
+      openModal(post.id);
+    });
+    el.addEventListener('dragstart', (e) => {
+      dragIndex = index;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(index));
+      el.classList.add('dragging');
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      document.querySelectorAll('.list-item').forEach(x => x.classList.remove('drop-before','drop-after'));
+      dragIndex = null;
+    });
+    el.addEventListener('dragover', (e) => {
+      if (dragIndex === null || dragIndex === index) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const rect = el.getBoundingClientRect();
+      const isAfter = e.clientY > rect.top + rect.height / 2;
+      document.querySelectorAll('.list-item').forEach(x => x.classList.remove('drop-before','drop-after'));
+      el.classList.add(isAfter ? 'drop-after' : 'drop-before');
+    });
+    el.addEventListener('dragleave', () => el.classList.remove('drop-before','drop-after'));
+    el.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (dragIndex === null || dragIndex === index) return;
+      const rect = el.getBoundingClientRect();
+      const isAfter = e.clientY > rect.top + rect.height / 2;
+      const from = dragIndex, to = index;
+      const [moved] = state.posts.splice(from, 1);
+      const targetNewIndex = to - (from < to ? 1 : 0);
+      const insertAt = isAfter ? targetNewIndex + 1 : targetNewIndex;
+      state.posts.splice(insertAt, 0, moved);
+      reassignDates();
+      dragIndex = null;
+      afterMutation();
+    });
+
+    return el;
+  }
+
+  /* ========== RENDER: STATS VIEW ========== */
+  function renderStatsView() {
+    const wrap = $('#statsInner');
+    if (state.posts.length === 0) {
+      wrap.innerHTML = '<div class="empty-state">Пока нет постов для отображения статистики.</div>';
+      return;
+    }
+    const total = state.posts.length;
+    let tasksTotal = 0, tasksDone = 0;
+    state.posts.forEach(p => PLATFORMS.forEach(pl => (p.platforms[pl] || []).forEach(t => {
+      tasksTotal++; if (t.done) tasksDone++;
+    })));
+    const avgProgress = Math.round(state.posts.reduce((s, p) => s + postProgress(p), 0) / total);
+    const publishedCount = state.posts.filter(p => p.status === 'Опубликовано').length;
+
+    const now = new Date();
+    const weekStart = mondayOf(now);
+    const weekEnd = addDays(weekStart, 6);
+    const thisWeekCount = state.posts.filter(p => {
+      const d = parseYmd(p.date);
+      return d >= weekStart && d <= weekEnd;
+    }).length;
+
+    const statusCounts = {};
+    STATUSES.forEach(s => statusCounts[s] = 0);
+    state.posts.forEach(p => { statusCounts[p.status] = (statusCounts[p.status] || 0) + 1; });
+
+    const platformCounts = {};
+    PLATFORMS.forEach(pl => platformCounts[pl] = 0);
+    state.posts.forEach(p => PLATFORMS.forEach(pl => {
+      if ((p.platforms[pl] || []).length > 0) platformCounts[pl]++;
+    }));
+
+    const nowYmd = ymd(now);
+    const upcoming = state.posts
+      .filter(p => p.date >= nowYmd)
+      .sort((a, b) => (a.date + (a.time||'')).localeCompare(b.date + (b.time||'')))
+      .slice(0, 6);
+
+    const maxStatus = Math.max(1, ...STATUSES.map(s => statusCounts[s]));
+    const maxPlat = Math.max(1, ...PLATFORMS.map(pl => platformCounts[pl]));
+    const tasksPct = tasksTotal ? Math.round(tasksDone / tasksTotal * 100) : 0;
+
+    wrap.innerHTML = `
+      <div class="stats-hero">
+        <div class="stat-card">
+          <div class="stat-label">Всего постов</div>
+          <div class="stat-value">${total}</div>
+          <div class="stat-sub">${thisWeekCount} на этой неделе</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Средняя готовность</div>
+          <div class="stat-value">${avgProgress}%</div>
+          <div class="bar"><div class="bar-fill" style="width:${avgProgress}%"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Задач выполнено</div>
+          <div class="stat-value">${tasksDone} / ${tasksTotal}</div>
+          <div class="bar"><div class="bar-fill" style="width:${tasksPct}%"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Опубликовано</div>
+          <div class="stat-value">${publishedCount}</div>
+          <div class="stat-sub">из ${total} ${plural(total,'поста','постов','постов')}</div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-panel">
+          <h3>По статусам</h3>
+          ${STATUSES.map(s => {
+            const st = STATUS_STYLE[s];
+            const c = statusCounts[s];
+            const w = Math.round(c / maxStatus * 100);
+            return `
+              <div class="stat-bar-row">
+                <span class="stat-bar-label">
+                  <i class="legend-dot" style="background:${st.dot}"></i>${escapeHtml(s)}
+                </span>
+                <div class="bar"><div class="bar-fill" style="width:${w}%;background:${st.dot}"></div></div>
+                <span class="stat-bar-value">${c}</span>
+              </div>`;
+          }).join('')}
+        </div>
+
+        <div class="stat-panel">
+          <h3>По платформам</h3>
+          ${PLATFORMS.map(pl => {
+            const c = platformCounts[pl];
+            const w = Math.round(c / maxPlat * 100);
+            return `
+              <div class="stat-bar-row">
+                <span class="stat-bar-label">${escapeHtml(pl)}</span>
+                <div class="bar"><div class="bar-fill" style="width:${w}%"></div></div>
+                <span class="stat-bar-value">${c}</span>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="stat-panel">
+        <h3>Ближайшие публикации</h3>
+        ${upcoming.length === 0 ? '<div class="empty-mini">Нет предстоящих публикаций</div>' : `
+          <div class="upcoming-list">
+            ${upcoming.map(p => `
+              <div class="upcoming-row" data-id="${p.id}">
+                <span class="upcoming-date">${formatDateLabel(p.date)}${p.time ? ' · ' + p.time : ''}</span>
+                <span class="upcoming-title">${escapeHtml(p.title)}</span>
+                <div class="upcoming-plats">${platformTagsHtml(p)}</div>
+                ${statusPillHtml(p.status)}
+              </div>
+            `).join('')}
+          </div>
+        `}
+      </div>`;
+
+    wrap.querySelectorAll('.upcoming-row').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => openModal(row.dataset.id));
+    });
+  }
+
+  /* ========== RENDER: ANALYTICS VIEW ========== */
+  function renderAnalytics() {
+    const wrap = $('#analyticsInner');
+
+    if (state.posts.length === 0) {
+      wrap.innerHTML = '<div class="empty-state">Пока нет постов. Добавьте первый пост в календаре или списке.</div>';
+      return;
+    }
+
+    const totals = globalTotals();
+    const perPlat = globalPerPlatform();
+    const postsWithMetrics = state.posts.filter(postHasMetrics);
+    const contributingPosts = postsWithMetrics.length;
+
+    const er = totals.views > 0 ? ((totals.likes + totals.comments) / totals.views * 100) : 0;
+    const ctr = totals.views > 0 ? (totals.clicks / totals.views * 100) : 0;
+    const avgViews = contributingPosts > 0 ? Math.round(totals.views / contributingPosts) : 0;
+
+    const topPosts = [...postsWithMetrics]
+      .sort((a, b) => postTotals(b).views - postTotals(a).views)
+      .slice(0, 5);
+
+    const todayStr = ymd(new Date());
+    const allPosts = state.posts
+      .filter(p => postHasMetrics(p) || p.status === 'Опубликовано' || p.date <= todayStr)
+      .sort((a, b) => b.date.localeCompare(a.date));
+
+    const maxPlatViews = Math.max(1, ...PLATFORMS.map(pl => perPlat[pl].views));
+
+    const renderPostRow = (post, isTop) => {
+      const t = postTotals(post);
+      const has = postHasMetrics(post);
+      return `
+        <div class="an-post-item" data-metric-id="${post.id}">
+          <div class="an-post-main">
+            <h4 class="an-post-title">${escapeHtml(post.title)}</h4>
+            <div class="an-post-meta">
+              ${statusPillHtml(post.status)}
+              <span>${formatDateLabel(post.date)}${post.time ? ' · ' + post.time : ''}</span>
+              <span class="plat-tags">${platformTagsHtml(post)}</span>
+            </div>
+          </div>
+          ${has ? `
+            <div class="an-post-nums">
+              <div class="an-num"><span class="n">${formatNumber(t.views)}</span><span class="l">${METRIC_SHORT.views}</span></div>
+              <div class="an-num"><span class="n">${formatNumber(t.likes)}</span><span class="l">${METRIC_SHORT.likes}</span></div>
+              <div class="an-num"><span class="n">${formatNumber(t.comments)}</span><span class="l">${METRIC_SHORT.comments}</span></div>
+              <div class="an-num"><span class="n">${formatNumber(t.clicks)}</span><span class="l">${METRIC_SHORT.clicks}</span></div>
+            </div>
+          ` : `<span class="an-post-empty">— нет данных</span>`}
+        </div>`;
+    };
+
+    wrap.innerHTML = `
+      <div class="an-intro">
+        <h2>Охваты и метрики</h2>
+        <p>Введите данные по каждому посту — просмотры, лайки, комментарии и переходы. Сводка обновится автоматически.</p>
+      </div>
+
+      <div class="an-hero">
+        <div class="an-card">
+          <div class="an-label">Просмотры</div>
+          <div class="an-value">${formatCompact(totals.views)}</div>
+          <div class="an-sub">${contributingPosts} ${plural(contributingPosts,'пост','поста','постов')} с данными</div>
+        </div>
+        <div class="an-card">
+          <div class="an-label">Лайки</div>
+          <div class="an-value">${formatCompact(totals.likes)}</div>
+          <div class="an-sub">${formatNumber(totals.likes)} всего</div>
+        </div>
+        <div class="an-card">
+          <div class="an-label">Комментарии</div>
+          <div class="an-value">${formatCompact(totals.comments)}</div>
+          <div class="an-sub">${formatNumber(totals.comments)} всего</div>
+        </div>
+        <div class="an-card">
+          <div class="an-label">Переходы по ссылке</div>
+          <div class="an-value">${formatCompact(totals.clicks)}</div>
+          <div class="an-sub">${formatNumber(totals.clicks)} всего</div>
+        </div>
+      </div>
+
+      <div class="an-row">
+        <div class="an-panel">
+          <h3>Вовлечённость</h3>
+          <div class="an-metric-row">
+            <span class="lbl">ER (лайки + комм. / просмотры)</span>
+            <span class="val">${formatPercent(er)}</span>
+          </div>
+          <div class="an-metric-row">
+            <span class="lbl">CTR (переходы / просмотры)</span>
+            <span class="val">${formatPercent(ctr)}</span>
+          </div>
+          <div class="an-metric-row">
+            <span class="lbl">Средние просмотры на пост</span>
+            <span class="val">${formatNumber(avgViews)}</span>
+          </div>
+        </div>
+
+        <div class="an-panel">
+          <h3>По площадкам</h3>
+          ${PLATFORMS.map(pl => {
+            const v = perPlat[pl].views;
+            const w = Math.round(v / maxPlatViews * 100);
+            return `
+              <div class="an-plat-row">
+                <span class="an-plat-name">${escapeHtml(pl)}</span>
+                <div class="an-plat-bar"><div style="width:${w}%"></div></div>
+                <span class="an-plat-value">${formatNumber(v)}<small>${perPlat[pl].posts > 0 ? '· ' + perPlat[pl].posts + ' п.' : ''}</small></span>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      ${topPosts.length > 0 ? `
+        <div class="an-panel">
+          <h3>Топ по просмотрам</h3>
+          <div class="an-post-list">
+            ${topPosts.map(p => renderPostRow(p, true)).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <div class="an-panel">
+        <h3>Все посты</h3>
+        ${allPosts.length === 0 ? '<div class="empty-state" style="padding:32px 12px;">Пока нет постов с метриками или опубликованных.</div>' : `
+          <div class="an-post-list">
+            ${allPosts.map(p => renderPostRow(p, false)).join('')}
+          </div>
+        `}
+      </div>`;
+
+    wrap.querySelectorAll('[data-metric-id]').forEach(row => {
+      row.addEventListener('click', () => openMetrics(row.dataset.metricId));
+    });
+  }
+
+  /* ========== RENDER: TOP STATS ========== */
+  function renderTopStats() {
+    if (state.view === 'analytics') {
+      const totals = globalTotals();
+      const n = state.posts.filter(postHasMetrics).length;
+      $('#stats').textContent = `${n} ${plural(n,'пост','поста','постов')} · ${formatNumber(totals.views)} просм.`;
+      return;
+    }
+
+    let posts;
+    if (state.view === 'calendar' && state.calendarScale === 'week') {
+      const start = parseYmd(state.weekStart);
+      const end = addDays(start, 6);
+      posts = state.posts.filter(p => {
+        const d = parseYmd(p.date);
+        return d >= start && d <= end;
+      });
+    } else if (state.view === 'calendar' && state.calendarScale === 'month') {
+      const ms = getMonthStart();
+      const me = new Date(ms.getFullYear(), ms.getMonth() + 1, 0);
+      posts = state.posts.filter(p => {
+        const d = parseYmd(p.date);
+        return d >= ms && d <= me;
+      });
+    } else {
+      posts = state.posts;
+    }
+    const total = posts.length;
+    const avg = total ? Math.round(posts.reduce((s, p) => s + postProgress(p), 0) / total) : 0;
+    $('#stats').textContent = `${total} ${plural(total,'пост','поста','постов')} · ${avg}%`;
+  }
+
+  /* ========== MASTER RENDER ========== */
+  function render() {
+    renderWeekLabel();
+    $('#scaleToggle').style.display = (state.view === 'calendar') ? 'inline-flex' : 'none';
+    document.querySelectorAll('.scale-btn').forEach(b => b.classList.toggle('active', b.dataset.scale === state.calendarScale));
+
+    if (state.view === 'calendar') {
+      $('#calendarView').hidden = false;
+      $('#listView').hidden = true;
+      $('#statsView').hidden = true;
+      $('#analyticsView').hidden = true;
+      $('#weekNav').style.display = 'flex';
+      if (state.calendarScale === 'month') renderCalendarMonth();
+      else renderCalendarWeek();
+    } else if (state.view === 'list') {
+      $('#calendarView').hidden = true;
+      $('#listView').hidden = false;
+      $('#statsView').hidden = true;
+      $('#analyticsView').hidden = true;
+      $('#weekNav').style.display = 'none';
+      renderList();
+    } else if (state.view === 'stats') {
+      $('#calendarView').hidden = true;
+      $('#listView').hidden = true;
+      $('#statsView').hidden = false;
+      $('#analyticsView').hidden = true;
+      $('#weekNav').style.display = 'none';
+      renderStatsView();
+    } else {
+      $('#calendarView').hidden = true;
+      $('#listView').hidden = true;
+      $('#statsView').hidden = true;
+      $('#analyticsView').hidden = false;
+      $('#weekNav').style.display = 'none';
+      renderAnalytics();
+    }
+    renderTopStats();
+  }
+
+  function setView(view) {
+    state.view = view;
+    save();
+    document.querySelectorAll('.view-tab').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    render();
+  }
+
+  function setCalendarScale(scale) {
+    if (scale === state.calendarScale) return;
+    if (scale === 'month') {
+      const w = parseYmd(state.weekStart);
+      const mid = addDays(w, 3);
+      snapWeekStartToMonth(mid);
+    }
+    state.calendarScale = scale;
+    save();
+    render();
+  }
+
+  function navPrev() {
+    if (state.view === 'calendar' && state.calendarScale === 'month') {
+      const ms = getMonthStart();
+      const target = new Date(ms.getFullYear(), ms.getMonth() - 1, 1);
+      state.weekStart = ymd(mondayOf(target));
+    } else {
+      state.weekStart = ymd(addDays(parseYmd(state.weekStart), -7));
+    }
+    save(); render();
+  }
+  function navNext() {
+    if (state.view === 'calendar' && state.calendarScale === 'month') {
+      const ms = getMonthStart();
+      const target = new Date(ms.getFullYear(), ms.getMonth() + 1, 1);
+      state.weekStart = ymd(mondayOf(target));
+    } else {
+      state.weekStart = ymd(addDays(parseYmd(state.weekStart), 7));
+    }
+    save(); render();
+  }
+  function goToday() {
+    const now = new Date();
+    if (state.view === 'calendar' && state.calendarScale === 'month') {
+      snapWeekStartToMonth(now);
+    } else {
+      state.weekStart = ymd(mondayOf(now));
+    }
+    save(); render();
+  }
+
+  /* ========== POST MODAL ========== */
+  function populatePresetSelect() {
+    const sel = $('#fPreset');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">— Не применять —</option>' +
+      state.presets.map(p =>
+        `<option value="${p.id}">${escapeHtml(p.name)}${p.isDefault ? ' · по умолчанию' : ''}</option>`
+      ).join('');
+  }
+
+  function predictDraftTime() {
+    if (!draft) return null;
+    const dateStr = $('#fDate').value;
+    if (!dateStr) return null;
+    const date = parseYmd(dateStr);
+    const interval = state.settings.dayIntervals[date.getDay()];
+    if (!interval) return null;
+
+    const others = state.posts
+      .filter(p => p.date === dateStr && p.id !== draft.id)
+      .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+
+    let slotIndex, totalCount;
+    const isEditInPlace = editingId && state.posts.some(p => p.id === editingId && p.date === dateStr);
+    if (isEditInPlace) {
+      const allSameDay = others.concat([draft]).sort((a, b) => String(a.id).localeCompare(String(b.id)));
+      slotIndex = allSameDay.findIndex(p => p.id === draft.id);
+      totalCount = allSameDay.length;
+    } else {
+      slotIndex = others.length;
+      totalCount = others.length + 1;
+    }
+    return computeTimeInSlot(draft.id, dateStr, slotIndex, totalCount, interval);
+  }
+
+  function updateDateHintAndTime() {
+    const d = $('#fDate').value;
+    if (!d) {
+      $('#fDateHint').textContent = '';
+      $('#fDateHint').classList.remove('is-off');
+      $('#fTime').value = '—';
+      return;
+    }
+    const date = parseYmd(d);
+    const isPub = PUB_DOW.includes(date.getDay());
+    const dayName = DAY_NAMES_FULL[(date.getDay() + 6) % 7];
+    $('#fDateHint').textContent = isPub ? dayName : `${dayName} · не день публикации`;
+    $('#fDateHint').classList.toggle('is-off', !isPub);
+
+    const interval = state.settings.dayIntervals[date.getDay()];
+    if (!interval) {
+      $('#fTime').value = '—';
+      return;
+    }
+    const predicted = predictDraftTime();
+    if (predicted) {
+      $('#fTime').value = `${predicted} · окно ${interval.start}–${interval.end}`;
+    } else {
+      $('#fTime').value = `окно ${interval.start}–${interval.end}`;
+    }
+  }
+
+  function openModal(id, presetDate) {
+    editingId = id || null;
+
+    if (id) {
+      const orig = state.posts.find(p => p.id === id);
+      if (!orig) return;
+      draft = JSON.parse(JSON.stringify(orig));
+      if (!draft.presetId) draft.presetId = '';
+      if (draft.description === undefined) draft.description = '';
+      ensureMetrics(draft);
+      activePlatform = PLATFORMS.find(pl => (draft.platforms[pl] || []).length > 0) || 'TikTok';
+      $('#modalTitle').textContent = 'Редактировать пост';
+      $('#deleteBtn').hidden = false;
+    } else {
+      draft = {
+        id: uid(), title: '', description: '',
+        date: presetDate || nextPublicationDate(),
+        status: 'Идея', time: null, presetId: '',
+        platforms: {}, metrics: {}
+      };
+      PLATFORMS.forEach(pl => { draft.platforms[pl] = []; draft.metrics[pl] = emptyMetrics(); });
+      activePlatform = 'TikTok';
+      $('#modalTitle').textContent = 'Новый пост';
+      $('#deleteBtn').hidden = true;
+    }
+
+    $('#fTitle').value = draft.title;
+    $('#fDescription').value = draft.description || '';
+    $('#fDate').value = draft.date;
+
+    populatePresetSelect();
+
+    if (!id) {
+      const def = state.presets.find(p => p.isDefault);
+      if (def) {
+        applyPresetToDraft(def);
+        $('#fPreset').value = def.id;
+      } else {
+        $('#fPreset').value = '';
+      }
+    } else {
+      $('#fPreset').value = draft.presetId || '';
+    }
+
+    updateDateHintAndTime();
+    renderStatusPicker();
+    renderPlatformTabs();
+    renderPlatformTasks();
+    updateModalProgress();
+
+    $('#modalBackdrop').hidden = false;
+    setTimeout(() => $('#fTitle').focus(), 40);
+  }
+
+  function closeModal() {
+    $('#modalBackdrop').hidden = true;
+    editingId = null;
+    draft = null;
+    $('#postForm').reset();
+  }
+
+  function renderStatusPicker() {
+    const wrap = $('#statusPicker');
+    wrap.innerHTML = '';
+    STATUSES.forEach(s => {
+      const st = STATUS_STYLE[s];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = s;
+      const active = draft.status === s;
+      btn.style.background = active ? st.bg : 'transparent';
+      btn.style.color = active ? st.txt : 'var(--ink-2)';
+      btn.style.borderColor = active ? st.txt : 'var(--hairline)';
+      btn.addEventListener('click', () => {
+        draft.status = s;
+        renderStatusPicker();
+        updateModalProgress();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function renderPlatformTabs() {
+    const wrap = $('#platformTabs');
+    wrap.innerHTML = '';
+    PLATFORMS.forEach(pl => {
+      const tasks = draft.platforms[pl] || [];
+      const done = tasks.filter(t => t.done).length;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = activePlatform === pl ? 'active' : '';
+      btn.innerHTML = tasks.length > 0 ? `${pl}<span class="count">${done}/${tasks.length}</span>` : pl;
+      btn.addEventListener('click', () => {
+        activePlatform = pl;
+        renderPlatformTabs();
+        renderPlatformTasks();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function renderPlatformTasks() {
+    const wrap = $('#platformTasks');
+    wrap.innerHTML = '';
+    const tasks = draft.platforms[activePlatform] || [];
+
+    if (tasks.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-tasks';
+      empty.textContent = `Нет задач для ${activePlatform}`;
+      wrap.appendChild(empty);
+    }
+
+    tasks.forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'task-item' + (t.done ? ' done' : '');
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = t.done;
+      cb.setAttribute('aria-label', t.text);
+      cb.addEventListener('change', () => {
+        t.done = cb.checked;
+        row.classList.toggle('done', t.done);
+        renderPlatformTabs();
+        updateModalProgress();
+      });
+
+      const txt = document.createElement('span');
+      txt.className = 'task-txt';
+      txt.textContent = t.text;
+      txt.addEventListener('click', () => {
+        cb.checked = !cb.checked;
+        cb.dispatchEvent(new Event('change'));
+      });
+
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'task-del';
+      del.setAttribute('aria-label', 'Удалить задачу');
+      del.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+      del.addEventListener('click', (e) => {
+        e.stopPropagation();
+        draft.platforms[activePlatform] = draft.platforms[activePlatform].filter(x => x.id !== t.id);
+        renderPlatformTabs();
+        renderPlatformTasks();
+        updateModalProgress();
+      });
+
+      row.append(cb, txt, del);
+      wrap.appendChild(row);
+    });
+
+    const form = document.createElement('form');
+    form.className = 'add-task-form';
+    form.innerHTML = `
+      <input type="text" placeholder="Новая задача для ${activePlatform}" maxlength="100">
+      <button type="submit" aria-label="Добавить задачу">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>`;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = form.querySelector('input');
+      const text = input.value.trim();
+      if (!text) return;
+      if (!draft.platforms[activePlatform]) draft.platforms[activePlatform] = [];
+      draft.platforms[activePlatform].push({ id: uid(), text, done: false });
+      renderPlatformTabs();
+      renderPlatformTasks();
+      updateModalProgress();
+      const ni = $('#platformTasks .add-task-form input');
+      if (ni) ni.focus();
+    });
+    wrap.appendChild(form);
+  }
+
+  function updateModalProgress() {
+    $('#modalProgress').textContent = draftProgress() + '%';
+  }
+
+  function saveModal() {
+    const title = $('#fTitle').value.trim();
+    if (!title) { $('#fTitle').focus(); return; }
+    draft.title = title;
+    draft.description = $('#fDescription').value.trim();
+    draft.date = $('#fDate').value;
+
+    if (editingId) {
+      const idx = state.posts.findIndex(p => p.id === editingId);
+      if (idx >= 0) state.posts[idx] = draft;
+    } else {
+      state.posts.push(draft);
+    }
+    closeModal();
+    afterMutation();
+  }
+
+  /* ========== METRICS MODAL ========== */
+  function pickInitialMetricsPlatform(post) {
+    const withData = PLATFORMS.find(pl => hasMetricsForPlatform(post, pl));
+    if (withData) return withData;
+    const withTasks = PLATFORMS.find(pl => (post.platforms[pl] || []).length > 0);
+    if (withTasks) return withTasks;
+    return PLATFORMS[0];
+  }
+
+  function openMetrics(postId) {
+    const post = state.posts.find(p => p.id === postId);
+    if (!post) return;
+    metricsPostId = postId;
+    metricsDraft = {};
+    PLATFORMS.forEach(pl => {
+      const m = post.metrics && post.metrics[pl];
+      metricsDraft[pl] = m ? {
+        views: Math.max(0, Number(m.views) || 0),
+        likes: Math.max(0, Number(m.likes) || 0),
+        comments: Math.max(0, Number(m.comments) || 0),
+        clicks: Math.max(0, Number(m.clicks) || 0)
+      } : emptyMetrics();
+    });
+    metricsActivePlatform = pickInitialMetricsPlatform(post);
+    renderMetricsModal();
+    $('#metricsBackdrop').hidden = false;
+  }
+
+  function closeMetrics() {
+    $('#metricsBackdrop').hidden = true;
+    metricsPostId = null;
+    metricsDraft = null;
+  }
+
+  function renderMetricsModal() {
+    const post = state.posts.find(p => p.id === metricsPostId);
+    if (!post || !metricsDraft) return;
+
+    $('#metricsTitle').textContent = 'Метрики: ' + post.title;
+    const body = $('#metricsBody');
+
+    const totalViews = PLATFORMS.reduce((s, pl) => s + (Number(metricsDraft[pl].views) || 0), 0);
+
+    body.innerHTML = `
+      <div class="metrics-tabs" id="metricsTabs"></div>
+      <div class="metrics-grid" id="metricsGrid"></div>
+      <div class="metrics-total">
+        <span>Всего просмотров по посту</span>
+        <b id="metricsTotalViews">${formatNumber(totalViews)}</b>
+      </div>
+      <div class="modal-actions">
+        <div class="spacer"></div>
+        <button type="button" class="ghost-btn" id="metricsCancelBtn">Отмена</button>
+        <button type="button" class="primary-btn" id="metricsSaveBtn">Сохранить</button>
+      </div>
+    `;
+
+    const tabsWrap = $('#metricsTabs');
+    PLATFORMS.forEach(pl => {
+      const m = metricsDraft[pl] || emptyMetrics();
+      const hasData = METRIC_KEYS.some(k => (Number(m[k]) || 0) > 0);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = metricsActivePlatform === pl ? 'active' : '';
+      btn.innerHTML = `${escapeHtml(pl)}${hasData ? '<span class="count"></span>' : ''}`;
+      btn.addEventListener('click', () => {
+        metricsActivePlatform = pl;
+        renderMetricsModal();
+      });
+      tabsWrap.appendChild(btn);
+    });
+
+    const m = metricsDraft[metricsActivePlatform] || emptyMetrics();
+    const grid = $('#metricsGrid');
+    METRIC_KEYS.forEach(key => {
+      const field = document.createElement('label');
+      field.className = 'metrics-field';
+      field.innerHTML = `<span>${METRIC_LABELS[key]}</span>
+        <input type="number" min="0" step="1" inputmode="numeric" value="${Number(m[key]) || 0}" data-key="${key}">`;
+      grid.appendChild(field);
+    });
+
+    grid.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => {
+        const v = Math.max(0, Math.floor(Number(input.value) || 0));
+        metricsDraft[metricsActivePlatform][input.dataset.key] = v;
+        const newTotal = PLATFORMS.reduce((s, pl) => s + (Number(metricsDraft[pl].views) || 0), 0);
+        const totalEl = $('#metricsTotalViews');
+        if (totalEl) totalEl.textContent = formatNumber(newTotal);
+      });
+      input.addEventListener('blur', () => {
+        const v = Math.max(0, Math.floor(Number(input.value) || 0));
+        input.value = v;
+        metricsDraft[metricsActivePlatform][input.dataset.key] = v;
+      });
+    });
+
+    $('#metricsCancelBtn').addEventListener('click', closeMetrics);
+    $('#metricsSaveBtn').addEventListener('click', saveMetrics);
+  }
+
+  function saveMetrics() {
+    const post = state.posts.find(p => p.id === metricsPostId);
+    if (!post) { closeMetrics(); return; }
+    post.metrics = JSON.parse(JSON.stringify(metricsDraft));
+    save();
+    closeMetrics();
+    render();
+  }
+
+  /* ========== PRESETS MODAL ========== */
+  function openPresets() {
+    presetScreen = 'list';
+    presetDraft = null;
+    $('#presetBackdrop').hidden = false;
+    renderPresetModal();
+  }
+  function closePresets() {
+    $('#presetBackdrop').hidden = true;
+    presetDraft = null;
+    presetScreen = 'list';
+    populatePresetSelect();
+  }
+
+  function renderPresetModal() {
+    const titleEl = $('#presetModalTitle');
+    const body = $('#presetBody');
+
+    if (presetScreen === 'list') {
+      titleEl.textContent = 'Пресеты задач';
+      body.innerHTML = '';
+      if (state.presets.length === 0) {
+        body.innerHTML = '<div class="preset-empty">Пока нет пресетов. Создайте первый — и он будет автоматически заполнять задачи в новых постах.</div>';
+      } else {
+        state.presets.forEach(p => {
+          const total = PLATFORMS.reduce((s, pl) => s + (p.tasks[pl] || []).length, 0);
+          const perPlatform = PLATFORMS
+            .filter(pl => (p.tasks[pl] || []).length > 0)
+            .map(pl => `${PLATFORM_SHORT[pl]} ${p.tasks[pl].length}`)
+            .join(' · ');
+          const row = document.createElement('div');
+          row.className = 'preset-row';
+          row.innerHTML = `
+            <div class="preset-info">
+              <div class="preset-name">
+                ${escapeHtml(p.name)}
+                ${p.isDefault ? '<span class="preset-badge">По умолчанию</span>' : ''}
+              </div>
+              <div class="preset-meta">
+                ${total} ${plural(total,'задача','задачи','задач')}${perPlatform ? ' · ' + perPlatform : ''}
+              </div>
+            </div>`;
+          const editBtn = document.createElement('button');
+          editBtn.type = 'button';
+          editBtn.className = 'ghost-btn';
+          editBtn.textContent = 'Изменить';
+          editBtn.addEventListener('click', () => editPreset(p.id));
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'icon-btn';
+          delBtn.setAttribute('aria-label', 'Удалить пресет');
+          delBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
+          delBtn.addEventListener('click', () => {
+            if (!confirm(`Удалить пресет «${p.name}»?`)) return;
+            state.presets = state.presets.filter(x => x.id !== p.id);
+            save();
+            renderPresetModal();
+            populatePresetSelect();
+          });
+          row.append(editBtn, delBtn);
+          body.appendChild(row);
+        });
+      }
+      const actions = document.createElement('div');
+      actions.className = 'preset-actions';
+      actions.innerHTML = '<button type="button" class="ghost-btn" id="newPresetBtn">+ Новый пресет</button>';
+      body.appendChild(actions);
+      actions.querySelector('#newPresetBtn').addEventListener('click', newPreset);
+    } else {
+      titleEl.textContent = presetDraft.isNew ? 'Новый пресет' : 'Редактировать пресет';
+      body.innerHTML = `
+        <label class="field">
+          <span>Название пресета</span>
+          <input type="text" id="presetName" maxlength="60" placeholder="Например: Reels-пайплайн">
+        </label>
+        <div class="field">
+          <div class="ptabs-head">
+            <span>Задачи по платформам</span>
+            <span class="progress-badge" id="presetTotal">0</span>
+          </div>
+          <div class="ptabs" id="presetPlatformTabs"></div>
+        </div>
+        <div class="ptasks" id="presetTasks"></div>
+        <label class="preset-default-toggle">
+          <input type="checkbox" id="presetDefault">
+          Применять по умолчанию для новых постов
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="text-btn" id="presetBackBtn">← К списку</button>
+          <div class="spacer"></div>
+          <button type="button" class="ghost-btn" id="presetCancelBtn">Отмена</button>
+          <button type="button" class="primary-btn" id="presetSaveBtn">Сохранить</button>
+        </div>`;
+      $('#presetName').value = presetDraft.name;
+      $('#presetDefault').checked = !!presetDraft.isDefault;
+      $('#presetName').addEventListener('input', e => { presetDraft.name = e.target.value; e.target.style.borderColor = ''; });
+      $('#presetDefault').addEventListener('change', e => { presetDraft.isDefault = e.target.checked; });
+      $('#presetBackBtn').addEventListener('click', () => { presetScreen = 'list'; presetDraft = null; renderPresetModal(); });
+      $('#presetCancelBtn').addEventListener('click', () => { presetScreen = 'list'; presetDraft = null; renderPresetModal(); });
+      $('#presetSaveBtn').addEventListener('click', savePresetDraft);
+      renderPresetTabs();
+      renderPresetTasks();
+    }
+  }
+
+  function newPreset() {
+    const tasks = {};
+    PLATFORMS.forEach(pl => tasks[pl] = []);
+    presetDraft = { id: uid(), name: '', isDefault: false, tasks, isNew: true };
+    presetActivePlatform = 'TikTok';
+    presetScreen = 'edit';
+    renderPresetModal();
+    setTimeout(() => { const n = $('#presetName'); if (n) n.focus(); }, 40);
+  }
+
+  function editPreset(id) {
+    const p = state.presets.find(x => x.id === id);
+    if (!p) return;
+    presetDraft = {
+      id: p.id, name: p.name, isDefault: !!p.isDefault, isNew: false,
+      tasks: JSON.parse(JSON.stringify(p.tasks || {}))
+    };
+    PLATFORMS.forEach(pl => { if (!Array.isArray(presetDraft.tasks[pl])) presetDraft.tasks[pl] = []; });
+    presetActivePlatform = PLATFORMS.find(pl => (presetDraft.tasks[pl] || []).length > 0) || 'TikTok';
+    presetScreen = 'edit';
+    renderPresetModal();
+  }
+
+  function renderPresetTabs() {
+    const wrap = $('#presetPlatformTabs');
+    wrap.innerHTML = '';
+    PLATFORMS.forEach(pl => {
+      const tasks = presetDraft.tasks[pl] || [];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = presetActivePlatform === pl ? 'active' : '';
+      btn.innerHTML = tasks.length ? `${pl}<span class="count">${tasks.length}</span>` : pl;
+      btn.addEventListener('click', () => {
+        presetActivePlatform = pl;
+        renderPresetTabs();
+        renderPresetTasks();
+      });
+      wrap.appendChild(btn);
+    });
+    updatePresetTotal();
+  }
+
+  function updatePresetTotal() {
+    const el = $('#presetTotal');
+    if (!el) return;
+    el.textContent = PLATFORMS.reduce((s, pl) => s + (presetDraft.tasks[pl] || []).length, 0);
+  }
+
+  function renderPresetTasks() {
+    const wrap = $('#presetTasks');
+    wrap.innerHTML = '';
+    const tasks = presetDraft.tasks[presetActivePlatform] || [];
+    if (tasks.length === 0) {
+      const e = document.createElement('div');
+      e.className = 'empty-tasks';
+      e.textContent = `Нет задач для ${presetActivePlatform}`;
+      wrap.appendChild(e);
+    }
+    tasks.forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'task-item';
+      const txt = document.createElement('span');
+      txt.className = 'task-txt';
+      txt.textContent = t.text;
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'task-del';
+      del.style.opacity = '1';
+      del.setAttribute('aria-label', 'Удалить задачу');
+      del.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+      del.addEventListener('click', () => {
+        presetDraft.tasks[presetActivePlatform] = presetDraft.tasks[presetActivePlatform].filter(x => x.id !== t.id);
+        renderPresetTabs();
+        renderPresetTasks();
+      });
+      row.append(txt, del);
+      wrap.appendChild(row);
+    });
+    const form = document.createElement('form');
+    form.className = 'add-task-form';
+    form.innerHTML = `
+      <input type="text" placeholder="Новая задача для ${presetActivePlatform}" maxlength="100">
+      <button type="submit" aria-label="Добавить задачу">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>`;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = form.querySelector('input');
+      const text = input.value.trim();
+      if (!text) return;
+      presetDraft.tasks[presetActivePlatform].push({ id: uid(), text });
+      renderPresetTabs();
+      renderPresetTasks();
+      const ni = wrap.querySelector('.add-task-form input');
+      if (ni) ni.focus();
+    });
+    wrap.appendChild(form);
+  }
+
+  function savePresetDraft() {
+    const name = (presetDraft.name || '').trim();
+    if (!name) {
+      const el = $('#presetName');
+      if (el) { el.focus(); el.style.borderColor = 'rgba(255,59,48,.55)'; }
+      return;
+    }
+    const payload = { id: presetDraft.id, name, isDefault: !!presetDraft.isDefault, tasks: presetDraft.tasks };
+    if (payload.isDefault) state.presets.forEach(p => { if (p.id !== payload.id) p.isDefault = false; });
+    const idx = state.presets.findIndex(p => p.id === payload.id);
+    if (idx >= 0) state.presets[idx] = payload;
+    else state.presets.push(payload);
+    save();
+    presetScreen = 'list';
+    presetDraft = null;
+    renderPresetModal();
+    populatePresetSelect();
+  }
+
+  /* ========== SETTINGS MODAL ========== */
+  function openSettings() { renderSettings(); $('#settingsBackdrop').hidden = false; }
+  function closeSettings() { $('#settingsBackdrop').hidden = true; }
+
+  function renderSettings() {
+    const body = $('#settingsBody');
+    body.innerHTML = `
+      <p class="settings-help">
+        Время публикации постов генерируется автоматически внутри указанного интервала для каждого дня.
+        Если на один день приходится несколько постов, они распределяются равномерно.
+      </p>
+      <div class="settings-rows">
+        ${PUB_DOW.map(dow => {
+          const iv = state.settings.dayIntervals[dow] || DEFAULT_INTERVALS[dow];
+          return `
+            <div class="settings-row">
+              <span class="settings-day">${PUB_DOW_NAMES[dow]}</span>
+              <input type="time" data-dow="${dow}" data-part="start" value="${iv.start}">
+              <span class="settings-dash">—</span>
+              <input type="time" data-dow="${dow}" data-part="end" value="${iv.end}">
+            </div>`;
+        }).join('')}
+      </div>
+      <div class="modal-actions">
+        <div class="spacer"></div>
+        <button type="button" class="ghost-btn" id="settingsCancelBtn">Отмена</button>
+        <button type="button" class="primary-btn" id="settingsSaveBtn">Сохранить</button>
+      </div>`;
+    $('#settingsCancelBtn').addEventListener('click', closeSettings);
+    $('#settingsSaveBtn').addEventListener('click', saveSettings);
+  }
+
+  function saveSettings() {
+    const inputs = document.querySelectorAll('#settingsBody input[type="time"]');
+    const byDow = {};
+    inputs.forEach(input => {
+      const dow = input.dataset.dow;
+      const part = input.dataset.part;
+      if (!byDow[dow]) byDow[dow] = {};
+      byDow[dow][part] = input.value;
+    });
+    for (const dow of Object.keys(byDow)) {
+      const iv = byDow[dow];
+      if (!iv.start || !iv.end) { alert('Заполните время начала и окончания для всех дней.'); return; }
+      if (timeToMin(iv.start) >= timeToMin(iv.end)) {
+        alert(`Время начала должно быть раньше окончания (${PUB_DOW_NAMES[dow]}).`);
+        return;
+      }
+    }
+    PUB_DOW.forEach(dow => {
+      if (byDow[dow]) state.settings.dayIntervals[dow] = { start: byDow[dow].start, end: byDow[dow].end };
+    });
+    closeSettings();
+    afterMutation();
+  }
+
+  /* ========== DATA MODAL ========== */
+  function openData() {
+    $('#importFile').value = '';
+    $('#importText').value = '';
+    $('#dataBackdrop').hidden = false;
+  }
+  function closeData() { $('#dataBackdrop').hidden = true; }
+
+  function exportAsFile() {
+    const data = JSON.stringify(state, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `exclusion-smm-backup-${ymd(new Date())}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function exportToClipboard() {
+    const data = JSON.stringify(state, null, 2);
+    try {
+      await navigator.clipboard.writeText(data);
+      alert('Данные скопированы в буфер обмена');
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = data;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); alert('Данные скопированы'); }
+      catch (err) { alert('Не удалось скопировать. Попробуйте скачать файл.'); }
+      document.body.removeChild(ta);
+    }
+  }
+
+  function importFromText(text) {
+    let parsed;
+    try { parsed = JSON.parse(text); }
+    catch (e) { alert('Неверный JSON: ' + e.message); return false; }
+    const normalized = normalizeState(parsed);
+    if (!normalized) { alert('Неверная структура данных: нет массива posts.'); return false; }
+    if (!confirm('Заменить текущие данные импортированными?')) return false;
+
+    state = normalized;
+    if (!state.presets || state.presets.length === 0) seedPresets();
+    recomputeAllTimes();
+    sortPosts();
+    save();
+    closeData();
+    render();
+    return true;
+  }
+
+  /* ========== EVENTS ========== */
+  function bindEvents() {
+    document.querySelectorAll('.view-tab').forEach(b => {
+      b.addEventListener('click', () => setView(b.dataset.view));
+    });
+    document.querySelectorAll('.scale-btn').forEach(b => {
+      b.addEventListener('click', () => setCalendarScale(b.dataset.scale));
+    });
+
+    $('#prevWeek').addEventListener('click', navPrev);
+    $('#nextWeek').addEventListener('click', navNext);
+    $('#todayBtn').addEventListener('click', goToday);
+
+    $('#addPostBtn').addEventListener('click', () => openModal(null, null));
+
+    /* Post modal */
+    $('#modalClose').addEventListener('click', closeModal);
+    $('#cancelBtn').addEventListener('click', closeModal);
+    $('#modalBackdrop').addEventListener('click', (e) => {
+      if (e.target === $('#modalBackdrop')) closeModal();
+    });
+    $('#fDate').addEventListener('change', updateDateHintAndTime);
+    $('#postForm').addEventListener('submit', (e) => { e.preventDefault(); saveModal(); });
+    $('#deleteBtn').addEventListener('click', () => {
+      if (!editingId) return;
+      if (!confirm('Удалить этот пост?')) return;
+      state.posts = state.posts.filter(p => p.id !== editingId);
+      closeModal();
+      afterMutation();
+    });
+
+    /* Preset select */
+    $('#fPreset').addEventListener('change', (e) => {
+      const id = e.target.value;
+      if (!id) { clearDraftTasks(); return; }
+      const preset = state.presets.find(p => p.id === id);
+      if (preset) applyPresetToDraft(preset);
+    });
+    $('#managePresetsBtn').addEventListener('click', openPresets);
+
+    /* Presets modal */
+    $('#presetsBtn').addEventListener('click', openPresets);
+    $('#presetClose').addEventListener('click', closePresets);
+    $('#presetBackdrop').addEventListener('click', (e) => {
+      if (e.target === $('#presetBackdrop')) closePresets();
+    });
+
+    /* Settings modal */
+    $('#settingsBtn').addEventListener('click', openSettings);
+    $('#settingsClose').addEventListener('click', closeSettings);
+    $('#settingsBackdrop').addEventListener('click', (e) => {
+      if (e.target === $('#settingsBackdrop')) closeSettings();
+    });
+
+    /* Data modal */
+    $('#dataBtn').addEventListener('click', openData);
+    $('#dataClose').addEventListener('click', closeData);
+    $('#dataBackdrop').addEventListener('click', (e) => {
+      if (e.target === $('#dataBackdrop')) closeData();
+    });
+    $('#exportFileBtn').addEventListener('click', exportAsFile);
+    $('#exportClipboardBtn').addEventListener('click', exportToClipboard);
+    $('#importFile').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => { $('#importText').value = String(reader.result || ''); };
+      reader.onerror = () => alert('Не удалось прочитать файл');
+      reader.readAsText(file);
+    });
+    $('#importBtn').addEventListener('click', () => {
+      const text = $('#importText').value.trim();
+      if (!text) { alert('Вставьте JSON или выберите файл.'); return; }
+      importFromText(text);
+    });
+
+    /* Metrics modal */
+    $('#metricsClose').addEventListener('click', closeMetrics);
+    $('#metricsBackdrop').addEventListener('click', (e) => {
+      if (e.target === $('#metricsBackdrop')) closeMetrics();
+    });
+
+    /* Esc — closes topmost modal */
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (!$('#metricsBackdrop').hidden) { closeMetrics(); return; }
+      if (!$('#dataBackdrop').hidden) { closeData(); return; }
+      if (!$('#settingsBackdrop').hidden) { closeSettings(); return; }
+      if (!$('#presetBackdrop').hidden) { closePresets(); return; }
+      if (!$('#modalBackdrop').hidden) { closeModal(); }
+    });
+  }
+
+  /* ========== INIT ========== */
+  function init() {
+    load();
+    bindEvents();
+    document.querySelectorAll('.view-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.view === state.view);
+    });
+    render();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>
